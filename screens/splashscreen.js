@@ -3,11 +3,9 @@ import { View, Image, StyleSheet } from 'react-native';
 
 const SplashScreen = ({ navigation }) => {
   useEffect(() => {
-    // Add any necessary logic here, e.g., loading data or performing initial setup
-    // After the splash screen is displayed for a certain duration or when your app's setup is complete, you can navigate to the main screen.
     setTimeout(() => {
-      navigation.navigate('Main'); // Replace 'Main' with the name of your main screen
-    }, 2000); // Change the duration as needed (in milliseconds)
+      navigation.navigate('Main');
+    }, 2000);
   }, []);
 
   return (
