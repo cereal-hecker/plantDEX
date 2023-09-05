@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { StyleSheet, Dimensions, View, Text, Image } from "react-native";
+import { StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
-// import { useFonts, Poppins_700Bold } from "@expo-google-fonts/poppins";
 
-// import { useFonts } from 'expo-font';
 import splash1 from "../assets/images/splash1.png";
 import splash2 from "../assets/images/splash2.png";
 import splash3 from "../assets/images/splash3.png";
@@ -26,7 +24,7 @@ const DATA = [
   },
 ];
 
-const SplashCarousel = () => {
+export default function SplashCarousel({ navigation }){
   const [activeSlide, setActiveSlide] = useState(0);
 
   const renderItem = ({ item }) => (
@@ -59,7 +57,9 @@ const SplashCarousel = () => {
           inactiveDotScale={1}
           dotStyle={styles.dot}
         />
-        <Image source={require("../assets/images/arrow.png")} />
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Image source={require("../assets/images/arrow.png")} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
   },
   card: {
     alignItems: "center",
-    // justifyContent: "center",
   },
   title: {
     fontSize: 48,
@@ -86,7 +85,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingTop: 10,
     fontSize: 24,
-    // flexWrap: "wrap",
     fontFamily: "Poppins_500Medium",
   },
   image: {
@@ -94,7 +92,6 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     alignItems: "center",
-    justifyContent: "center",
   },
   dot: {
     backgroundColor: "#049A10",
@@ -107,9 +104,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
   },
-  
 });
-
-export default SplashCarousel;
