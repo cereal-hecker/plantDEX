@@ -10,7 +10,7 @@ const SplashScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/logo.png')} style={styles.splashImage} />
+      <Image source={require('../assets/images/logo.png')} style={styles.splashImage} />
     </View>
   );
 };
@@ -21,10 +21,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  splashImage: {
-    // width: 200, // Adjust the width and height according to your image
-    // height: 200,
   },
 });
 

@@ -1,10 +1,12 @@
-import React from "react";
-import { StyleSheet, View, Text, Image, Dimensions } from "react-native";
-import Carousel, { PaginationLight } from "react-native-x-carousel";
+import React, { useState } from "react";
+import { StyleSheet, Dimensions, View, Text, Image } from "react-native";
+import Carousel, { Pagination } from "react-native-snap-carousel";
+// import { useFonts, Poppins_700Bold } from "@expo-google-fonts/poppins";
 
-import splash1 from "../assets/splash1.png";
-import splash2 from "../assets/splash2.png";
-import splash3 from "../assets/splash3.png";
+// import { useFonts } from 'expo-font';
+import splash1 from "../assets/images/splash1.png";
+import splash2 from "../assets/images/splash2.png";
+import splash3 from "../assets/images/splash3.png";
 
 const DATA = [
   {
@@ -25,23 +27,40 @@ const DATA = [
 ];
 
 const SplashCarousel = () => {
-  const renderItem = (data) => (
-    <View key={data.image} style={styles.cardContainer}>
-        <Image style={styles.image} source={data.image} />
-        <Text style={styles.title}>{data.title}</Text>
-        <Text style={styles.content}>{data.content}</Text>
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const renderItem = ({ item }) => (
+    <View style={styles.card}>
+      <Image style={styles.image} source={item.image} />
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.content}>{item.content}</Text>
+      </View>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <Image source={require("../assets/logo.png")} />
+      <Image source={require("../assets/images/logo.png")} />
       <Carousel
-        pagination={PaginationLight}
-        renderItem={renderItem}
         data={DATA}
-        // autoplay
+        renderItem={renderItem}
+        sliderWidth={Dimensions.get("window").width}
+        itemWidth={Dimensions.get("window").width}
+        onSnapToItem={(index) => setActiveSlide(index)}
       />
+      <View style={styles.bottom}>
+        <Pagination
+          dotsLength={DATA.length}
+          activeDotIndex={activeSlide}
+          containerStyle={styles.paginationContainer}
+          inactiveDotStyle={styles.inactivePaginationDot}
+          inactiveDotOpacity={0.5}
+          inactiveDotScale={1}
+          dotStyle={styles.dot}
+        />
+        <Image source={require("../assets/images/arrow.png")} />
+      </View>
     </View>
   );
 };
@@ -52,24 +71,45 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     paddingTop: 80,
+    paddingBottom: 50,
   },
-  cardContainer: {
+  card: {
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   title: {
     fontSize: 48,
+    fontFamily: "Poppins_700Bold",
+    color: "#049A10",
   },
   content: {
+    textAlign: "center",
     paddingTop: 10,
     fontSize: 24,
-    width: '70%',
-    flexWrap: 'wrap',
+    // flexWrap: "wrap",
+    fontFamily: "Poppins_500Medium",
   },
   image: {
-    // resizeMode: 'contain',
     marginTop: 50,
   },
+  textContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dot: {
+    backgroundColor: "#049A10",
+    width: 10,
+    height: 10,
+    borderRadius: 10,
+  },
+  bottom: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingHorizontal: 20,
+  },
+  
 });
 
 export default SplashCarousel;
