@@ -24,17 +24,16 @@ export default function SignUp({navigation}){
             </TouchableOpacity>
           </View>
           <View>
-            {isExpert?(<ExpertSignup />):(<UserSignup />)}
+            {isExpert?(<ExpertSignup onPress={() => navigation.navigate('OtpVerify')}/>):(<UserSignup onPress={() => navigation.navigate('OtpVerify')}/>)}
           </View>
-        
-
+          
           <View style={{flexDirection:'row', justifyContent:'center'}}>
             <Text>Already have an account? </Text>
             <TouchableOpacity onPress={()=> navigation.navigate('UserLogin')}>
               <Text>Login</Text>
             </TouchableOpacity>
           </View>
-          </View>
+        </View>
       </SafeAreaView>
       );
 }

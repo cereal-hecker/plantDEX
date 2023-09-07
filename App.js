@@ -6,6 +6,9 @@ import Main from "./screens/main";
 import Login from "./screens/login";
 import UserLogin from "./screens/userLogin";
 import SignUp from "./screens/signUp";
+import OtpVerify from "./screens/otpVerify";
+import UserSignup from "./screens/userSignUp";
+import ExpertSignup from "./screens/expertSignUp";
 
 import {
   useFonts,
@@ -38,6 +41,11 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="UserLogin" component={UserLogin} />
         <Stack.Screen name="SignUp" component={SignUp} />
+        {/* <Stack.Screen name="UserSignup" component={UserSignup} />
+        <Stack.Screen name="ExpertSignup" component={ExpertSignup} /> */}
+        <Stack.Screen name="OtpVerify" component={OtpVerify} />
+        
+
         {/* Add your main screen here */}
       </Stack.Navigator>
     </NavigationContainer>

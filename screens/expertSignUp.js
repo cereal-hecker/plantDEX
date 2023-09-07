@@ -1,7 +1,7 @@
 import { View,Text,StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
-export default function ExpertSignup(){
+export default function ExpertSignup({ onPress= () => {}}){
     return (
       <View style={styles.container}>
           <View>
@@ -13,7 +13,7 @@ export default function ExpertSignup(){
           <View>
             <TextInput secureTextEntry= {true}placeholder="Re-enter Password"/>
           </View>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate()}>
+          <TouchableOpacity style={styles.button} onPress>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
           <Text style={styles.or}>----------OR----------</Text>

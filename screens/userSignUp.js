@@ -1,7 +1,8 @@
 import { View,Text,StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
-export default function UserSignup(){
+export default function UserSignup({ onPress= () => {}}){
+
     return (
       <View style={styles.container}>
           <View>
@@ -10,11 +11,11 @@ export default function UserSignup(){
           <View>
             <TextInput placeholder="Re-enter Phone Number" autoCapitalize = 'none'/>
           </View>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate()}>
+          <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
-        </View>
-      );
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({
