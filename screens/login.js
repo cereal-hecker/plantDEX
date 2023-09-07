@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
-export default function Login() {
+export default function Login({navigation}) {
   return (
     <View style={styles.container}>
     <View style={styles.header}>
@@ -15,11 +15,11 @@ export default function Login() {
         <Text style={styles.welcome}>Welcome!</Text>
         <Image source={require("../assets/images/login.png")} />
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('UserLogin')}>
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
       <Text style={styles.or}>—OR—</Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
     </View>
