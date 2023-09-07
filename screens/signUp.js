@@ -1,45 +1,36 @@
 import { View,Text,StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import { useState } from "react";
+import ExpertSignup from "./expertSignUp";
+import UserSignup from "./userSignUp";
 
 export default function SignUp({navigation}){
+
+    const [isExpert,setExpert] = useState(false)
+
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-        <Image
-            style={styles.logo}
-            source={require("../assets/images/logo.png")}
-          />
+        <Text style={styles.heading}>Sign Up</Text>
           <Image source={require("../assets/images/translate.png")}/>
         </View>
-          <View style={styles.loginImage}>
-            <Text style={styles.welcome}>Sign Up</Text>
-            {/* <Image source={require("../assets/images/login.png")} /> */}
-          </View>
-
-          <View>
-            <TextInput placeholder="Email"  keyboardType='email-address' autoCapitalize = 'none'/>
-          </View>
-          <View>
-            <TextInput secureTextEntry= {true}placeholder="Password"/>
-            <TouchableOpacity onPress={() => {}}>
-              <Text>Forgot?</Text>
+        <View style={styles.signup}>
+          <View style={styles.slider}>
+            <TouchableOpacity onPress={() => {setExpert(false)}}>
+                <Text>User </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {setExpert(true)}}>
+                <Text>Expert</Text>
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate()}>
-            <Text style={styles.buttonText}>Log In</Text>
-          </TouchableOpacity>
-          <Text style={styles.or}>----------OR----------</Text>
-          <View style={{flexDirection:'row', justifyContent:'center'}} >
-            <Image source={require("../assets/images/googleIcon.svg")} />
-            <TouchableOpacity onPress={() => navigation.navigate()}>
-              <Text>Log in with Google</Text>
-            </TouchableOpacity>
+          <View>
+            {isExpert?(<ExpertSignup />):(<UserSignup />)}
           </View>
+        </View>
 
           <View style={{flexDirection:'row', justifyContent:'center'}}>
             <Text>Already have an account? </Text>
-            <TouchableOpacity onPress={()=> navigation.navigate('Signup')}>
+            <TouchableOpacity onPress={()=> navigation.navigate('UserLogin')}>
               <Text>Login</Text>
             </TouchableOpacity>
           </View>
@@ -51,13 +42,26 @@ const styles = StyleSheet.create({
     container: {
       alignItems: "center",
     },
+    signup:{
+        marginTop: 40,
+      marginBottom: 70,
+    },
     logo: {
       marginTop: 50,
     },
-    welcome: {
-      fontSize: 36,
-      color: "#049A10",
-      fontFamily: "Poppins_600SemiBold",
+    heading: {
+        fontSize: 50,
+        color: "#049A10",
+        fontFamily: "Poppins_700Bold",
+      },
+    slider:{
+        backgroundColor: "#049A10",
+        padding: 10,
+        height: 50,
+        alignItems: "center",
+        flexDirection:'row', 
+        justifyContent:'center',
+        borderRadius:40,
     },
     or: {
       fontSize: 16,
@@ -76,10 +80,6 @@ const styles = StyleSheet.create({
       textAlign: "center",
       color: "white", // Change sign up button text color to white
       fontSize: 20,
-    },
-    loginImage: {
-      marginTop: 40,
-      marginBottom: 70,
     },
     header: {
       flexDirection: "row",

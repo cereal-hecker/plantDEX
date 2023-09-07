@@ -36,9 +36,8 @@ export default function App() {
       >
         <Stack.Screen name="SplashCarousel" component={SplashCarousel} />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-
         <Stack.Screen name="UserLogin" component={UserLogin} />
+        <Stack.Screen name="SignUp" component={SignUp} />
         {/* Add your main screen here */}
       </Stack.Navigator>
     </NavigationContainer>

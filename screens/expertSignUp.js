@@ -1,42 +1,29 @@
 import { View,Text,StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
-export default function UserLogin({navigation}){
+export default function ExpertSignup(){
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.heading}>Login</Text>
-          <Image source={require("../assets/images/translate.png")}/>
-        </View>
-          
+      <View style={styles.container}>
           <View>
-            <TextInput placeholder="Email/Phone number"  keyboardType='email-address' autoCapitalize = 'none'/>
+            <TextInput placeholder="Email"  keyboardType='email-address' autoCapitalize = 'none'/>
           </View>
-          <View style={{flexDirection:"row"}}>
+          <View>
             <TextInput secureTextEntry= {true}placeholder="Password"/>
-            <TouchableOpacity onPress={() => {}}>
-              <Text style={{textAlign:"right"}}>Forgot?</Text>
-            </TouchableOpacity>
           </View>
-
+          <View>
+            <TextInput secureTextEntry= {true}placeholder="Re-enter Password"/>
+          </View>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate()}>
-            <Text style={styles.buttonText}>Log In</Text>
+            <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
           <Text style={styles.or}>----------OR----------</Text>
           <View style={{flexDirection:'row', justifyContent:'center'}} >
             <Image source={require("../assets/images/googleIcon.svg")} />
             <TouchableOpacity onPress={() => navigation.navigate()}>
-              <Text>Log in with Google</Text>
+              <Text>Sign up with Google</Text>
             </TouchableOpacity>
           </View>
-
-          <View style={{flexDirection:'row', justifyContent:'center'}}>
-            <Text>Don't have an account? </Text>
-            <TouchableOpacity onPress={()=> navigation.navigate('SignUp')}>
-              <Text>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
-      </SafeAreaView>
+        </View>
       );
 }
 
@@ -47,10 +34,10 @@ const styles = StyleSheet.create({
     logo: {
       marginTop: 50,
     },
-    heading: {
-      fontSize: 50,
+    welcome: {
+      fontSize: 36,
       color: "#049A10",
-      fontFamily: "Poppins_700Bold",
+      fontFamily: "Poppins_600SemiBold",
     },
     or: {
       fontSize: 16,
