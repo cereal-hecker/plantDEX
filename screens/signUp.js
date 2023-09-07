@@ -12,27 +12,28 @@ export default function SignUp({navigation}){
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
         <Text style={styles.heading}>Sign Up</Text>
-          <Image source={require("../assets/images/translate.png")}/>
+        <Image source={require("../assets/images/translate.png")}/>
         </View>
         <View style={styles.signup}>
           <View style={styles.slider}>
-            <TouchableOpacity onPress={() => {setExpert(false)}}>
-                <Text>User </Text>
+            <TouchableOpacity style={styles.button} onPress={() => {setExpert(false)}}>
+                <Text style={{textAlign:"left"}}>User</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {setExpert(true)}}>
-                <Text>Expert</Text>
+            <TouchableOpacity style={styles.button} onPress={() => {setExpert(true)}}>
+                <Text style={{textAlign:"right"}}>Expert</Text>
             </TouchableOpacity>
           </View>
           <View>
             {isExpert?(<ExpertSignup />):(<UserSignup />)}
           </View>
-        </View>
+        
 
           <View style={{flexDirection:'row', justifyContent:'center'}}>
             <Text>Already have an account? </Text>
             <TouchableOpacity onPress={()=> navigation.navigate('UserLogin')}>
               <Text>Login</Text>
             </TouchableOpacity>
+          </View>
           </View>
       </SafeAreaView>
       );
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
     signup:{
         marginTop: 40,
       marginBottom: 70,
+      top: '50%'
     },
     logo: {
       marginTop: 50,
@@ -70,9 +72,8 @@ const styles = StyleSheet.create({
     },
     button: {
       backgroundColor: "#049A10",
-      padding: 10,
       borderRadius: 20,
-      width: "70%",
+      width: "30%",
       height: 50,
       alignItems: "center",
     },
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       width: "100%",
       paddingHorizontal: 30,
-    }
+    },
+    
   });
   

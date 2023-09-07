@@ -9,10 +9,10 @@ export default function UserLogin({navigation}){
           <Image source={require("../assets/images/translate.png")}/>
         </View>
           
-          <View>
+          <View style={styles.inputFeild}>
             <TextInput placeholder="Email/Phone number"  keyboardType='email-address' autoCapitalize = 'none'/>
           </View>
-          <View style={{flexDirection:"row"}}>
+          <View style={styles.inputFeild}>
             <TextInput secureTextEntry= {true}placeholder="Password"/>
             <TouchableOpacity onPress={() => {}}>
               <Text style={{textAlign:"right"}}>Forgot?</Text>
@@ -80,6 +80,17 @@ const styles = StyleSheet.create({
       alignItems: "center",
       width: "100%",
       paddingHorizontal: 30,
-    }
+    },
+    inputFeild: {
+      borderWidth :  1.8 ,
+      borderColor :"#EAECEF",
+      flexDirection:"row",
+      padding: 10,
+      borderRadius: 20,
+      width: "70%",
+      height: 50,
+      alignItems: "center",
+  }
+
   });
   
