@@ -35,9 +35,9 @@ export default function UserLogin({ navigation }) {
         </View>
       </View>
       <View style={styles.inputField}>
+        <Text style={{ color: isFocusedEmail ? "#049A10" : "#049A1050" }}>Email/Phone number</Text>
         <TextInput
-          placeholder="Email/Phone number"
-          placeholderTextColor={isFocusedEmail ? "#049A10" : "#049A1050"}
+          style={{height: 50,fontSize: 20}}
           keyboardType='email-address'
           autoCapitalize='none'
           onFocus={handleEmailFocus}
@@ -47,10 +47,10 @@ export default function UserLogin({ navigation }) {
         />
       </View>
       <View style={styles.inputField}>
+        <Text style={{ color: isFocusedPassword ? "#049A10" : "#049A1050" }}>Password</Text>
         <TextInput
           secureTextEntry={true}
-          placeholder="Password"
-          placeholderTextColor={isFocusedPassword ? "#049A10" : "#049A1050"}
+          style={{height: 50,fontSize: 20}}
           onFocus={handlePasswordFocus}
           onBlur={handlePasswordBlur}
           value={password}
@@ -65,7 +65,7 @@ export default function UserLogin({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.spacingContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate()}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MainApp',{screen:'History'})}>
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
         <View style={styles.orContainer}>
@@ -84,7 +84,7 @@ export default function UserLogin({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
-      </View>  
+      </View>
       <View style={styles.dontHaveAccountContainer}>
         <Text style={styles.dontHaveAccountText}>Don't have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
 
   inputField: {
     width: '80%',
-    height: 90,
+    height: 75,
     borderColor: '#049A10',
     borderWidth: 1,
     borderRadius: 30,
