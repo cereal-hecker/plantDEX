@@ -36,7 +36,6 @@ export default function UserLogin({ navigation }) {
       </View>
       <View style={styles.inputField}>
         <TextInput
-          style={{fontSize: 22}}
           keyboardType='email-address'
           autoCapitalize='none'
           onFocus={handleEmailFocus}
@@ -48,7 +47,6 @@ export default function UserLogin({ navigation }) {
       <View style={styles.inputField}>
         <TextInput
           secureTextEntry={true}
-          style={{height: 50,fontSize: 22}}
           onFocus={handlePasswordFocus}
           onBlur={handlePasswordBlur}
           value={password}
