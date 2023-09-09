@@ -58,7 +58,9 @@ export default function SplashCarousel({ navigation }){
           dotStyle={styles.dot}
         />
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Image source={require("../assets/images/arrow.png")} />
+          <Image 
+             style={{height: 50, width: 50,}}
+            source= {require("../assets/images/arrow.png")} />
         </TouchableOpacity>
       </View>
     </View>

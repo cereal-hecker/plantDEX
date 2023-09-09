@@ -36,8 +36,7 @@ export default function UserLogin({ navigation }) {
       </View>
       <View style={styles.inputField}>
         <TextInput
-          placeholder="Email/Phone number"
-          placeholderTextColor={isFocusedEmail ? "#049A10" : "#049A1050"}
+          style={{fontSize: 22}}
           keyboardType='email-address'
           autoCapitalize='none'
           onFocus={handleEmailFocus}
@@ -49,8 +48,7 @@ export default function UserLogin({ navigation }) {
       <View style={styles.inputField}>
         <TextInput
           secureTextEntry={true}
-          placeholder="Password"
-          placeholderTextColor={isFocusedPassword ? "#049A10" : "#049A1050"}
+          style={{height: 50,fontSize: 22}}
           onFocus={handlePasswordFocus}
           onBlur={handlePasswordBlur}
           value={password}
@@ -227,7 +225,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginBottom: 12,
     fontSize: 16,
-    fontFamily: 'Poppins_400Regular',
+    fontFamily: 'Poppins_600SemiBold',
   },
   });
   
