@@ -18,7 +18,7 @@ export default function ExpertSignup({ onPress= () => {}}){
           </TouchableOpacity>
           <Text style={styles.or}>----------OR----------</Text>
           <View style={{flexDirection:'row', justifyContent:'center'}} >
-            <Image source={require("../assets/images/googleIcon.svg")} />
+            <Image source={require("../assets/images/googleIcon.png")} />
             <TouchableOpacity onPress={() => navigation.navigate()}>
               <Text>Sign up with Google</Text>
             </TouchableOpacity>
