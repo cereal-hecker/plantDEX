@@ -1,4 +1,4 @@
-import { View,Text,StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
+import { View,Text,StyleSheet, Image, TouchableOpacity, SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
 export default function ExpertSignup({ onPress= () => {}}){
@@ -18,7 +18,7 @@ export default function ExpertSignup({ onPress= () => {}}){
           </TouchableOpacity>
           <Text style={styles.or}>----------OR----------</Text>
           <View style={{flexDirection:'row', justifyContent:'center'}} >
-            <Image source={require("../assets/images/googleIcon.svg")} />
+            {/* <Image source={require("../assets/images/googleIcon.svg")} /> */}
             <TouchableOpacity onPress={() => navigation.navigate()}>
               <Text>Sign up with Google</Text>
             </TouchableOpacity>

@@ -9,12 +9,14 @@ import SignUp from "./screens/signUp";
 import OtpVerify from "./screens/otpVerify";
 import UserSignup from "./screens/userSignUp";
 import ExpertSignup from "./screens/expertSignUp";
+import UploadImage from "./screens/uploadImage";
 
 import {
   useFonts,
   Poppins_700Bold,
   Poppins_500Medium,
   Poppins_600SemiBold,
+  Poppins_400Regular,
 } from "@expo-google-fonts/poppins";
 
 const Stack = createStackNavigator();
@@ -24,6 +26,7 @@ export default function App() {
     Poppins_700Bold,
     Poppins_500Medium,
     Poppins_600SemiBold,
+    Poppins_400Regular,
   });
 
   if (!fontsLoaded && !fontError) {
@@ -38,15 +41,14 @@ export default function App() {
         }}
       >
         <Stack.Screen name="SplashCarousel" component={SplashCarousel} />
+        <Stack.Screen name="UploadImage" component={UploadImage} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="UserLogin" component={UserLogin} />
         <Stack.Screen name="SignUp" component={SignUp} />
         {/* <Stack.Screen name="UserSignup" component={UserSignup} />
         <Stack.Screen name="ExpertSignup" component={ExpertSignup} /> */}
-        <Stack.Screen name="OtpVerify" component={OtpVerify} />
         
-
-        {/* Add your main screen here */}
+        <Stack.Screen name="OtpVerify" component={OtpVerify} />
       </Stack.Navigator>
     </NavigationContainer>
   );
