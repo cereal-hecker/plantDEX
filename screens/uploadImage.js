@@ -55,7 +55,7 @@ export default function UploadImage({ navigation }) {
           <Text style={styles.camText}>Take a photo</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.continue} onPress={navigation.navigate('UserLogin')}>
+      <TouchableOpacity style={styles.continue} onPress={navigation.navigate('Forum')}>
         <Text style={styles.continueText}>Continue</Text>
       </TouchableOpacity>
     </View>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   camButton: {
-    backgroundColor: "#4fb858",
+    backgroundColor: "rgba(4, 154, 16, 0.5)",
     alignItems: "center",
     borderRadius: 40,
     width: 280,

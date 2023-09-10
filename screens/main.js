@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
-import { View, Image, StyleSheet, FlatList } from 'react-native';
-import HistoryCard from './historyCard';
+import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Main(navigation){
+export default function Main({ navigation }){
 
   return (
     <SafeAreaView>      

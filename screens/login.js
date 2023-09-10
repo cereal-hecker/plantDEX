@@ -15,7 +15,7 @@ export default function Login({navigation}) {
         <Text style={styles.welcome}>Welcome!</Text>
         <Image source={require("../assets/images/login.png")} />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('UploadImage')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Forum')}>
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
       <Text style={styles.or}>—OR—</Text>

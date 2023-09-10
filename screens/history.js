@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Text, View, Image, StyleSheet, FlatList } from 'react-native';
-import HistoryCard from './historyCard';
+import HistoryCard from '../components/historyCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator } from 'react-native';
 
