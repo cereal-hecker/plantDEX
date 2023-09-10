@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 54, 
+    flexWrap: true,
     color: "#049A10",
     fontFamily: "Poppins_700Bold",
     marginVertical: '4%',
