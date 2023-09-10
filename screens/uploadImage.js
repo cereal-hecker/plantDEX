@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Text, Image, View, StyleSheet, Platform } from "react-native";
+import React, { useState } from "react";
+import { Text, Image, View, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -55,7 +55,7 @@ export default function UploadImage({ navigation }) {
           <Text style={styles.camText}>Take a photo</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.continue} onPress={pickImage}>
+      <TouchableOpacity style={styles.continue} onPress={navigation.navigate('UserLogin')}>
         <Text style={styles.continueText}>Continue</Text>
       </TouchableOpacity>
     </View>
