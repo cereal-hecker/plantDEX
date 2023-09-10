@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Dimensions,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 
 import splash1 from "../assets/images/splash1.png";
@@ -24,7 +31,7 @@ const DATA = [
   },
 ];
 
-export default function SplashCarousel({ navigation }){
+export default function SplashCarousel({ navigation }) {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const renderItem = ({ item }) => (
@@ -39,7 +46,10 @@ export default function SplashCarousel({ navigation }){
 
   return (
     <View style={styles.container}>
-      <Image source={require("../assets/images/logo.png")} />
+      <Image
+        style={styles.logo}
+        source={require("../assets/images/logo.png")}
+      />
       <Carousel
         data={DATA}
         renderItem={renderItem}
@@ -57,15 +67,19 @@ export default function SplashCarousel({ navigation }){
           inactiveDotScale={1}
           dotStyle={styles.dot}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
           <Image source={require("../assets/images/arrow.png")} />
         </TouchableOpacity>
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
+  logo: {
+    width: 136,
+    height: 81,
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",

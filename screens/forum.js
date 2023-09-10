@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { SearchBar } from "react-native-elements";
 import QuestionCard from "../components/questionCard";
-import questionsData from "../assets/data/questions";
+import questions from "../assets/data/questions";
 
 export default function Forum() {
   const [search, setSearch] = useState("");
-  const [filteredQuestions, setFilteredQuestions] = useState(questionsData);
+  const [filteredQuestions, setFilteredQuestions] = useState(questions);
 
   const onChangeSearch = (text) => {
     setSearch(text);
-    const filtered = questionsData.filter((item) =>
+    const filtered = questions.filter((item) =>
       item.question.toLowerCase().includes(text.toLowerCase()) ||
       item.answer.toLowerCase().includes(text.toLowerCase())
     );
@@ -22,7 +22,6 @@ export default function Forum() {
       <Text style={styles.header}>FORUM</Text>
       <View style={styles.searchbarContainer}>
         <SearchBar
-          round
           onChangeText={onChangeSearch}
           placeholder="Are my potatoes dying?"
           value={search}
@@ -42,6 +41,7 @@ export default function Forum() {
               key={question.id}
               username={question.username}
               date={question.date}
+            //   image={question.profile}
               question={question.question}
               answer={question.answer}
             />

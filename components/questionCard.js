@@ -4,10 +4,11 @@ import { View, StyleSheet, Text, Image } from "react-native";
 export default function QuestionCard({ username, date, question, answer }) {
   return (
     <View style={styles.card}>
-      <View style={styles.profile}>
+      <View style={styles.profiles}>
         <Image
           style={styles.profilepic}
-          source={require("../assets/images/account.png")}
+          // source={profile}
+          source={require('../assets/images/account.png')}
         />
         <View style={styles.userDetails}>
           <Text style={styles.username}>{username}</Text>
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
     fontSize: 12,
   },
-  profile: {
+  profiles: {
     flexDirection: "row",
     paddingBottom: 10,
   },

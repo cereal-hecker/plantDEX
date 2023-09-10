@@ -1,9 +1,9 @@
 {
   "expoServerPort": null,
-  "packagerPort": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "packagerPort": 19000,
+  "expoServerNgrokUrl": "https://5i-6qe.anonymous.plantdex.exp.direct",
+  "packagerNgrokUrl": "https://5i-6qe.anonymous.plantdex.exp.direct",
+  "ngrokPid": 22988,
   "packagerPid": null,
   "webpackServerPort": null
 }

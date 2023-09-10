@@ -32,6 +32,8 @@ const HistoryCard = () => {
         resizeMode: 'cover',
         borderTopLeftRadius: 8,
         borderBottomLeftRadius: 8,
+        width: 136,
+        height: 81,
       },
       textContainer: {
         flex: 2,
