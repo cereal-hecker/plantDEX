@@ -7,29 +7,17 @@ export default function ExpertSignup({handleSignup,email,setEmail,pass, setPass,
     return (
       <View style={styles.container}>
           <View>
-            <TextInput placeholder="Email"  keyboardType='email-address' autoCapitalize = 'none'/>
-          </View>
-          <View>
-            <TextInput secureTextEntry= {true}placeholder="Password"/>
-          </View>
-          <View>
-            <TextInput secureTextEntry= {true}placeholder="Re-enter Password"/>
-          </View>
+          <TextInput placeholder="Email" value = {email} onChangeText={ (text) => setEmail(text) } keyboardType='email-address' autoCapitalize = 'none'/>
+        </View>
+        <View>
+          <TextInput secureTextEntry= {true}  value = {pass} onChangeText={ (text) => setPass(text) }  placeholder="Password"/>
+        </View>
+        <View>
+          <TextInput secureTextEntry= {true}  value = {repass} onChangeText={ (text) => setRepass(text) } placeholder="Re-enter Password"/>
+        </View>
           <TouchableOpacity style={styles.button}  onPress={handleSignup}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
-          <Text style={styles.or}>----------OR----------</Text>
-          <View style={styles.googleContainer}>
-          <Image
-            style={styles.googleIcon}
-            source={require("../assets/images/googleIcon.png")}
-          />
-          <View style={styles.googleTextContainer}>
-            <TouchableOpacity onPress={() => navigation.navigate()}>
-              <Text style={styles.googleText}>Log in with Google</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
         </View>
       );
 }
