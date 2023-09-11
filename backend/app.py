@@ -1,12 +1,12 @@
 from fastapi import FastAPI, UploadFile
-import tensorflow as tf
+from keras.models import load_model
 import numpy as np
 from PIL import Image
 import uvicorn
 
 app = FastAPI()
 
-model = tf.keras.models.load_model("model.h5")
+model = load_model("model.h5")
 
 
 @app.get("/")
