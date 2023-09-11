@@ -1,3 +1,3 @@
 yarn install
 cd ./backend
-pipenv shell
+pipenv install -r requirements.txt
