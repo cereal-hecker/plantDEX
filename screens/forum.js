@@ -31,7 +31,9 @@ export default function Forum() {
           inputContainerStyle={styles.inputContainer}
           inputStyle={styles.inputStyle}
           leftIcon={
-            <Image source={require("../assets/images/search.png")} />
+            <Image 
+            style={styles.leftIcon}
+            source={require("../assets/images/search.png")} />
           }
           leftIconContainerStyle={styles.leftIconContainerStyle}
         />
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_900Black",
     fontSize: 64,
     color: "#049A10",
-    marginTop: 30,
+    marginTop: "4%",
   },
   inputStyle: {
     color: "black",
@@ -76,6 +78,9 @@ const styles = StyleSheet.create({
     borderBottomColor: "transparent",
     borderTopColor: "transparent",
     borderRadius: 50,
+    width: 362,
+    height: 50,
+    justifyContent: "center",
   },
   inputContainer: {
     backgroundColor: "transparent",
