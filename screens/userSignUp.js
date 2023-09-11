@@ -5,7 +5,22 @@ import {auth, firebaseConfig} from "./firebase"
 import {FirebaseRecaptchaVerifierModal,FirebaseRecaptchaBanner} from 'expo-firebase-recaptcha';
 import {PhoneAuthProvider,signInWithCredential} from 'firebase/auth';
 
-export default function UserSignup({ onPress= () => {}}){
+export default function UserSignup({
+  recaptchaVerifier,
+  phone,
+  setPhone,
+  rephone,
+  setRephone,
+  verificationId,
+  setVerificationID,
+  verificationCode,
+  setVerificationCode,
+  attemptInvisibleVerification,
+  info,
+  setInfo,
+  handleSendVerificationCode,
+  handleVerifyVerificationCode,
+}){
   /*
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -57,45 +72,6 @@ export default function UserSignup({ onPress= () => {}}){
           </TouchableOpacity>
       </View>
     );*/
-
-    
-  const recaptchaVerifier = useRef(null);
-
-  const [phone, setPhone] = useState('');  
-  const [rephone, setRephone] = useState('');  
-
-  const [verificationId,setVerificationID] = useState('');
-  const [verificationCode,setVerificationCode] = useState('');
-  const attemptInvisibleVerification = true;
-  const [info,setInfo] = useState("");
-  
-  const handleSendVerificationCode = async () => {
-    try{
-        const phoneProvider = new PhoneAuthProvider(auth); // initialize the phone provider.
-        const verificationId = await phoneProvider.verifyPhoneNumber(
-            `+91 ${phone}`,
-            recaptchaVerifier.current
-        ); // get the verification id
-        setVerificationID(verificationId); // set the verification id
-        setInfo('Success : Verification code has been sent to your phone'); // If Ok, show message.
-    }catch(error){
-        setInfo(`Error : ${error.message}`); // show the error
-    }
-  };
-
-  const handleVerifyVerificationCode = async () => {
-    try{
-        const credential = PhoneAuthProvider.credential(verificationId,verificationCode); // get the credential
-        await signInWithCredential(auth,credential); // verify the credential
-        setInfo('Success: Phone authentication successful'); // if OK, set the message
-        
-        //Navigate to main window
-
-
-    }catch(error){
-        setInfo(`Error : ${error.message}`); // show the error.
-    }
-  }
 
   return (
     <View style={styles.container}>
