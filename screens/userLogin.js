@@ -30,7 +30,7 @@ export default function UserLogin({ navigation }) {
         <View style={styles.item}>
           <Text style={styles.heading}>Login</Text>
           <Image 
-            style={styles.logoImage}
+            style={styles.translate}
             source={require("../assets/images/translate.png")} />
         </View>
       </View>
@@ -121,9 +121,9 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
   },
 
-  logoImage: {
-    width: 30,
-    height: 30,
+  translate: {
+    width: 40,
+    height: 40,
   },
 
   forgotPasswordContainer: {
@@ -172,7 +172,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#3F3D56',
     marginHorizontal: "2%", // Add some spacing between the lines and the text
   },
-  
   
   orText: {
     marginHorizontal: 10,

@@ -58,15 +58,23 @@ export default function UploadImage({ navigation }) {
           <Image source={{ uri: image }} style={{ width: 335, height: 335 }} />
         ) : (
           <View style={styles.selectArea}>
-            <Image source={require("../assets/images/upload.png")} />
+            <Image 
+            style={styles.upload}
+            source={require("../assets/images/upload.png")} />
             <Text style={styles.select}>Select File</Text>
           </View>
         )}
       </TouchableOpacity>
-      <Image source={require("../assets/images/Division-OR-bar.png")} />
+      <View style={styles.orContainer}>
+          <View style={styles.line}></View>
+            <Text style={styles.orText}>OR</Text>
+          <View style={styles.line}></View>
+        </View>
       <TouchableOpacity style={styles.camButton} onPress={takePhoto}>
         <View style={styles.camView}>
-          <Image source={require("../assets/images/cam.png")} />
+          <Image 
+          style={styles.cam}
+          source={require("../assets/images/cam.png")} />
           <Text style={styles.camText}>Take a photo</Text>
         </View>
       </TouchableOpacity>
@@ -88,7 +96,7 @@ const styles = StyleSheet.create({
   select: {
     paddingTop: 10,
     fontSize: 30,
-    color: "#049A10",
+    color: "#049A1050",
     fontFamily: "Poppins_500Medium",
   },
   header: {
@@ -103,9 +111,13 @@ const styles = StyleSheet.create({
     padding: 1,
     marginBottom: 10,
   },
+  upload: {
+    width: 40,
+    height: 40,
+  },
   uploadArea: {
     borderWidth: 2,
-    borderStyle: "dotted",
+    borderStyle: "dashed",
     borderColor: "#049A10",
     borderRadius: 10,
     padding: 20,
@@ -115,9 +127,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
+  cam: {
+    width: 20,
+    height: 20,
+  },
   camButton: {
-    backgroundColor: "rgba(4, 154, 16, 0.5)",
+    backgroundColor: "#4fb858",
     alignItems: "center",
+    justifyContent: "center", 
     borderRadius: 40,
     width: 280,
     marginTop: 10,
@@ -131,7 +148,7 @@ const styles = StyleSheet.create({
   camView: {
     padding: 10,
     flexDirection: "row",
-    justifyContent: "center",
+    alignItems: "center",
   },
   continue: {
     padding: 10,
@@ -139,11 +156,27 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     alignItems: "center",
     width: 240,
-    marginTop: 20,
+    marginTop: "8%",
   },
   continueText: {
     color: "#fff",
     fontFamily: "Poppins_400Regular",
     fontSize: 20,
+  },
+  orContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  line: {
+    width: 50, 
+    height: 1,
+    backgroundColor: '#3F3D56',
+    marginHorizontal: "2%",
+  },  
+  orText: {
+    marginHorizontal: 10,
+    fontSize: 16,
+    fontFamily: "Poppins_700Bold",
+    color: "#3F3D56",
   },
 });

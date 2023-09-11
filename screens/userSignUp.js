@@ -1,8 +1,27 @@
 import { View,Text,StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { useState } from "react";
+import React, { useState,useRef } from "react";
+import {auth, firebaseConfig} from "./firebase"
+import {FirebaseRecaptchaVerifierModal,FirebaseRecaptchaBanner} from 'expo-firebase-recaptcha';
+import {PhoneAuthProvider,signInWithCredential} from 'firebase/auth';
 
-export default function UserSignup({ onPress= () => {}}){
+export default function UserSignup({
+  recaptchaVerifier,
+  phone,
+  setPhone,
+  rephone,
+  setRephone,
+  verificationId,
+  setVerificationID,
+  verificationCode,
+  setVerificationCode,
+  attemptInvisibleVerification,
+  info,
+  setInfo,
+  handleSendVerificationCode,
+  handleVerifyVerificationCode,
+}){
+  /*
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFocusedEmail, setIsFocusedEmail] = useState(false);
@@ -52,7 +71,56 @@ export default function UserSignup({ onPress= () => {}}){
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
       </View>
-    );
+    );*/
+
+  return (
+    <View style={styles.container}>
+      <FirebaseRecaptchaVerifierModal 
+          ref={recaptchaVerifier}
+          firebaseConfig={firebaseConfig}
+      />
+
+      {
+          info && <Text style={styles.text}>{info}</Text>
+      }
+
+      {!verificationId && (
+        <View>
+        <View>
+          <TextInput placeholder="Phone Number" value = {phone} onChangeText = {text => setPhone(text)} autoCapitalize = 'none'/>
+        </View>
+        <View>
+          <TextInput placeholder="Re-enter Phone Number" value = {rephone} onChangeText = {text => setRephone(text)} autoCapitalize = 'none'/>
+        </View>
+        <TouchableOpacity style={styles.button} onPress={() => {
+          if(phone == rephone){
+            handleSendVerificationCode()
+          }else{
+            alert("Phone numbers don't match.");
+          }
+          console.log("Called");
+        }}>
+        <Text style={styles.buttonText}>Sign up</Text>
+        </TouchableOpacity>
+        </View>
+        )
+      }
+
+      {verificationId && (
+        <View>
+        <View>
+          <TextInput placeholder="Verification Code" value = {verificationCode} onChangeText = {text => setVerificationCode(text)} autoCapitalize = 'none'/>
+        </View>
+        <TouchableOpacity style={styles.button} onPress={() => handleVerifyVerificationCode()}>
+          <Text style={styles.buttonText}>Verify</Text>
+        </TouchableOpacity>
+        </View>
+        )
+      }
+        
+      {attemptInvisibleVerification && <FirebaseRecaptchaBanner/>}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

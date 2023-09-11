@@ -9,7 +9,9 @@ export default function Login({navigation}) {
         style={styles.logo}
         source={require("../assets/images/logo.png")}
       />
-      <Image source={require("../assets/images/translate.png")}/>
+      <Image 
+      style={styles.translate}
+      source={require("../assets/images/translate.png")}/>
     </View>
       <View style={styles.loginImage}>
         <Text style={styles.welcome}>Welcome!</Text>
@@ -18,7 +20,11 @@ export default function Login({navigation}) {
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('UserLogin')}>
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
-      <Text style={styles.or}>—OR—</Text>
+      <View style={styles.orContainer}>
+          <View style={styles.line}></View>
+            <Text style={styles.orText}>OR</Text>
+          <View style={styles.line}></View>
+        </View>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
@@ -31,9 +37,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    width: 136,
-    height: 81,
+    width: 135,
+    height: 85,
     marginTop: 50,
+  },
+  translate: {
+    width: 40,
+    height: 40,
   },
   welcome: {
     fontSize: 36,
@@ -68,5 +78,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 30,
-  }
+  },
+  orContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: "2%",
+  },
+  line: {
+    width: 50, 
+    height: 1,
+    backgroundColor: '#3F3D56',
+    marginHorizontal: "2%",
+  },  
+  orText: {
+    marginHorizontal: 10,
+    fontSize: 16,
+    fontFamily: "Poppins_700Bold",
+    color: "#3F3D56",
+  },
 });

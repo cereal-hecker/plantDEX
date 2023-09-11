@@ -1,57 +1,23 @@
 import { View,Text,StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import {auth} from "./firebase"
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword} from "firebase/auth";
 
-export default function ExpertSignup({ onPress= () => {}}){
+export default function ExpertSignup({handleSignup,email,setEmail,pass, setPass,repass, setRepass}){
 
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-  const [repass, setRepass] = useState('');
-
-  const handleSignUp = () => {
-    if(pass == repass){
-      createUserWithEmailAndPassword(auth, email, pass)
-      .then((userCreds) => {
-        const user = userCreds.user;
-        console.log(user.email);
-        
-        //Navigate to the main page
-
-      })
-      .catch((error) => alert(error.message))
-    }else{
-      alert("Passwords don't match.");
-    }
-  }
     return (
-
       <View style={styles.container}>
           <View>
-            <TextInput placeholder="Email"  value = {email} onChangeText={ (text) => setEmail(text) } keyboardType='email-address' autoCapitalize = 'none'/>
-          </View>
-          <View>
-            <TextInput secureTextEntry= {true} value = {pass} onChangeText={ (text) => setPass(text) } placeholder="Password"/>
-          </View>
-          <View>
-            <TextInput secureTextEntry= {true} value = {repass} onChangeText={ (text) => setRepass(text) } placeholder="Re-enter Password"/>
-          </View>
-          <TouchableOpacity style={styles.button}  onPress = {handleSignUp}>
+          <TextInput placeholder="Email" value = {email} onChangeText={ (text) => setEmail(text) } keyboardType='email-address' autoCapitalize = 'none'/>
+        </View>
+        <View>
+          <TextInput secureTextEntry= {true}  value = {pass} onChangeText={ (text) => setPass(text) }  placeholder="Password"/>
+        </View>
+        <View>
+          <TextInput secureTextEntry= {true}  value = {repass} onChangeText={ (text) => setRepass(text) } placeholder="Re-enter Password"/>
+        </View>
+          <TouchableOpacity style={styles.button}  onPress={handleSignup}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
-          <Text style={styles.or}>----------OR----------</Text>
-          <View style={styles.googleContainer}>
-          <Image
-            style={styles.googleIcon}
-            source={require("../assets/images/googleIcon.png")}
-          />
-          <View style={styles.googleTextContainer}>
-            <TouchableOpacity onPress={() => navigation.navigate()}>
-              <Text style={styles.googleText}>Log in with Google</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
         </View>
       );
 }

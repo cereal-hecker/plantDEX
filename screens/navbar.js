@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import History from './history'
 import Forum from './forum'
 import UploadImage from './uploadImage'
+import Solution from './solution'
 
 
 const Tab = createBottomTabNavigator()
@@ -16,6 +17,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Home" component={History} />
       <Tab.Screen name="Forum" component={Forum} />
       <Tab.Screen name="UploadImage" component={UploadImage} />
+      <Tab.Screen name="Solution" component={Solution} />
       {/* <Tab.Screen name="Home" component={History} /> */}
     </Tab.Navigator>
   )
