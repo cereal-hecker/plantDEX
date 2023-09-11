@@ -3,10 +3,33 @@ import { TextInput } from "react-native-gesture-handler";
 import { useState } from "react";
 import ExpertSignup from "./expertSignUp";
 import UserSignup from "./userSignUp";
+import { auth } from "./firebase";
+import { createUserWithEmailAndPassword} from "firebase/auth";
+
 
 export default function SignUp({navigation}){
 
     const [isExpert,setExpert] = useState(false)
+    
+    const [email, setEmail] = useState('');
+    const [pass, setPass] = useState('');
+    const [repass, setRepass] = useState('');
+
+    const handleSignUp = () => {
+      if(pass == repass){
+        createUserWithEmailAndPassword(auth, email, pass)
+        .then((userCreds) => {
+          const user = userCreds.user;
+          console.log(user.email);
+          
+          navigation.navigate('MainApp',{screen:'History'})
+  
+        })
+        .catch((error) => alert(error.message))
+      }else{
+        alert("Passwords don't match.");
+      }
+    }
 
     return (
       <SafeAreaView style={styles.container}>
@@ -24,7 +47,13 @@ export default function SignUp({navigation}){
             </TouchableOpacity>
           </View>
           <View>
-            {isExpert?(<ExpertSignup onPress={() => navigation.navigate('OtpVerify')}/>):(<UserSignup onPress={() => navigation.navigate('OtpVerify')}/>)}
+            {isExpert?(<ExpertSignup handleSignup={handleSignUp}
+      email={email}
+      setEmail={setEmail}
+      pass={pass}
+      setPass={setPass}
+      repass={repass}
+      setRepass={setRepass} />):(<UserSignup onPress={() => navigation.navigate('OtpVerify')}/>)}
           </View>
           
           <View style={styles.dontHaveAccountContainer}>
