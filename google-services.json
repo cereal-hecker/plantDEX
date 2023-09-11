@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "295245831860",
+    "project_id": "plant-dex-9e9e8",
+    "storage_bucket": "plant-dex-9e9e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295245831860:android:416d391634c5703e3941e1",
+        "android_client_info": {
+          "package_name": "com.PickleRick.PlantDex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295245831860-0rdkjd96p2f4fcl1uih7mun9j8qcvp1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0Pn28GZJ_VnLh2wQ8QSb_ZHSLPP6h0gg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295245831860-0rdkjd96p2f4fcl1uih7mun9j8qcvp1p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "295245831860-gh7ajjsdbtj0k2n4s11l2ia02hsog502.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.PickleRick.PlantDex"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
