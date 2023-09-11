@@ -17,12 +17,17 @@ export default function ExpertSignup({ onPress= () => {}}){
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
           <Text style={styles.or}>----------OR----------</Text>
-          <View style={{flexDirection:'row', justifyContent:'center'}} >
-            <Image source={require("../assets/images/googleIcon.png")} />
+          <View style={styles.googleContainer}>
+          <Image
+            style={styles.googleIcon}
+            source={require("../assets/images/googleIcon.png")}
+          />
+          <View style={styles.googleTextContainer}>
             <TouchableOpacity onPress={() => navigation.navigate()}>
-              <Text>Sign up with Google</Text>
+              <Text style={styles.googleText}>Log in with Google</Text>
             </TouchableOpacity>
           </View>
+        </View>
         </View>
       );
 }
@@ -67,6 +72,50 @@ const styles = StyleSheet.create({
       alignItems: "center",
       width: "100%",
       paddingHorizontal: 30,
-    }
+    },
+    googleContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  
+    googleIcon: {
+      width: 30,
+      height: 30,
+      marginRight: 10,
+    },
+  
+    googleTextContainer: {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+  
+    googleText: {
+      fontSize: 20,
+      fontFamily: "Poppins_500Medium",
+    },
+  
+    dontHaveAccountContainer: {
+      marginTop: "4%",
+      flexDirection: 'row',
+      justifyContent: 'center',
+    },
+  
+    dontHaveAccountText: {
+      fontFamily: "Poppins_600SemiBold",
+    },
+    
+    inputField: {
+      width: '80%',
+      height: 75,
+      borderColor: '#049A10',
+      borderWidth: 1,
+      borderRadius: 30,
+      paddingHorizontal: 15,
+      marginBottom: 12,
+      fontSize: 16,
+      fontFamily: 'Poppins_400Regular',
+    },
+
   });
   

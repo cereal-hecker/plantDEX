@@ -5,12 +5,29 @@ export default function UserSignup({ onPress= () => {}}){
 
     return (
       <View style={styles.container}>
-          <View>
-            <TextInput placeholder="Phone Number" autoCapitalize = 'none'/>
-          </View>
-          <View>
-            <TextInput placeholder="Re-enter Phone Number" autoCapitalize = 'none'/>
-          </View>
+          <View style={styles.inputField}>
+        <Text>Email/Phone number</Text>
+        <TextInput
+          style={{height: 50,fontSize: 20}}
+          keyboardType='email-address'
+          autoCapitalize='none'
+          onFocus={handleEmailFocus}
+          onBlur={handleEmailBlur}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+      </View>
+      <View style={styles.inputField}>
+        <Text>Password</Text>
+        <TextInput
+          secureTextEntry={true}
+          style={{height: 50,fontSize: 20}}
+          onFocus={handlePasswordFocus}
+          onBlur={handlePasswordBlur}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+      </View>
           <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
@@ -58,6 +75,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       width: "100%",
       paddingHorizontal: 30,
-    }
+    },
+    
   });
   

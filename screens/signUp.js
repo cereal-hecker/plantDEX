@@ -27,10 +27,10 @@ export default function SignUp({navigation}){
             {isExpert?(<ExpertSignup onPress={() => navigation.navigate('OtpVerify')}/>):(<UserSignup onPress={() => navigation.navigate('OtpVerify')}/>)}
           </View>
           
-          <View style={{flexDirection:'row', justifyContent:'center'}}>
-            <Text>Already have an account? </Text>
-            <TouchableOpacity onPress={()=> navigation.navigate('UserLogin')}>
-              <Text>Login</Text>
+          <View style={styles.dontHaveAccountContainer}>
+            <Text style={styles.dontHaveAccountText}>Don't have an account? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.signUpText}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -88,6 +88,35 @@ const styles = StyleSheet.create({
       width: "100%",
       paddingHorizontal: 30,
     },
-    
-  });
+    loginText: {
+      color: "#587DBD",
+      fontFamily: "Poppins_700Bold",
+    },
+    dontHaveAccountContainer: {
+      marginTop: "4%",
+      flexDirection: 'row',
+      justifyContent: 'center',
+    },
   
+    dontHaveAccountText: {
+      fontFamily: "Poppins_600SemiBold",
+    },
+  
+    signUpText: {
+      color: "#587DBD",
+      fontFamily: "Poppins_700Bold",
+    },
+  
+    inputField: {
+      width: '80%',
+      height: 75,
+      borderColor: '#049A10',
+      borderWidth: 1,
+      borderRadius: 30,
+      paddingHorizontal: 15,
+      marginBottom: 12,
+      fontSize: 16,
+      fontFamily: 'Poppins_400Regular',
+    },
+  });
+    
