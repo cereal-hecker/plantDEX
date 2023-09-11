@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
   },
 
   logoImage: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
   },
 
   forgotPasswordContainer: {
