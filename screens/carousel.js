@@ -11,25 +11,31 @@ const DATA = [
     image: splash1,
     title: "Lorem Ipsum",
     content: "lorem le lorem le ipsum la ipsum la ipsum la",
+    width: 280, 
+    height: 280, 
   },
   {
     image: splash2,
     title: "Lorem Ipsum",
     content: "lorem le lorem le ipsum la ipsum la ipsum la",
+    width: 280, 
+    height: 280, 
   },
   {
     image: splash3,
     title: "Lorem Ipsum",
     content: "lorem le lorem le ipsum la ipsum la ipsum la",
+    width: 350, 
+    height: 280,
   },
 ];
 
-export default function SplashCarousel({ navigation }){
+export default function SplashCarousel({ navigation }) {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Image style={styles.image} source={item.image} />
+      <Image style={[styles.image, { width: item.width, height: item.height }]} source={item.image} />
       <View style={styles.textContainer}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.content}>{item.content}</Text>
@@ -39,7 +45,9 @@ export default function SplashCarousel({ navigation }){
 
   return (
     <View style={styles.container}>
-      <Image source={require("../assets/images/logo.png")} />
+      <Image 
+      style={styles.logo}
+      source={require("../assets/images/logo.png")} />
       <Carousel
         data={DATA}
         renderItem={renderItem}
@@ -59,13 +67,13 @@ export default function SplashCarousel({ navigation }){
         />
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Image 
-             style={{height: 50, width: 50,}}
-            source= {require("../assets/images/arrow.png")} />
+             style={{ height: 50, width: 50 }}
+            source={require("../assets/images/arrow.png")} />
         </TouchableOpacity>
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -74,6 +82,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 80,
     paddingBottom: 50,
+  },
+  logo: {
+    width: 136,
+    height: 81,
   },
   card: {
     alignItems: "center",

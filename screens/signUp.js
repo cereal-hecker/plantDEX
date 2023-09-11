@@ -12,7 +12,9 @@ export default function SignUp({navigation}){
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
         <Text style={styles.heading}>Sign Up</Text>
-        <Image source={require("../assets/images/translate.png")}/>
+        <Image
+        style={styles.logoImage}
+         source={require("../assets/images/translate.png")}/>
         </View>
         <View style={styles.signup}>
           <View style={styles.slider}>
@@ -49,6 +51,10 @@ const styles = StyleSheet.create({
     },
     logo: {
       marginTop: 50,
+    },
+    logoImage: {
+      width: 40,
+      height: 40,
     },
     heading: {
         fontSize: 50,
