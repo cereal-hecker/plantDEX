@@ -1,19 +1,43 @@
 import { View,Text,StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import {auth} from "./firebase"
+import React, { useState } from "react";
+import { createUserWithEmailAndPassword} from "firebase/auth";
 
 export default function ExpertSignup({ onPress= () => {}}){
+
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+  const [repass, setRepass] = useState('');
+
+  const handleSignUp = () => {
+    if(pass == repass){
+      createUserWithEmailAndPassword(auth, email, pass)
+      .then((userCreds) => {
+        const user = userCreds.user;
+        console.log(user.email);
+        
+        //Navigate to the main page
+
+      })
+      .catch((error) => alert(error.message))
+    }else{
+      alert("Passwords don't match.");
+    }
+  }
     return (
+
       <View style={styles.container}>
           <View>
-            <TextInput placeholder="Email"  keyboardType='email-address' autoCapitalize = 'none'/>
+            <TextInput placeholder="Email"  value = {email} onChangeText={ (text) => setEmail(text) } keyboardType='email-address' autoCapitalize = 'none'/>
           </View>
           <View>
-            <TextInput secureTextEntry= {true}placeholder="Password"/>
+            <TextInput secureTextEntry= {true} value = {pass} onChangeText={ (text) => setPass(text) } placeholder="Password"/>
           </View>
           <View>
-            <TextInput secureTextEntry= {true}placeholder="Re-enter Password"/>
+            <TextInput secureTextEntry= {true} value = {repass} onChangeText={ (text) => setRepass(text) } placeholder="Re-enter Password"/>
           </View>
-          <TouchableOpacity style={styles.button} onPress>
+          <TouchableOpacity style={styles.button}  onPress = {handleSignUp}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
           <Text style={styles.or}>----------OR----------</Text>
