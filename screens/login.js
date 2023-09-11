@@ -9,7 +9,9 @@ export default function Login({navigation}) {
         style={styles.logo}
         source={require("../assets/images/logo.png")}
       />
-      <Image source={require("../assets/images/translate.png")}/>
+      <Image 
+      style={styles.logoImage}
+      source={require("../assets/images/translate.png")}/>
     </View>
       <View style={styles.loginImage}>
         <Text style={styles.welcome}>Welcome!</Text>
@@ -32,6 +34,12 @@ const styles = StyleSheet.create({
   },
   logo: {
     marginTop: 50,
+    width: 136,
+    height: 81,
+  },
+  logoImage: {
+    width: 40,
+    height: 40,
   },
   welcome: {
     fontSize: 36,

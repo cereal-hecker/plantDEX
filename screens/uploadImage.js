@@ -43,7 +43,9 @@ export default function UploadImage({ navigation }) {
           <Image source={{ uri: image }} style={{ width: 335, height: 335 }} />
         ) : (
           <View style={styles.selectArea}>
-            <Image source={require("../assets/images/upload.png")} />
+            <Image 
+            style={styles.uploadImage}
+            source={require("../assets/images/upload.png")} />
             <Text style={styles.select}>Select File</Text>
           </View>
         )}
@@ -51,7 +53,9 @@ export default function UploadImage({ navigation }) {
       <Image source={require("../assets/images/Division-OR-bar.png")} />
       <TouchableOpacity style={styles.camButton} onPress={takePhoto}>
         <View style={styles.camView}>
-          <Image source={require("../assets/images/cam.png")} />
+          <Image 
+          style={styles.cam}
+          source={require("../assets/images/cam.png")} />
           <Text style={styles.camText}>Take a photo</Text>
         </View>
       </TouchableOpacity>
@@ -67,32 +71,36 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
   },
+  uploadImage: {
+    width: 40,
+    height: 40,
+    opacity: 0.5,
+  },
   selectArea: {
     alignItems: "center",
   },
   select: {
     paddingTop: 10,
     fontSize: 30,
-    color: "#049A10",
+    color: "#049A1050",
     fontFamily: "Poppins_500Medium",
   },
   header: {
     fontFamily: "Poppins_900Black",
     fontSize: 64,
     color: "#049A10",
-    marginTop: 70,
+    marginTop: "8%",
   },
   imgorvid: {
-    fontSize: 40,
+    fontSize: 42,
     fontFamily: "Poppins_500Medium",
-    padding: 1,
     marginBottom: 10,
   },
   uploadArea: {
     borderWidth: 2,
-    borderStyle: "dotted",
+    borderStyle: "dashed",
     borderColor: "#049A10",
-    borderRadius: 10,
+    borderRadius: 20,
     padding: 20,
     height: 335,
     width: 335,
@@ -100,10 +108,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
+  cam: {
+    width: 20,
+    height: 20,
+  },
   camButton: {
-    backgroundColor: "#4fb858",
+    backgroundColor: "#049a10b2",
     alignItems: "center",
-    borderRadius: 40,
+    justifyContent: "center", 
+    borderRadius: 20,
     width: 280,
     marginTop: 10,
   },
@@ -116,15 +129,16 @@ const styles = StyleSheet.create({
   camView: {
     padding: 10,
     flexDirection: "row",
+    alignItems: "center", 
     justifyContent: "center",
   },
   continue: {
     padding: 10,
     backgroundColor: "#049A10",
-    borderRadius: 40,
+    borderRadius: 20,
     alignItems: "center",
     width: 240,
-    marginTop: 20,
+    marginTop: "15%",
   },
   continueText: {
     color: "#fff",
