@@ -1,0 +1,27 @@
+{
+    "Wheat": {
+      "0": "Wheat___Brown_Rust",
+      "1": "Wheat___Healthy",
+      "2": "Wheat___Yellow_Rust"
+    },
+    "Rice": {
+      "0": "bacterial_leaf_blight",
+      "1": "brown_spot",
+      "2": "healthy",
+      "3": "leaf_blast",
+      "4": "leaf_scald",
+      "5": "narrow_brown_spot"
+    },
+    "Corn(Maize)": {
+      "0": "Corn___Common_Rust",
+      "1": "Corn___Gray_Leaf_Spot",
+      "2": "Corn___Healthy",
+      "3": "Corn___Leaf_Blight"
+    },
+    "Potato": {
+      "0": "Potato___Early_Blight",
+      "1": "Potato___Healthy",
+      "2": "Potato___Late_Blight"
+    }
+  }
+  
