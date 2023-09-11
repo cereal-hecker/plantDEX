@@ -1,16 +1,18 @@
 import { View,Text,StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { useState } from "react";
 import ExpertSignup from "./expertSignUp";
 import UserSignup from "./userSignUp";
-import { auth } from "./firebase";
 import { createUserWithEmailAndPassword} from "firebase/auth";
+import React, { useState,useRef } from "react";
+import {auth, firebaseConfig} from "./firebase"
+import {FirebaseRecaptchaVerifierModal,FirebaseRecaptchaBanner} from 'expo-firebase-recaptcha';
+import {PhoneAuthProvider,signInWithCredential} from 'firebase/auth';
 
 
 export default function SignUp({navigation}){
 
     const [isExpert,setExpert] = useState(false)
-    
+    // for exper sign up
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [repass, setRepass] = useState('');
@@ -22,7 +24,7 @@ export default function SignUp({navigation}){
           const user = userCreds.user;
           console.log(user.email);
           
-          //navigation.navigate('MainApp',{screen:'History'})
+          navigation.navigate('MainApp',{screen:'History'})
   
         })
         .catch((error) => alert(error.message))
@@ -30,7 +32,64 @@ export default function SignUp({navigation}){
         alert("Passwords don't match.");
       }
     }
+    // for user sign up
 
+    const recaptchaVerifier = useRef(null);
+
+    const [phone, setPhone] = useState('');  
+    const [rephone, setRephone] = useState('');  
+  
+    const [verificationId,setVerificationID] = useState('');
+    const [verificationCode,setVerificationCode] = useState('');
+    const attemptInvisibleVerification = true;
+    const [info,setInfo] = useState("");
+    
+    const handleSendVerificationCode = async () => {
+      try{
+          const phoneProvider = new PhoneAuthProvider(auth); // initialize the phone provider.
+          const verificationId = await phoneProvider.verifyPhoneNumber(
+              `+91 ${phone}`,
+              recaptchaVerifier.current
+          ); // get the verification id
+          setVerificationID(verificationId); // set the verification id
+          setInfo('Success : Verification code has been sent to your phone'); // If Ok, show message.
+      }catch(error){
+          setInfo(`Error : ${error.message}`); // show the error
+      }
+    };
+  
+    const handleVerifyVerificationCode = async () => {
+      try{
+          const credential = PhoneAuthProvider.credential(verificationId,verificationCode); // get the credential
+          await signInWithCredential(auth,credential); // verify the credential
+          setInfo('Success: Phone authentication successful'); // if OK, set the message
+          
+          //Navigate to main window
+          navigation.navigate('MainApp',{screen:'History'})
+
+      }catch(error){
+          setInfo(`Error : ${error.message}`); // show the error.
+      }
+    }
+
+    const userSignupProps = {
+      recaptchaVerifier,
+      phone,
+      setPhone,
+      rephone,
+      setRephone,
+      verificationId,
+      setVerificationID,
+      verificationCode,
+      setVerificationCode,
+      attemptInvisibleVerification,
+      info,
+      setInfo,
+      handleSendVerificationCode,
+      handleVerifyVerificationCode,
+    };
+    
+  
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
@@ -47,13 +106,16 @@ export default function SignUp({navigation}){
             </TouchableOpacity>
           </View>
           <View>
-            {isExpert?(<ExpertSignup handleSignup={handleSignUp}
-      email={email}
-      setEmail={setEmail}
-      pass={pass}
-      setPass={setPass}
-      repass={repass}
-      setRepass={setRepass} />):(<UserSignup onPress={() => navigation.navigate('OtpVerify')}/>)}
+            {isExpert?
+            (<ExpertSignup handleSignup={handleSignUp}
+                email={email}
+                setEmail={setEmail}
+                pass={pass}
+                setPass={setPass}
+                repass={repass}
+                setRepass={setRepass} />):(
+                <UserSignup {...userSignupProps} />
+                )}
           </View>
           
           <View style={styles.dontHaveAccountContainer}>
