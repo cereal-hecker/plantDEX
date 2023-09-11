@@ -7,30 +7,45 @@ export default function UploadImage({ navigation }) {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  
+    if (status !== 'granted') {
+      alert('Permission to access media library is required!');
+      return;
+    }
+  
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-
+  
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
-
+  
   const takePhoto = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+  
+    if (status !== 'granted') {
+      alert('Permission to access the camera is required!');
+      return;
+    }
+  
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-
+  
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -55,7 +70,7 @@ export default function UploadImage({ navigation }) {
           <Text style={styles.camText}>Take a photo</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.continue} onPress={navigation.navigate('Forum')}>
+      <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate('Forum')}>
         <Text style={styles.continueText}>Continue</Text>
       </TouchableOpacity>
     </View>

@@ -19,11 +19,9 @@ export default function AuthStack() {
         }}
       >
         <Stack.Screen name="SplashCarousel" component={SplashCarousel} />
-        <Stack.Screen name="Forum" component={Forum} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="UserLogin" component={UserLogin} />
         <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="UploadImage" component={UploadImage} />
         <Stack.Screen name="OtpVerify" component={OtpVerify} />
       </Stack.Navigator>
   );

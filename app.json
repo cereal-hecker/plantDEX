@@ -11,6 +11,10 @@
       "resizeMode": "center",
       "backgroundColor": "#ffffff"
     },
+    "permissions": [
+      "CAMERA",
+      "CAMERA_ROLL"
+    ],
     "assetBundlePatterns": [
       "**/*"
     ],
