@@ -1,5 +1,6 @@
 /Wheat
-
+.gcloudignore
+*.yaml
 # Logs
 logs
 *.log
