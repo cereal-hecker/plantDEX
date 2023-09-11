@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStack from "./screens/authStackNav";
 import TabNavigator from "./screens/navbar";
 import { createStackNavigator } from "@react-navigation/stack";
+import {auth} from "./screens/firebase";
+import { onAuthStateChanged } from "@firebase/auth";
 
 import {
   useFonts,
@@ -27,6 +29,15 @@ export default function App() {
   }
 
   const Stack = createStackNavigator();
+
+  onAuthStateChanged(auth, (user) => {
+    if(user){
+      console.log(user.uid);
+      //navigation.navigate('MainApp',{screen:'History'})
+    }else{
+      //navigation.navigate('AuthStack')
+    }
+  });
 
   return (
     <NavigationContainer>

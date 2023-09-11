@@ -22,7 +22,7 @@ export default function SignUp({navigation}){
           const user = userCreds.user;
           console.log(user.email);
           
-          navigation.navigate('MainApp',{screen:'History'})
+          //navigation.navigate('MainApp',{screen:'History'})
   
         })
         .catch((error) => alert(error.message))
