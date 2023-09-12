@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 
@@ -9,30 +9,29 @@ import splash3 from "../assets/images/splash3.png";
 const DATA = [
   {
     image: splash1,
-    title: "Plant Care",
-    content: "Simplify disease diagnosis and crop protection with easy access to plant health records.",
-    width: 280,
-    height: 280,
+    title: "Lorem Ipsum",
+    content: "lorem le lorem le ipsum la ipsum la ipsum la",
+    width: 280, 
+    height: 280, 
   },
   {
     image: splash2,
-    title: "Scan & Detect",
-    content: "Use AI for quick plant disease detection, ensuring healthier and more abundant harvests.",
-    width: 280,
+    title: "Lorem Ipsum",
+    content: "lorem le lorem le ipsum la ipsum la ipsum la",
+    width: 280, 
     height: 280,
   },
   {
     image: splash3,
-    title: "Crop Precision",
-    content: "Customized solutions for plant diseases, optimizing crop yields with precision and personalized care.",
-    width: 350,
+    title: "Lorem Ipsum",
+    content: "lorem le lorem le ipsum la ipsum la ipsum la",
+    width: 350, 
     height: 280,
   },
 ];
 
 export default function SplashCarousel({ navigation }) {
   const [activeSlide, setActiveSlide] = useState(0);
-  const carouselRef = useRef(null);
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
@@ -44,22 +43,12 @@ export default function SplashCarousel({ navigation }) {
     </View>
   );
 
-  const handleArrowPress = () => {
-    if (activeSlide < DATA.length - 1) {
-      carouselRef.current.snapToNext();
-    } else {
-      navigation.navigate('Login');
-    }
-  };
-
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require("../assets/images/logo.png")}
-      />
+      <Image 
+      style={styles.logo}
+      source={require("../assets/images/logo.png")} />
       <Carousel
-        ref={carouselRef}
         data={DATA}
         renderItem={renderItem}
         sliderWidth={Dimensions.get("window").width}
@@ -76,11 +65,10 @@ export default function SplashCarousel({ navigation }) {
           inactiveDotScale={1}
           dotStyle={styles.dot}
         />
-        <TouchableOpacity onPress={handleArrowPress}>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Image 
-            style={styles.arrow}
-            source={require("../assets/images/arrow.png")}
-          />
+             style={{ height: 50, width: 50 }}
+            source={require("../assets/images/arrow.png")} />
         </TouchableOpacity>
       </View>
     </View>
@@ -92,15 +80,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    paddingTop: "15%",
+    paddingTop: 80,
     paddingBottom: 50,
   },
   card: {
     alignItems: "center",
-  },
-  textContainer: {
-    textAlign: "left",
-    paddingHorizontal: 10,
   },
   title: {
     marginTop: "10%",
@@ -111,7 +95,7 @@ const styles = StyleSheet.create({
   content: {
     textAlign: "left",
     paddingTop: 10,
-    fontSize: 18,
+    fontSize: 24,
     fontFamily: "Poppins_500Medium",
   },
   image: {
@@ -121,15 +105,14 @@ const styles = StyleSheet.create({
     height: 85,
     width: 135,
   },
+  textContainer: {
+    alignItems: "center",
+  },
   dot: {
     backgroundColor: "#049A10",
     width: 10,
     height: 10,
     borderRadius: 10,
-  },
-  arrow: {
-    width: 50,
-    height: 50,
   },
   bottom: {
     flexDirection: "row",
