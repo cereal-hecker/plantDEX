@@ -4,7 +4,7 @@ import HistoryCard from '../components/historyCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator } from 'react-native';
 
-export default function History(navigation){
+export default function History( {navigation} ){
     const isLoading = false;
     const error = false;
 

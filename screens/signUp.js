@@ -79,7 +79,7 @@ export default function SignUp({ navigation }) {
       setInfo("Success: Phone authentication successful"); // if OK, set the message
 
       //Navigate to main window
-      navigation.navigate("MainApp", { screen: "History" });
+      navigation.navigate("MainApp", { screen: "Main" });
     } catch (error) {
       setInfo(`Error : ${error.message}`); // show the error.
     }

@@ -65,7 +65,7 @@ export default function UserLogin({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.spacingContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MainApp',{screen:'History'})}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MainApp',{screen:'Main'})}>
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
         <View style={styles.orContainer}>
