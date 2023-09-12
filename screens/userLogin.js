@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  TextInput,
+} from "react-native";
 
 export default function UserLogin({ navigation }) {
   const [email, setEmail] = useState("");
@@ -24,70 +32,138 @@ export default function UserLogin({ navigation }) {
     setIsFocusedPassword(false);
   };
 
+  const handleEmailInputPress = () => {
+    if (!isFocusedEmail) {
+      handleEmailFocus();
+    }
+  };
+
+  const handlePasswordInputPress = () => {
+    if (!isFocusedPassword) {
+      handlePasswordFocus();
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.item}>
           <Text style={styles.heading}>Login</Text>
-          <Image 
+          <Image
             style={styles.translate}
-            source={require("../assets/images/translate.png")} />
+            source={require("../assets/images/translate.png")}
+          />
         </View>
       </View>
+      <TouchableWithoutFeedback onPress={handleEmailInputPress}>
       <View style={styles.inputField}>
-        <Text style={{ color: isFocusedEmail ? "#049A10" : "#049A1050" }}>Email/Phone number</Text>
+        <View
+          style={[
+            styles.labelContainer,
+            {
+              top: isFocusedEmail || email.length > 0 ? -8 : "50%",
+              transform: [
+                {
+                  translateY: isFocusedEmail || email.length > 0 ? 0 : -10,
+                },
+              ],
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.label,
+              {
+                color: isFocusedEmail ? "#049A10" : "#049A1050",
+                fontSize: isFocusedEmail || email.length > 0 ? 14 : 16,
+              },
+            ]}
+          >
+            Email/Phone number
+          </Text>
+        </View>
         <TextInput
-          style={{height: 50,fontSize: 20}}
-          keyboardType='email-address'
-          autoCapitalize='none'
+          style={{ height: "100%", fontSize: 20, color: "#3f4146" }}
+          keyboardType="email-address"
+          autoCapitalize="none"
           onFocus={handleEmailFocus}
           onBlur={handleEmailBlur}
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
       </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={handlePasswordInputPress}>
       <View style={styles.inputField}>
-        <Text style={{ color: isFocusedPassword ? "#049A10" : "#049A1050" }}>Password</Text>
+        <View
+          style={[
+            styles.labelContainer,
+            {
+              top: isFocusedPassword || password.length > 0 ? -8 : "50%",
+              transform: [
+                {
+                  translateY: isFocusedPassword || password.length > 0 ? 0 : -10,
+                },
+              ],
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.label,
+              {
+                color: isFocusedPassword ? "#049A10" : "#049A1050",
+                fontSize: isFocusedPassword || password.length > 0 ? 14 : 16,
+              },
+            ]}
+          >
+            Password
+          </Text>
+        </View>
         <TextInput
           secureTextEntry={true}
-          style={{height: 50,fontSize: 20}}
+          style={{ height: "100%", fontSize: 20, color: "#3f4146" }}
           onFocus={handlePasswordFocus}
           onBlur={handlePasswordBlur}
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
       </View>
+      </TouchableWithoutFeedback>
       <View style={styles.forgotPasswordContainer}>
         <TouchableOpacity onPress={() => {}}>
-          <Text style={styles.forgotPasswordText}>
-            Forgot Password?
-          </Text>
+          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.spacingContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MainApp',{screen:'History'})}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate("MainApp", { screen: "History" })
+          }
+        >
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
         <View style={styles.orContainer}>
           <View style={styles.line}></View>
-            <Text style={styles.orText}>OR</Text>
+          <Text style={styles.orText}>OR</Text>
           <View style={styles.line}></View>
         </View>
+        <TouchableOpacity onPress={() => navigation.navigate()}>
         <View style={styles.googleContainer}>
           <Image
             style={styles.googleIcon}
             source={require("../assets/images/googleIcon.png")}
           />
           <View style={styles.googleTextContainer}>
-            <TouchableOpacity onPress={() => navigation.navigate()}>
               <Text style={styles.googleText}>Log in with Google</Text>
-            </TouchableOpacity>
           </View>
         </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.dontHaveAccountContainer}>
         <Text style={styles.dontHaveAccountText}>Don't have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
           <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -105,7 +181,7 @@ const styles = StyleSheet.create({
   header: {
     width: "100%",
     height: "45%",
-    paddingTop: "4%",
+    paddingTop: "8%",
     paddingHorizontal: "4%",
   },
 
@@ -116,9 +192,9 @@ const styles = StyleSheet.create({
   },
 
   heading: {
-    fontSize: 52,
+    fontSize: 64,
     color: "#049A10",
-    fontFamily: "Poppins_700Bold",
+    fontFamily: "Poppins_900Black",
   },
 
   translate: {
@@ -127,20 +203,20 @@ const styles = StyleSheet.create({
   },
 
   forgotPasswordContainer: {
-    width: '80%',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+    width: "80%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
     marginBottom: 12,
   },
 
   forgotPasswordText: {
-    color: '#587DBD',
-    fontFamily: 'Poppins_600SemiBold',
+    color: "#587DBD",
+    fontFamily: "Poppins_600SemiBold",
   },
 
   spacingContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: "column",
+    alignItems: "center",
     marginVertical: 12,
   },
 
@@ -160,19 +236,19 @@ const styles = StyleSheet.create({
   },
 
   orContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: "4%",
     marginBottom: "4%",
   },
-  
+
   line: {
-    width: 50, // Adjust the width of the lines
+    width: 50,
     height: 1,
-    backgroundColor: '#3F3D56',
-    marginHorizontal: "2%", // Add some spacing between the lines and the text
+    backgroundColor: "#3F3D56",
+    marginHorizontal: "2%",
   },
-  
+
   orText: {
     marginHorizontal: 10,
     fontSize: 16,
@@ -181,9 +257,9 @@ const styles = StyleSheet.create({
   },
 
   googleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   googleIcon: {
@@ -193,8 +269,8 @@ const styles = StyleSheet.create({
   },
 
   googleTextContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: "column",
+    alignItems: "center",
   },
 
   googleText: {
@@ -204,8 +280,8 @@ const styles = StyleSheet.create({
 
   dontHaveAccountContainer: {
     marginTop: "4%",
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
   },
 
   dontHaveAccountText: {
@@ -218,15 +294,30 @@ const styles = StyleSheet.create({
   },
 
   inputField: {
-    width: '80%',
+    width: "80%",
     height: 75,
-    borderColor: '#049A10',
+    borderColor: "#049A10",
     borderWidth: 1,
     borderRadius: 30,
     paddingHorizontal: 15,
     marginBottom: 12,
     fontSize: 16,
-    fontFamily: 'Poppins_400Regular',
+    fontFamily: "Poppins_400Regular",
+    position: "relative",
   },
-  });
-  
+
+  labelContainer: {
+    position: "absolute",
+    top: -8,
+    left: 15,
+    zIndex: 1,
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 10,
+  },
+
+  label: {
+    fontSize: 14,
+    color: "#049A1050",
+    fontFamily: "Poppins_400Regular",
+  },
+});

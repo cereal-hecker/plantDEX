@@ -87,12 +87,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
+    marginTop: "10%",
     fontSize: 48,
     fontFamily: "Poppins_700Bold",
     color: "#049A10",
   },
   content: {
-    textAlign: "center",
+    textAlign: "left",
     paddingTop: 10,
     fontSize: 24,
     fontFamily: "Poppins_500Medium",
