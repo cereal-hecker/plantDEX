@@ -27,8 +27,6 @@ const HistoryCard = () => {
       },
       image: {
         flex: 1,
-        height: undefined,
-        width: undefined,
         resizeMode: 'cover',
         borderTopLeftRadius: 8,
         borderBottomLeftRadius: 8,
