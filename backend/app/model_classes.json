@@ -35,11 +35,11 @@
       "8": "Tomato___Tomato_mosaic_virus",
       "9": "Tomato___healthy"
     } , 
-    "Apple":{
-      "0" : "" , 
-      "1" : "" ,
-      "2" : "" , 
-      "3" : ""
+    "Apple" : {
+      "0" : "Apple Scald" , 
+      "1" : "Black Rot" , 
+      "2" : "Cedar Apple Rust" , 
+      "3" : "Healthy"
     }
   }
   
