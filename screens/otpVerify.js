@@ -37,7 +37,7 @@ export default function OtpVerify({ navigation }) {
             </View>
             <View style={styles.reenterContainer}>
               <Text style={styles.altText}>Wrong phone number?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Welcome')}>
                 <Text style={styles.Text}>Re-enter</Text>
               </TouchableOpacity>
             </View>
