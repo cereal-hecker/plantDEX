@@ -3,6 +3,8 @@ import { Text, Image, View, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as File from "expo-file-system";
+import DropdownMenu from "../components/dropdown";
+import options from "../assets/data/models";
 
 export default function UploadImage({ navigation }) {
   const [image, setImage] = useState(null);
@@ -71,11 +73,18 @@ export default function UploadImage({ navigation }) {
     }
   };
 
+  const handleSelect = (selectedOption) => {
+    console.log('Selected:', selectedOption);
+  };
+
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.header}>UPLOAD</Text>
         <Text style={styles.imgorvid}>IMAGE OR VIDEO</Text>
+      </View>
+      <View style={styles.dropdown} >
+        <DropdownMenu options={options} onSelect={handleSelect} />
       </View>
       <TouchableOpacity style={styles.uploadArea} onPress={pickImage}>
         {image ? (
@@ -205,5 +214,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Poppins_700Bold",
     color: "#3F3D56",
+  },
+  dropdown: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+    zIndex: 1,
   },
 });
