@@ -86,11 +86,13 @@ export default function UserSignup({
 
       {!verificationId && (
         <View>
-        <View>
-          <TextInput placeholder="Phone Number" value = {phone} onChangeText = {text => setPhone(text)} autoCapitalize = 'none'/>
+        <View style={styles.inputField}>
+        <Text style={styles.inputHeader}>Phone number</Text>
+          <TextInput value = {phone} onChangeText = {text => setPhone(text)} autoCapitalize = 'none'/>
         </View>
-        <View>
-          <TextInput placeholder="Re-enter Phone Number" value = {rephone} onChangeText = {text => setRephone(text)} autoCapitalize = 'none'/>
+        <View style={styles.inputField}>
+        <Text style={styles.inputHeader} >Re-enter Phone Number</Text>
+          <TextInput value = {rephone} onChangeText = {text => setRephone(text)} autoCapitalize = 'none'/>
         </View>
         <TouchableOpacity style={styles.button} onPress={() => {
           if(phone == rephone){
@@ -144,13 +146,14 @@ const styles = StyleSheet.create({
       backgroundColor: "#049A10",
       padding: 10,
       borderRadius: 20,
-      width: "70%",
+      width: 150,
       height: 50,
       alignItems: "center",
+      textAlign: 'center',
     },
     buttonText: {
       textAlign: "center",
-      color: "white", // Change sign up button text color to white
+      color: "white",
       fontSize: 20,
     },
     loginImage: {
@@ -165,16 +168,19 @@ const styles = StyleSheet.create({
       paddingHorizontal: 30,
     },
     inputField: {
-      width: '80%',
       height: 75,
+      width: 300,
       borderColor: '#049A10',
       borderWidth: 1,
       borderRadius: 30,
       paddingHorizontal: 15,
+      paddingTop: 10,  
       marginBottom: 12,
       fontSize: 16,
       fontFamily: 'Poppins_400Regular',
     },
-    
+    inputHeader: {
+      color: "#049A10",
+    }
   });
   

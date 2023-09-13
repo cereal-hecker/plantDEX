@@ -1,7 +1,7 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import History from './history'
+import Main from './main'
 import Forum from './forum'
 import UploadImage from './uploadImage'
 import Solution from './solution'
@@ -14,11 +14,11 @@ const TabNavigator = () => {
     <Tab.Navigator screenOptions={{
         headerShown: false,
       }}>
-      <Tab.Screen name="Home" component={History} />
+      <Tab.Screen name="Main" component={Main} />
       <Tab.Screen name="Forum" component={Forum} />
       <Tab.Screen name="UploadImage" component={UploadImage} />
       <Tab.Screen name="Solution" component={Solution} />
-      {/* <Tab.Screen name="Home" component={History} /> */}
+      <Tab.Screen name="History" component={History} />
     </Tab.Navigator>
   )
 }

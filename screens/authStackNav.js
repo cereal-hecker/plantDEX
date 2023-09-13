@@ -5,8 +5,6 @@ import Login from "./login";
 import UserLogin from "./userLogin";
 import SignUp from "./signUp";
 import OtpVerify from "./otpVerify";
-// import UserSignup from "./userSignUp";
-// import ExpertSignup from "./expertSignUp";
 import UploadImage from './uploadImage';  
 import Forum from './forum';
 const Stack = createStackNavigator();
@@ -23,6 +21,7 @@ export default function AuthStack() {
         <Stack.Screen name="UserLogin" component={UserLogin} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="OtpVerify" component={OtpVerify} />
+        <Stack.Screen name="Main" component={Main} />
       </Stack.Navigator>
   );
 }
