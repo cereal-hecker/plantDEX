@@ -2,50 +2,74 @@ import React, { useState } from "react";
 import { Text, Image, View, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import * as File from "expo-file-system";
 
 export default function UploadImage({ navigation }) {
   const [image, setImage] = useState(null);
 
+  const handleUpload = async () => {
+    // DON'T TOUCH THIS
+    const actual = await File.readAsStringAsync(image, {
+      encoding: File.EncodingType.Base64,
+    });
+    const url = "https://plant-dex-9e9e8.el.r.appspot.com/predict";
+    const RN = JSON.stringify({ actual });
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+
+    const response = await File.uploadAsync(url, image, {
+      fieldName: "file",
+      httpMethod: "POST",
+      uploadType: File.FileSystemUploadType.MULTIPART,
+    });
+
+    console.log(response);
+
+    // DON'T TOUCH THIS
+
+    navigation.navigate("Solution");
+  };
+
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  
-    if (status !== 'granted') {
-      alert('Permission to access media library is required!');
+
+    if (status !== "granted") {
+      alert("Permission to access media library is required!");
       return;
     }
-  
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-  
+
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
-  
+
   const takePhoto = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
-  
-    if (status !== 'granted') {
-      alert('Permission to access the camera is required!');
+
+    if (status !== "granted") {
+      alert("Permission to access the camera is required!");
       return;
     }
-  
+
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-  
+
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
-  
 
   return (
     <View style={styles.container}>
@@ -58,27 +82,29 @@ export default function UploadImage({ navigation }) {
           <Image source={{ uri: image }} style={{ width: 335, height: 335 }} />
         ) : (
           <View style={styles.selectArea}>
-            <Image 
-            style={styles.upload}
-            source={require("../assets/images/upload.png")} />
+            <Image
+              style={styles.upload}
+              source={require("../assets/images/upload.png")}
+            />
             <Text style={styles.select}>Select File</Text>
           </View>
         )}
       </TouchableOpacity>
       <View style={styles.orContainer}>
-          <View style={styles.line}></View>
-            <Text style={styles.orText}>OR</Text>
-          <View style={styles.line}></View>
-        </View>
+        <View style={styles.line}></View>
+        <Text style={styles.orText}>OR</Text>
+        <View style={styles.line}></View>
+      </View>
       <TouchableOpacity style={styles.camButton} onPress={takePhoto}>
         <View style={styles.camView}>
-          <Image 
-          style={styles.cam}
-          source={require("../assets/images/cam.png")} />
+          <Image
+            style={styles.cam}
+            source={require("../assets/images/cam.png")}
+          />
           <Text style={styles.camText}>Take a photo</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate('Forum')}>
+      <TouchableOpacity style={styles.continue} onPress={handleUpload}>
         <Text style={styles.continueText}>Continue</Text>
       </TouchableOpacity>
     </View>
@@ -135,7 +161,7 @@ const styles = StyleSheet.create({
   camButton: {
     backgroundColor: "#4fb858",
     alignItems: "center",
-    justifyContent: "center", 
+    justifyContent: "center",
     borderRadius: 40,
     width: 280,
     marginTop: 10,
@@ -165,15 +191,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   orContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   line: {
-    width: 50, 
+    width: 50,
     height: 1,
-    backgroundColor: '#3F3D56',
+    backgroundColor: "#3F3D56",
     marginHorizontal: "2%",
-  },  
+  },
   orText: {
     marginHorizontal: 10,
     fontSize: 16,

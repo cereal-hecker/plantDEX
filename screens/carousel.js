@@ -36,10 +36,7 @@ export default function SplashCarousel({ navigation }) {
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Image
-        style={[styles.image, { width: item.width, height: item.height }]}
-        source={item.image}
-      />
+      <Image style={[styles.image, { width: item.width, height: item.height }]} source={item.image} />
       <View style={styles.textContainer}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.content}>{item.content}</Text>
@@ -62,7 +59,7 @@ export default function SplashCarousel({ navigation }) {
         source={require("../assets/images/logo.png")}
       />
       <Carousel
-        autoplay
+        ref={carouselRef}
         data={DATA}
         renderItem={renderItem}
         sliderWidth={Dimensions.get("window").width}
