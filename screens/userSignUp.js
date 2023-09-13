@@ -20,59 +20,8 @@ export default function UserSignup({
   setInfo,
   handleSendVerificationCode,
   handleVerifyVerificationCode,
-}){
-  /*
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isFocusedEmail, setIsFocusedEmail] = useState(false);
-  const [isFocusedPassword, setIsFocusedPassword] = useState(false);
-
-  const handleInput1Focus = () => {
-    setIsFocusedEmail(true);
-  };
-
-  const handleInput1Blur = () => {
-    setIsFocusedEmail(false);
-  };
-
-  const handleInput2Focus = () => {
-    setIsFocusedPassword(true);
-  };
-
-  const handleInput2Blur = () => {
-    setIsFocusedPassword(false);
-  };
-
-    return (
-      <View style={styles.container}>
-          <View style={styles.inputField}>
-        <Text style={{ color: isFocusedPassword ? "#049A10" : "#049A1050" }}>Phone number</Text>
-        <TextInput
-          style={{height: 50,fontSize: 20}}
-          keyboardType='name-phone-pad'
-          autoCapitalize='none'
-          onFocus={handleInput1Focus}
-          onBlur={handleInput1Blur}
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-      </View>
-      <View style={styles.inputField}>
-        <Text style={{ color: isFocusedPassword ? "#049A10" : "#049A1050" }}>Re enter phone number</Text>
-        <TextInput
-          style={{height: 50,fontSize: 20}}
-          onFocus={handleInput2Focus}
-          onBlur={handleInput2Blur}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-        />
-      </View>
-          <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Text style={styles.buttonText}>Sign up</Text>
-          </TouchableOpacity>
-      </View>
-    );*/
-
+})
+{
   return (
     <View style={styles.container}>
       <FirebaseRecaptchaVerifierModal 

@@ -7,6 +7,8 @@ import SignUp from "./signUp";
 import OtpVerify from "./otpVerify";
 import UploadImage from './uploadImage';  
 import Forum from './forum';
+import UserSwitch from './userSwitch';
+
 const Stack = createStackNavigator();
 
 export default function AuthStack() {
@@ -18,10 +20,10 @@ export default function AuthStack() {
       >
         <Stack.Screen name="SplashCarousel" component={SplashCarousel} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="UserSwitch" component={UserSwitch} />
         <Stack.Screen name="UserLogin" component={UserLogin} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="OtpVerify" component={OtpVerify} />
-        <Stack.Screen name="Main" component={Main} />
       </Stack.Navigator>
   );
 }
