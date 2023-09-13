@@ -74,6 +74,8 @@ export default function UploadImage({ navigation }) {
 
   const handleSelect = (selectedOption) => {
     console.log('Selected:', selectedOption);
+    setCrop(selectedOption.value);
+    console.log(crop);
   };
 
   return (
