@@ -1,184 +1,319 @@
-import { View,Text,StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
-import React, { useState,useRef } from "react";
-import {auth, firebaseConfig} from "./firebase"
-import {FirebaseRecaptchaVerifierModal,FirebaseRecaptchaBanner} from 'expo-firebase-recaptcha';
-import {PhoneAuthProvider,signInWithCredential} from 'firebase/auth';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  TextInput,
+} from "react-native";
 
-export default function UserLogin({
-  recaptchaVerifier,
-  phone,
-  setPhone,
-  rephone,
-  setRephone,
-  verificationId,
-  setVerificationID,
-  verificationCode,
-  setVerificationCode,
-  attemptInvisibleVerification,
-  info,
-  setInfo,
-  handleSendVerificationCode,
-  handleVerifyVerificationCode,
-}){
-  /*
+export default function UserLogin({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFocusedEmail, setIsFocusedEmail] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
 
-  const handleInput1Focus = () => {
+  const handleEmailFocus = () => {
     setIsFocusedEmail(true);
   };
 
-  const handleInput1Blur = () => {
+  const handleEmailBlur = () => {
     setIsFocusedEmail(false);
   };
 
-  const handleInput2Focus = () => {
+  const handlePasswordFocus = () => {
     setIsFocusedPassword(true);
   };
 
-  const handleInput2Blur = () => {
+  const handlePasswordBlur = () => {
     setIsFocusedPassword(false);
   };
 
-    return (
-      <View style={styles.container}>
-          <View style={styles.inputField}>
-        <Text style={{ color: isFocusedPassword ? "#049A10" : "#049A1050" }}>Phone number</Text>
+  const handleEmailInputPress = () => {
+    if (!isFocusedEmail) {
+      handleEmailFocus();
+    }
+  };
+
+  const handlePasswordInputPress = () => {
+    if (!isFocusedPassword) {
+      handlePasswordFocus();
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.item}>
+          <Text style={styles.heading}>Login</Text>
+          <Image
+            style={styles.translate}
+            source={require("../assets/images/translate.png")}
+          />
+        </View>
+      </View>
+      <TouchableWithoutFeedback onPress={handleEmailInputPress}>
+      <View style={styles.inputField}>
+        <View
+          style={[
+            styles.labelContainer,
+            {
+              top: isFocusedEmail || email.length > 0 ? -8 : "50%",
+              transform: [
+                {
+                  translateY: isFocusedEmail || email.length > 0 ? 0 : -10,
+                },
+              ],
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.label,
+              {
+                color: isFocusedEmail ? "#049A10" : "#049A1050",
+                fontSize: isFocusedEmail || email.length > 0 ? 14 : 16,
+              },
+            ]}
+          >
+            Email/Phone number
+          </Text>
+        </View>
         <TextInput
-          style={{height: 50,fontSize: 20}}
-          keyboardType='name-phone-pad'
-          autoCapitalize='none'
-          onFocus={handleInput1Focus}
-          onBlur={handleInput1Blur}
+          style={{ height: "100%", fontSize: 20, color: "#3f4146" }}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          onFocus={handleEmailFocus}
+          onBlur={handleEmailBlur}
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
       </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={handlePasswordInputPress}>
       <View style={styles.inputField}>
-        <Text style={{ color: isFocusedPassword ? "#049A10" : "#049A1050" }}>Re enter phone number</Text>
+        <View
+          style={[
+            styles.labelContainer,
+            {
+              top: isFocusedPassword || password.length > 0 ? -8 : "50%",
+              transform: [
+                {
+                  translateY: isFocusedPassword || password.length > 0 ? 0 : -10,
+                },
+              ],
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.label,
+              {
+                color: isFocusedPassword ? "#049A10" : "#049A1050",
+                fontSize: isFocusedPassword || password.length > 0 ? 14 : 16,
+              },
+            ]}
+          >
+            Password
+          </Text>
+        </View>
         <TextInput
-          style={{height: 50,fontSize: 20}}
-          onFocus={handleInput2Focus}
-          onBlur={handleInput2Blur}
+          secureTextEntry={true}
+          style={{ height: "100%", fontSize: 20, color: "#3f4146" }}
+          onFocus={handlePasswordFocus}
+          onBlur={handlePasswordBlur}
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
       </View>
-          <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Text style={styles.buttonText}>Sign up</Text>
-          </TouchableOpacity>
+      </TouchableWithoutFeedback>
+      <View style={styles.forgotPasswordContainer}>
+        <TouchableOpacity onPress={() => {}}>
+          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        </TouchableOpacity>
       </View>
-    );*/
+      <View style={styles.spacingContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MainApp',{screen:'Main'})}>
 
-  return (
-    <View style={styles.container}>
-      <FirebaseRecaptchaVerifierModal 
-          ref={recaptchaVerifier}
-          firebaseConfig={firebaseConfig}
-      />
-
-      {
-          info && <Text style={styles.text}>{info}</Text>
-      }
-
-      {!verificationId && (
-        <View>
-        <View style={styles.inputField}>
-        <Text style={styles.inputHeader}>Phone number</Text>
-          <TextInput value = {phone} onChangeText = {text => setPhone(text)} autoCapitalize = 'none'/>
-        </View>
-        <TouchableOpacity style={styles.button} onPress={() => {
-          if(phone == rephone){
-            handleSendVerificationCode()
-          }else{
-            alert("Phone numbers don't match.");
-          }
-          console.log("Called");
-        }}>
-        <Text style={styles.buttonText}>Log In</Text>
+          <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
+        <View style={styles.orContainer}>
+          <View style={styles.line}></View>
+          <Text style={styles.orText}>OR</Text>
+          <View style={styles.line}></View>
         </View>
-        )
-      }
-
-      {verificationId && (
-        <View>
-        <View>
-          <TextInput placeholder="Verification Code" value = {verificationCode} onChangeText = {text => setVerificationCode(text)} autoCapitalize = 'none'/>
+        <TouchableOpacity onPress={() => navigation.navigate()}>
+        <View style={styles.googleContainer}>
+          <Image
+            style={styles.googleIcon}
+            source={require("../assets/images/googleIcon.png")}
+          />
+          <View style={styles.googleTextContainer}>
+              <Text style={styles.googleText}>Log in with Google</Text>
+          </View>
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => handleVerifyVerificationCode()}>
-          <Text style={styles.buttonText}>Verify</Text>
         </TouchableOpacity>
-        </View>
-        )
-      }
-        
-      {attemptInvisibleVerification && <FirebaseRecaptchaBanner/>}
-    </View>
+      </View>
+      <View style={styles.dontHaveAccountContainer}>
+        <Text style={styles.dontHaveAccountText}>Don't have an account? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+          <Text style={styles.signUpText}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      alignItems: "center",
-      // justifyContent: 'center',
-      // flex: 1,
-    },
-    logo: {
-      marginTop: 50,
-    },
-    welcome: {
-      fontSize: 36,
-      color: "#049A10",
-      fontFamily: "Poppins_600SemiBold",
-    },
-    or: {
-      fontSize: 16,
-      marginVertical: 10,
-      fontFamily: "Poppins_900Black",
-    },
-    button: {
-      backgroundColor: "#049A10",
-      padding: 10,
-      borderRadius: 20,
-      width: 150,
-      height: 50,
-      alignItems: "center",
-      textAlign: 'center',
-    },
-    buttonText: {
-      textAlign: "center",
-      color: "white",
-      fontSize: 20,
-    },
-    loginImage: {
-      marginTop: 40,
-      marginBottom: 70,
-    },
-    header: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      width: "100%",
-      paddingHorizontal: 30,
-    },
-    inputField: {
-      height: 75,
-      width: 300,
-      borderColor: '#049A10',
-      borderWidth: 1,
-      borderRadius: 30,
-      paddingHorizontal: 15,
-      paddingTop: 10,  
-      marginBottom: 12,
-      fontSize: 16,
-      fontFamily: 'Poppins_400Regular',
-    },
-    inputHeader: {
-      color: "#049A10",
-    }
-  });
-  
+  container: {
+    alignItems: "center",
+    height: "100%",
+    width: "100%",
+  },
+
+  header: {
+    width: "100%",
+    height: "45%",
+    paddingTop: "8%",
+    paddingHorizontal: "4%",
+  },
+
+  item: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  heading: {
+    fontSize: 64,
+    color: "#049A10",
+    fontFamily: "Poppins_900Black",
+  },
+
+  translate: {
+    width: 40,
+    height: 40,
+  },
+
+  forgotPasswordContainer: {
+    width: "80%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginBottom: 12,
+  },
+
+  forgotPasswordText: {
+    color: "#587DBD",
+    fontFamily: "Poppins_600SemiBold",
+  },
+
+  spacingContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    marginVertical: 12,
+  },
+
+  button: {
+    backgroundColor: "#049A10",
+    padding: 10,
+    borderRadius: 20,
+    width: 240,
+    height: 50,
+    alignItems: "center",
+  },
+
+  buttonText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 20,
+  },
+
+  orContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: "4%",
+    marginBottom: "4%",
+  },
+
+  line: {
+    width: 50,
+    height: 1,
+    backgroundColor: "#3F3D56",
+    marginHorizontal: "2%",
+  },
+
+  orText: {
+    marginHorizontal: 10,
+    fontSize: 16,
+    fontFamily: "Poppins_700Bold",
+    color: "#3F3D56",
+  },
+
+  googleContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  googleIcon: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+
+  googleTextContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
+
+  googleText: {
+    fontSize: 20,
+    fontFamily: "Poppins_500Medium",
+  },
+
+  dontHaveAccountContainer: {
+    marginTop: "4%",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+
+  dontHaveAccountText: {
+    fontFamily: "Poppins_600SemiBold",
+  },
+
+  signUpText: {
+    color: "#587DBD",
+    fontFamily: "Poppins_700Bold",
+  },
+
+  inputField: {
+    width: "80%",
+    height: 75,
+    borderColor: "#049A10",
+    borderWidth: 1,
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    marginBottom: 12,
+    fontSize: 16,
+    fontFamily: "Poppins_400Regular",
+    position: "relative",
+  },
+
+  labelContainer: {
+    position: "absolute",
+    top: -8,
+    left: 15,
+    zIndex: 1,
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 10,
+  },
+
+  label: {
+    fontSize: 14,
+    color: "#049A1050",
+    fontFamily: "Poppins_400Regular",
+  },
+});
