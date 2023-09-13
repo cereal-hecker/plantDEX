@@ -8,17 +8,14 @@ import options from "../assets/data/models";
 
 export default function UploadImage({ navigation }) {
   const [image, setImage] = useState(null);
+  const [crop, setCrop] = useState("Wheat");
 
   const handleUpload = async () => {
     // DON'T TOUCH THIS
     const actual = await File.readAsStringAsync(image, {
       encoding: File.EncodingType.Base64,
     });
-    const url = "https://plant-dex-9e9e8.el.r.appspot.com/predict";
-    const RN = JSON.stringify({ actual });
-    const headers = {
-      "Content-Type": "multipart/form-data",
-    };
+    const url = `https://plant-dex-9e9e8.el.r.appspot.com/${crop}/predict`;
 
     const response = await File.uploadAsync(url, image, {
       fieldName: "file",
@@ -26,11 +23,13 @@ export default function UploadImage({ navigation }) {
       uploadType: File.FileSystemUploadType.MULTIPART,
     });
 
-    console.log(response);
+    var obj = JSON.parse(response.body);
+    console.log(obj);
+    obj["name"] = crop
 
     // DON'T TOUCH THIS
 
-    navigation.navigate("Solution");
+    navigation.navigate("Solution", { obj });
   };
 
   const pickImage = async () => {

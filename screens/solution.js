@@ -1,13 +1,23 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import names from "../assets/data/model_classes.json";
 
-export default function Solution() {
+export default function Solution({route, navigation}) {
+  const data = route.params.obj;
+  var diseaseName = "";
+  for(let c in names[data.name][data.class_id]){
+    if (names[data.name][data.class_id][c] != '_')
+      diseaseName += names[data.name][data.class_id][c];
+    else
+      diseaseName += ' ';
+  }
+  console.log(route);
   return (
     <View style={styles.container}>
       <View style={styles.card1}>
         <Text style={styles.title}>DISEASE</Text>
         <Text style={styles.name}>NAME</Text>
-        <Text style={styles.info}>INFO</Text>
+        <Text style={styles.info}>{diseaseName}</Text>
       </View>
       <View style={styles.card2}>
         <Text style={styles.title}>SOLUTION</Text>
