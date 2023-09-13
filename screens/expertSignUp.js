@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inputField: {
-    width: 300,
+    width: "80%",
     height: 75,
     borderColor: "#049A10",
     borderWidth: 1,

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b8e4da9e82628890eff1ac1410ccd22999b3a72a51aed0078136c981d2bf7c1f"
+            "sha256": "e7a75dd6067413603a518ce83f26c2e12126a36bdf3471aec2c00b924bd75ca5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -642,11 +642,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:00478ca80aeebeecb2f288d3206b0de568df5cd2b8fada1209843cc9a8d88a48",
-                "sha256:af3d5949030c3f493f550876b2fd1dd5ec66689c4ee5d5344f009746f71fd5a8"
+                "sha256:4ac1475276d2f1c48684874089fefcd83bd7162ddaafb81fac866ba0db282a87",
+                "sha256:b454a35605876da60632df1a60f736524eb73cc47bbc9f3f1ef1b644de74fd2a"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==68.2.0"
+            "version": "==68.2.2"
         },
         "six": {
             "hashes": [
@@ -728,7 +728,7 @@
                 "sha256:b0cea604f50a032dc426d7a6a91dc53a9df001cfa94fc814972e9d4cf062d31b",
                 "sha256:d9571357a39cc8cdecfd22e67dfdcebf840be67a88a8c7464bd3b9b3e0aad446"
             ],
-            "index": "pypi",
+            "markers": "platform_system == 'Darwin' and platform_machine == 'arm64'",
             "version": "==2.13.0"
         },
         "termcolor": {
