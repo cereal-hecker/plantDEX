@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: "center",
-    color: "white", // Change sign up button text color to white
+    color: "white",
     fontSize: 20,
   },
   loginImage: {
