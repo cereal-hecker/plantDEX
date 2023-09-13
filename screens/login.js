@@ -1,54 +1,213 @@
-import React from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+import ExpertLogin from "./expertLogin";
+import UserLogin from "./userLogin";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useState, useRef } from "react";
+import { auth, firebaseConfig } from "./firebase";
+import {
+  FirebaseRecaptchaVerifierModal,
+  FirebaseRecaptchaBanner,
+} from "expo-firebase-recaptcha";
+import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
+  const [isUserActive, setUserActive] = useState(true);
+  const [isExpertActive, setExpertActive] = useState(false);
+
+  const [isExpert, setExpert] = useState(false);
+
+  // for exper sign up
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [repass, setRepass] = useState("");
+
+  const handleSignUp = () => {
+    if (pass == repass) {
+      createUserWithEmailAndPassword(auth, email, pass)
+        .then((userCreds) => {
+          const user = userCreds.user;
+          console.log(user.email);
+
+          navigation.navigate("MainApp", { screen: "History" });
+        })
+        .catch((error) => alert(error.message));
+    } else {
+      alert("Passwords don't match.");
+    }
+  };
+  // for user sign up
+
+  const recaptchaVerifier = useRef(null);
+
+  const [phone, setPhone] = useState("");
+  const [rephone, setRephone] = useState("");
+
+  const [verificationId, setVerificationID] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
+  const attemptInvisibleVerification = true;
+  const [info, setInfo] = useState("");
+
+  const handleSendVerificationCode = async () => {
+    try {
+      const phoneProvider = new PhoneAuthProvider(auth); // initialize the phone provider.
+      const verificationId = await phoneProvider.verifyPhoneNumber(
+        `+91 ${phone}`,
+        recaptchaVerifier.current
+      ); // get the verification id
+      setVerificationID(verificationId); // set the verification id
+      setInfo("Success : Verification code has been sent to your phone"); // If Ok, show message.
+    } catch (error) {
+      setInfo(`Error : ${error.message}`); // show the error
+    }
+  };
+
+  const handleVerifyVerificationCode = async () => {
+    try {
+      const credential = PhoneAuthProvider.credential(
+        verificationId,
+        verificationCode
+      ); // get the credential
+      await signInWithCredential(auth, credential); // verify the credential
+      setInfo("Success: Phone authentication successful"); // if OK, set the message
+
+      //Navigate to main window
+      navigation.navigate("MainApp", { screen: "Main" });
+    } catch (error) {
+      setInfo(`Error : ${error.message}`); // show the error.
+    }
+  };
+
+  const userSignupProps = {
+    recaptchaVerifier,
+    phone,
+    setPhone,
+    rephone,
+    setRephone,
+    verificationId,
+    setVerificationID,
+    verificationCode,
+    setVerificationCode,
+    attemptInvisibleVerification,
+    info,
+    setInfo,
+    handleSendVerificationCode,
+    handleVerifyVerificationCode,
+  };
+
   return (
-    <View style={styles.container}>
-    <View style={styles.header}>
-    <Image
-        style={styles.logo}
-        source={require("../assets/images/logo.png")}
-      />
-      <Image 
-      style={styles.translate}
-      source={require("../assets/images/translate.png")}/>
-    </View>
-      <View style={styles.loginImage}>
-        <Text style={styles.welcome}>Welcome!</Text>
-        <Image source={require("../assets/images/login.png")} />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.heading}>Log In</Text>
+        <Image source={require("../assets/images/translate.png")} />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('UserLogin')}>
-        <Text style={styles.buttonText}>Log In</Text>
-      </TouchableOpacity>
-      <View style={styles.orContainer}>
-          <View style={styles.line}></View>
-            <Text style={styles.orText}>OR</Text>
-          <View style={styles.line}></View>
+      <View style={styles.signup}>
+        <View style={styles.slider}>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              isUserActive ? styles.activeButton : null,
+              !isUserActive ? styles.inactiveButton : null, // Add this condition
+            ]}
+            onPress={() => {
+              setExpert(false);
+              setUserActive(true); // Set User as active
+              setExpertActive(false); // Set Expert as not active
+            }}
+          >
+            <Text
+              style={[
+                styles.butt,
+                isUserActive ? styles.activeButtonText : null,
+                !isUserActive ? styles.inactiveButtonText : null, // Add this condition
+              ]}
+            >
+              User
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              isExpertActive ? styles.activeButton : null,
+              !isExpertActive ? styles.inactiveButton : null, // Add this condition
+            ]}
+            onPress={() => {
+              setExpert(true);
+              setUserActive(false); // Set User as not active
+              setExpertActive(true); // Set Expert as active
+            }}
+          >
+            <Text
+              style={[
+                styles.butt,
+                isExpertActive ? styles.activeButtonText : null,
+                !isExpertActive ? styles.inactiveButtonText : null, // Add this condition
+              ]}
+            >
+              Expert
+            </Text>
+          </TouchableOpacity>
         </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
-    </View>
-  );  
+        <View>
+          {isExpert ? (
+            <ExpertLogin
+              handleSignup={handleSignUp}
+              email={email}
+              setEmail={setEmail}
+              pass={pass}
+              setPass={setPass}
+              repass={repass}
+              setRepass={setRepass}
+            />
+          ) : (
+            <UserLogin {...userSignupProps} />
+          )}
+        </View>
+
+        <View style={styles.dontHaveAccountContainer}>
+          <Text style={styles.dontHaveAccountText}>Don't have an account?</Text>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    justifyContent: "center",
+    // flex: 1
+  },
+  signup: {
+    // height: '100%',
+    alignItems: "center",
+    justifyContent: "center",
   },
   logo: {
-    width: 135,
-    height: 85,
     marginTop: 50,
   },
-  translate: {
-    width: 40,
-    height: 40,
-  },
-  welcome: {
-    fontSize: 36,
+  heading: {
+    fontSize: 50,
     color: "#049A10",
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Poppins_900Black",
+  },
+  slider: {
+    backgroundColor: "#034A0A", // Dark green background for the entire slider
+    alignItems: "center", // Align buttons in the center horizontally
+    height: 50,
+    flexDirection: "row",
+    justifyContent: "center",
+    borderRadius: 40,
+    marginBottom: 15,
+    width: "80%",
+    alignSelf: "center",
   },
   or: {
     fontSize: 16,
@@ -56,21 +215,29 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
   },
   button: {
-    backgroundColor: "#049A10",
-    padding: 10,
-    borderRadius: 20,
-    width: "70%",
+    borderRadius: 40,
+    width: "50%",
     height: 50,
     alignItems: "center",
+    justifyContent: "center", // Center text vertically
   },
-  buttonText: {
+
+  butt: {
     textAlign: "center",
-    color: "white", // Change sign up button text color to white
     fontSize: 20,
+    alignSelf: "center", // Center text vertically
   },
-  loginImage: {
-    marginTop: 40,
-    marginBottom: 70,
+  activeButton: {
+    backgroundColor: "#049A10", // Light green background for active button
+  },
+  activeButtonText: {
+    color: "#FFFFFF", // White text color for active button
+  },
+  inactiveButton: {
+    backgroundColor: "#034A0A", // Dark green background for inactive button
+  },
+  inactiveButtonText: {
+    color: "#FFFFFF", // White text color for inactive button
   },
   header: {
     flexDirection: "row",
@@ -78,22 +245,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 30,
+    paddingBottom: 120,
   },
-  orContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: "2%",
-  },
-  line: {
-    width: 50, 
-    height: 1,
-    backgroundColor: '#3F3D56',
-    marginHorizontal: "2%",
-  },  
-  orText: {
-    marginHorizontal: 10,
-    fontSize: 16,
+  loginText: {
+    color: "#587DBD",
     fontFamily: "Poppins_700Bold",
-    color: "#3F3D56",
+  },
+  dontHaveAccountContainer: {
+    marginTop: "4%",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  dontHaveAccountText: {
+    fontFamily: "Poppins_600SemiBold",
+  },
+  signUpText: {
+    color: "#587DBD",
+    fontFamily: "Poppins_700Bold",
   },
 });

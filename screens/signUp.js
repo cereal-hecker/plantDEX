@@ -18,7 +18,7 @@ import {
 } from "expo-firebase-recaptcha";
 import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 
-export default function SignUp({ navigation }) {
+export default function Signup({ navigation }) {
   const [isUserActive, setUserActive] = useState(true);
   const [isExpertActive, setExpertActive] = useState(false);
 
@@ -182,11 +182,13 @@ export default function SignUp({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    justifyContent: 'center',
+    // flex: 1
   },
   signup: {
-    marginTop: 40,
-    marginBottom: 70,
-    top: "40%",
+    // height: '100%',
+    alignItems: "center",
+    justifyContent: 'center',
   },
   logo: {
     marginTop: 50,
@@ -194,7 +196,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 50,
     color: "#049A10",
-    fontFamily: "Poppins_700Bold",
+    fontFamily: "Poppins_900Black",
   },
   slider: {
     backgroundColor: "#034A0A", // Dark green background for the entire slider
@@ -213,7 +215,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 40,
     width: "50%",
     height: 50,
     alignItems: "center",
@@ -243,6 +245,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 30,
+    paddingBottom: 120,
   },
   loginText: {
     color: "#587DBD",

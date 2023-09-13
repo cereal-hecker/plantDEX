@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Dimensions,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 
 import splash1 from "../assets/images/splash1.png";
@@ -11,21 +18,21 @@ const DATA = [
     image: splash1,
     title: "Lorem Ipsum",
     content: "lorem le lorem le ipsum la ipsum la ipsum la",
-    width: 280, 
-    height: 280, 
+    width: 280,
+    height: 280,
   },
   {
     image: splash2,
     title: "Lorem Ipsum",
     content: "lorem le lorem le ipsum la ipsum la ipsum la",
-    width: 280, 
+    width: 280,
     height: 280,
   },
   {
     image: splash3,
     title: "Lorem Ipsum",
     content: "lorem le lorem le ipsum la ipsum la ipsum la",
-    width: 350, 
+    width: 350,
     height: 280,
   },
 ];
@@ -35,7 +42,10 @@ export default function SplashCarousel({ navigation }) {
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Image style={[styles.image, { width: item.width, height: item.height }]} source={item.image} />
+      <Image
+        style={[styles.image, { width: item.width, height: item.height }]}
+        source={item.image}
+      />
       <View style={styles.textContainer}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.content}>{item.content}</Text>
@@ -45,10 +55,12 @@ export default function SplashCarousel({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Image 
-      style={styles.logo}
-      source={require("../assets/images/logo.png")} />
+      <Image
+        style={styles.logo}
+        source={require("../assets/images/logo.png")}
+      />
       <Carousel
+        autoplay
         data={DATA}
         renderItem={renderItem}
         sliderWidth={Dimensions.get("window").width}
@@ -65,10 +77,11 @@ export default function SplashCarousel({ navigation }) {
           inactiveDotScale={1}
           dotStyle={styles.dot}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Image 
-             style={{ height: 50, width: 50 }}
-            source={require("../assets/images/arrow.png")} />
+        <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
+          <Image
+            style={{ height: 50, width: 50 }}
+            source={require("../assets/images/arrow.png")}
+          />
         </TouchableOpacity>
       </View>
     </View>

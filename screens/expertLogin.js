@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 
-export default function ExpertSignup({
+export default function ExpertLogin({
   handleSignup,
   email,
   setEmail,
@@ -31,17 +31,8 @@ export default function ExpertSignup({
           onChangeText={(text) => setPass(text)}
         />
       </View>
-      <View style={styles.inputField}>
-        <Text style={styles.inputHeader}>Re-enter Password</Text>
-        <TextInput
-          style={styles.textInput}
-          secureTextEntry={true}
-          value={repass}
-          onChangeText={(text) => setRepass(text)}
-        />
-      </View>
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
-        <Text style={styles.buttonText}>Sign up</Text>
+        <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
     </View>
   );
