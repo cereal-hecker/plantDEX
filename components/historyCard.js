@@ -6,7 +6,7 @@ const HistoryCard = () => {
         <View style={styles.card}>
           <Image source={require("../assets/images/logo.png")} style={styles.image} />
           <View style={styles.textContainer}>
-            <Text style={styles.heading}>Diesease</Text>
+            <Text style={styles.heading}>Disease</Text>
             <Text style={styles.description}>Lorem ipsum loda lasan eidbcwijbxijwdbcihwbdhbs</Text>
           </View>
         </View>
@@ -32,6 +32,7 @@ const HistoryCard = () => {
         borderBottomLeftRadius: 8,
         width: 136,
         height: 81,
+        margin: 5,
       },
       textContainer: {
         flex: 2,

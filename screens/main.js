@@ -1,9 +1,10 @@
 import React from "react";
-import { Image, View, Text, StyleSheet } from "react-native";
+import { Image, View, Text, StyleSheet, ScrollView } from "react-native";
+import History from "./history";
 
 export default function Main({ navigation }) {
   return (
-    <View styles={styles.con}>
+    <ScrollView styles={styles.con}>
       <View style={styles.header}>
         <Image
           style={styles.image}
@@ -23,13 +24,9 @@ export default function Main({ navigation }) {
           style={styles.banner}
           source={require("../assets/images/banner.png")}
         />
-        <Text style={styles.capture}>Start capturing</Text>
-        <Image
-          style={styles.cam}
-          source={require("../assets/images/camera.png")}
-        />
       </View>
-    </View>
+      <History />
+    </ScrollView>
   );
 }
 
