@@ -1,14 +1,19 @@
 import React from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 
-export default function QuestionCard({ username, date, question, answer }) {
+export default function QuestionCard({
+  username,
+  date,
+  question,
+  answer,
+  onCardPress,
+}) {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onCardPress}>
       <View style={styles.profiles}>
         <Image
           style={styles.profilepic}
-          // source={profile}
-          source={require('../assets/images/account.png')}
+          source={require("../assets/images/account.png")}
         />
         <View style={styles.userDetails}>
           <Text style={styles.username}>{username}</Text>
@@ -17,7 +22,7 @@ export default function QuestionCard({ username, date, question, answer }) {
       </View>
       <Text style={styles.question}>{question}</Text>
       <Text style={styles.answer}>{answer}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

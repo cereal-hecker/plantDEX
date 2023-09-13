@@ -1,26 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  StyleSheet,
-  Text,
   View,
-  Image,
+  Text,
   ScrollView,
   TouchableOpacity,
   TextInput,
   Animated,
   Easing,
+  StyleSheet,
+  Image,
 } from "react-native";
-import { SearchBar } from "react-native-elements";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 import QuestionCard from "../components/questionCard";
+import ReplyScreen from "./reply"; // Import the ReplyScreen component
 import questions from "../assets/data/questions";
 
+const Stack = createStackNavigator();
+
 export default function Forum() {
+  const [questionReplies, setQuestionReplies] = useState({});
   const [search, setSearch] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState(questions);
   const [newQuestion, setNewQuestion] = useState("");
   const [isSendButtonVisible, setSendButtonVisible] = useState(false);
-  const rotateValue = useState(new Animated.Value(0))[0];
-  
+  const rotateValue = new Animated.Value(0); // Initialize the animated value
 
   const onChangeSearch = (text) => {
     setSearch(text);
@@ -34,21 +38,21 @@ export default function Forum() {
 
   const toggleSendButton = () => {
     let targetValue = !isSendButtonVisible ? 45 : 0;
-    
+
     Animated.timing(rotateValue, {
       toValue: targetValue,
       duration: 200,
       easing: Easing.linear,
-      useNativeDriver: true,  // Updated to true
+      useNativeDriver: false, // Set useNativeDriver to false
     }).start();
 
     setSendButtonVisible(!isSendButtonVisible);
-};
+  };
 
   const postQuestion = () => {
     const currentDate = new Date().toLocaleDateString();
     const newQuestionData = {
-      id: questions.length + 1,
+      id: filteredQuestions.length + 1, // Use filteredQuestions.length instead of questions.length
       username: "Your Username",
       date: currentDate,
       question: newQuestion,
@@ -61,34 +65,92 @@ export default function Forum() {
 
   const rotate = rotateValue.interpolate({
     inputRange: [0, 45],
-    outputRange: ["0deg", "45deg"],
-});
+    outputRange: ["0deg", "45deg"],
+  });
+
+  const addReplyToQuestion = (questionId, reply) => {
+    setQuestionReplies((prevReplies) => ({
+      ...prevReplies,
+      [questionId]: [...(prevReplies[questionId] || []), reply],
+    }));
+  };
 
   return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator initialRouteName="QuestionList">
+        <Stack.Screen options={{headerShown:false}} name="QuestionList">
+          {(props) => (
+            <QuestionListScreen
+              {...props}
+              questionReplies={questionReplies}
+              search={search}
+              filteredQuestions={filteredQuestions}
+              setSearch={setSearch}
+              onChangeSearch={onChangeSearch}
+              toggleSendButton={toggleSendButton}
+              newQuestion={newQuestion}
+              setNewQuestion={setNewQuestion}
+              isSendButtonVisible={isSendButtonVisible}
+              postQuestion={postQuestion}
+              rotate={rotate}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen options={{headerShown:false}} name="ReplyScreen">
+          {(props) => (
+            <ReplyScreen
+              {...props}
+              questionReplies={questionReplies}
+              addReplyToQuestion={addReplyToQuestion}
+            />
+          )}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function QuestionListScreen({
+  navigation,
+  search,
+  filteredQuestions,
+  setSearch,
+  onChangeSearch,
+  toggleSendButton,
+  newQuestion,
+  setNewQuestion,
+  isSendButtonVisible,
+  postQuestion,
+  rotate,
+}) {
+  return (
+    
     <View style={styles.container}>
       <Text style={styles.header}>FORUM</Text>
       <View style={styles.searchbarContainer}>
-        <SearchBar
+        <TextInput
           onChangeText={onChangeSearch}
           placeholder="Are my potatoes dying?"
           value={search}
-          showCancel
           placeholderTextColor="#F2F2F2"
-          containerStyle={styles.searchbar}
-          inputContainerStyle={styles.inputContainer}
-          inputStyle={styles.inputStyle}
-          searchIcon={{ size: 30, color: "#049A10" }}
+          style={styles.searchbar}
         />
         <ScrollView contentContainerStyle={styles.content}>
-          {filteredQuestions.map((question) => (
-            <QuestionCard
-              key={question.id}
-              username={question.username}
-              date={question.date}
-              question={question.question}
-              answer={question.answer}
-            />
-          ))}
+          {filteredQuestions &&
+            filteredQuestions.map((question) => (
+              <QuestionCard
+                key={question.id}
+                username={question.username}
+                date={question.date}
+                question={question.question}
+                answer={question.answer}
+                onCardPress={() =>
+                  navigation.navigate("ReplyScreen", {
+                    question: question.question,
+                  })
+                }
+              />
+            ))}
           <View style={styles.bottomSpacing} />
         </ScrollView>
       </View>
@@ -120,18 +182,16 @@ export default function Forum() {
             onPress={toggleSendButton}
           >
             <Animated.Image
-    style={[
-      styles.plus,
-      { transform: [{ rotate: rotate }] },
-    ]}
-    source={require("../assets/images/plus.png")}
-/>
+              style={[styles.plus, { transform: [{ rotate: rotate }] }]}
+              source={require("../assets/images/plus.png")}
+            />
           </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -156,10 +216,12 @@ const styles = StyleSheet.create({
     borderBottomColor: "transparent",
     borderTopColor: "transparent",
     borderRadius: 50,
-    width: 362,
+    width: 320,
     height: 50,
     justifyContent: "center",
     marginTop: "-2%",
+    paddingLeft: 20,
+    color: 'white'
   },
   inputContainer: {
     backgroundColor: "transparent",
