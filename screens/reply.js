@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 export default function ReplyScreen({ route, questionReplies, addReplyToQuestion }) {
   const { question } = route.params; // Get the question from the route params
 

@@ -20,49 +20,48 @@ load_dotenv()
 
 const = {
     "Wheat": {
-      "0": "Wheat___Brown_Rust",
-      "1": "Wheat___Healthy",
-      "2": "Wheat___Yellow_Rust"
+        "0": "Wheat___Brown_Rust",
+        "1": "Wheat___Healthy",
+        "2": "Wheat___Yellow_Rust"
     },
     "Rice": {
-      "0": "bacterial_leaf_blight",
-      "1": "brown_spot",
-      "2": "healthy",
-      "3": "leaf_blast",
-      "4": "leaf_scald",
-      "5": "narrow_brown_spot"
+        "0": "bacterial_leaf_blight",
+        "1": "brown_spot",
+        "2": "healthy",
+        "3": "leaf_blast",
+        "4": "leaf_scald",
+        "5": "narrow_brown_spot"
     },
     "Corn": {
-      "0": "Corn___Common_Rust",
-      "1": "Corn___Gray_Leaf_Spot",
-      "2": "Corn___Healthy",
-      "3": "Corn___Leaf_Blight"
+        "0": "Corn___Common_Rust",
+        "1": "Corn___Gray_Leaf_Spot",
+        "2": "Corn___Healthy",
+        "3": "Corn___Leaf_Blight"
     },
     "Potato": {
-      "0": "Potato___Early_Blight",
-      "1": "Potato___Healthy",
-      "2": "Potato___Late_Blight"
+        "0": "Potato___Early_Blight",
+        "1": "Potato___Healthy",
+        "2": "Potato___Late_Blight"
     },
-    "Tomato":{
-      "0": "Tomato___Bacterial_spot",
-      "1": "Tomato___Early_blight",
-      "2": "Tomato___Late_blight",
-      "3": "Tomato___Leaf_Mold",
-      "4": "Tomato___Septoria_leaf_spot",
-      "5": "Tomato___Spider_mitesTwo-spotted_spider_mite",
-      "6": "Tomato___Target_Spot",
-      "7": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
-      "8": "Tomato___Tomato_mosaic_virus",
-      "9": "Tomato___healthy"
-    } , 
-    "Apple" : {
-      "0" : "Apple Scald" , 
-      "1" : "Black Rot" , 
-      "2" : "Cedar Apple Rust" , 
-      "3" : "Healthy"
+    "Tomato": {
+        "0": "Tomato___Bacterial_spot",
+        "1": "Tomato___Early_blight",
+        "2": "Tomato___Late_blight",
+        "3": "Tomato___Leaf_Mold",
+        "4": "Tomato___Septoria_leaf_spot",
+        "5": "Tomato___Spider_mitesTwo-spotted_spider_mite",
+        "6": "Tomato___Target_Spot",
+        "7": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+        "8": "Tomato___Tomato_mosaic_virus",
+        "9": "Tomato___healthy"
+    },
+    "Apple": {
+        "0": "Apple Scald",
+        "1": "Black Rot",
+        "2": "Cedar Apple Rust",
+        "3": "Healthy"
     }
-  }
-  
+}
 
 
 class ChatBot:
@@ -150,16 +149,15 @@ def start():
         image = image / 255
         var, confidence = inference_tflite_np_array(
             model + f"{name}/{name.lower()}_mobilenetv2.tflite", image)
-        
+
         dName = const[name][f"{var}"]
         print(dName)
+        solution = "Nikhil"
         solution = ChatbotSummary(cropName=name, diseaseName=dName)
-        return {"class_id": str(var), "confidence": str(confidence[np.argmax(confidence)]), "solution" : solution}
+        return {"class_id": str(var), "confidence": str(confidence[np.argmax(confidence)]), "solution": solution}
     return app
 
 
-if __name__ == "__main__":
-    uvicorn.run(start(), host="localhost", port=8000)
-
-
 application = start()
+if __name__ == "__main__":
+    uvicorn.run("main:application", host="localhost", port=8000, reload=True)
