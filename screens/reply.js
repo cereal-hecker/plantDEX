@@ -29,7 +29,7 @@ export default function ReplyScreen({ route, questionReplies, addReplyToQuestion
   }, [question, questionReplies]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.question}>{question}</Text>
       <ScrollView style={styles.replyContainer}>
         {replies.map((reply, index) => (
@@ -49,7 +49,7 @@ export default function ReplyScreen({ route, questionReplies, addReplyToQuestion
       <TouchableOpacity style={styles.replyButton} onPress={addReply}>
         <Text style={styles.replyText}>Reply</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 

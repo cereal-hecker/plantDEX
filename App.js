@@ -32,7 +32,7 @@ export default function App() {
 
   onAuthStateChanged(auth, (user) => {
     if(user){
-      console.log(user.uid);
+      console.log(auth.currentUser.uid);
       //navigation.navigate('MainApp',{screen:'History'})
     }else{
       //navigation.navigate('AuthStack')

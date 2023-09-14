@@ -125,7 +125,7 @@ function QuestionListScreen({
 }) {
   return (
     
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.header}>FORUM</Text>
       <View style={styles.searchbarContainer}>
         <TextInput
@@ -188,7 +188,7 @@ function QuestionListScreen({
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

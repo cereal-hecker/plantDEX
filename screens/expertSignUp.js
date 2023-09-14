@@ -11,7 +11,7 @@ export default function ExpertSignup({
   setRepass,
 }) {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.inputField}>
         <Text style={styles.inputHeader}>Email</Text>
         <TextInput
@@ -43,7 +43,7 @@ export default function ExpertSignup({
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 
