@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, Image, View, StyleSheet } from "react-native";
+import { Text, Image, View, StyleSheet,SafeAreaView } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as File from "expo-file-system";
@@ -8,13 +8,14 @@ import options from "../assets/data/models";
 
 export default function UploadImage({ navigation }) {
   const [image, setImage] = useState(null);
-  const [crop, setCrop] = useState("Wheat");
+  const [crop, setCrop] = useState("Select your crop");
 
   const handleUpload = async () => {
     // DON'T TOUCH THIS
     const actual = await File.readAsStringAsync(image, {
       encoding: File.EncodingType.Base64,
     });
+
     const url = `https://plant-dex-9e9e8.el.r.appspot.com/${crop}/predict`;
 
     const response = await File.uploadAsync(url, image, {
@@ -73,9 +74,7 @@ export default function UploadImage({ navigation }) {
   };
 
   const handleSelect = (selectedOption) => {
-    console.log('Selected:', selectedOption);
     setCrop(selectedOption.value);
-    console.log(crop);
   };
 
   return (
@@ -85,7 +84,7 @@ export default function UploadImage({ navigation }) {
         <Text style={styles.imgorvid}>IMAGE OR VIDEO</Text>
       </View>
       <View style={styles.dropdown} >
-        <DropdownMenu options={options} onSelect={handleSelect} />
+        <DropdownMenu options={options} onSelect={handleSelect} crop={crop} />
       </View>
       <TouchableOpacity style={styles.uploadArea} onPress={pickImage}>
         {image ? (
@@ -124,7 +123,6 @@ export default function UploadImage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    flex: 1,
   },
   selectArea: {
     alignItems: "center",
@@ -139,10 +137,10 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_900Black",
     fontSize: 64,
     color: "#049A10",
-    marginTop: "20%",
+    marginTop: "10%",
   },
   imgorvid: {
-    marginTop: "-8%",
+    marginTop: "-4%",
     fontSize: 40,
     fontFamily: "Poppins_500Medium",
     marginBottom: "10%",
@@ -157,9 +155,8 @@ const styles = StyleSheet.create({
     borderStyle: "dashed",
     borderColor: "#049A10",
     borderRadius: 25,
-    padding: 20,
-    height: 335,
-    width: 335,
+    height: 300,
+    width: 300,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
@@ -201,6 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   orContainer: {
+    paddingTop: "4%",
     flexDirection: "row",
     alignItems: "center",
   },
@@ -220,7 +218,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
     zIndex: 1,
+    paddingVertical: "6%",
   },
 });

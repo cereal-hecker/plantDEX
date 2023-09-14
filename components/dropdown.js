@@ -8,7 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 
-const DropdownMenu = ({ options, onSelect }) => {
+const DropdownMenu = ({ options, onSelect, crop }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const renderItem = ({ item, index }) => (
@@ -30,7 +30,7 @@ const DropdownMenu = ({ options, onSelect }) => {
         style={styles.button}
         onPress={() => setIsVisible(!isVisible)}
       >
-        <Text>Select an item</Text>
+        <Text style={styles.selectText}>{crop}</Text>
       </TouchableOpacity>
 
       {isVisible && (
@@ -48,7 +48,9 @@ const DropdownMenu = ({ options, onSelect }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: 150,
+    height: 100,
+    
   },
   button: {
     padding: 10,
@@ -60,12 +62,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 5,
+    backgroundColor: "white",
   },
   item: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
+  selectText: {
+    fontFamily: 'Poppins_500Medium'
+  }
 });
 
 export default DropdownMenu;
