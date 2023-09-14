@@ -82,7 +82,7 @@ export default function UploadImage({ navigation }) {
 return (
     <SafeAreaView style={styles.container}>
       {isloading ? (
-        <ActivityIndicator size="large" colors={COLORS.primary} />
+        <ActivityIndicator size="large" colors={""} />
       ) : (
         <>
           <View>
