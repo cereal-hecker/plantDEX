@@ -6,6 +6,5 @@ Pre-Requisites:
 - Pipenv
 - Yarn
 
-To run this project follow the following steps:
-
-1. Run `run.sh` and follow the instructions to run the frontend and backend.
+To run the app, run the following in your terminal: `run.sh` <br/>
+Follow the instructions on the screen to run the frontend and/or backend.
