@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     SafeAreaView,
   } from "react-native";
-  import { createUserWithEmailAndPassword } from "firebase/auth";
+  import { signInWithEmailAndPassword  } from "firebase/auth";
   import React, { useState, useRef } from "react";
   import { auth, firebaseConfig } from "./firebase";
   import {
@@ -29,18 +29,14 @@ import ExpertLogin from "./expertLogin";
   
     const handleLogin = () => {
       //Change this to login
-      if (pass == repass) {
-        createUserWithEmailAndPassword(auth, email, pass)
-          .then((userCreds) => {
-            const user = userCreds.user;
-            console.log(user.email);
-  
-            navigation.navigate("MainApp", { screen: "History" });
-          })
-          .catch((error) => alert(error.message));
-      } else {
-        alert("Passwords don't match.");
-      }
+      signInWithEmailAndPassword (auth, email, pass)
+        .then((userCreds) => {
+          const user = userCreds.user;
+          console.log(user.email);
+
+          navigation.navigate("MainApp", { screen: "History" });
+        })
+        .catch((error) => alert(error.message));
     };
     // for user sign up
   
@@ -164,8 +160,8 @@ import ExpertLogin from "./expertLogin";
                 setEmail={setEmail}
                 pass={pass}
                 setPass={setPass}
-                repass={repass}
-                setRepass={setRepass}
+                // repass={repass}
+                // setRepass={setRepass}
               />
             ) : (
               <UserLogin {...userLoginProps} />

@@ -13,11 +13,13 @@ export default function ExpertLogin({
   handleLogin,
   email,
   setEmail,
+  pass,
+  setPass,
   navigation,
 }) {
   const [isFocusedEmail, setIsFocusedEmail] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
-  const [password, setPassword] = useState("");
+  //const [password, setPassword] = useState("");
 
   const handleEmailFocus = () => {
     setIsFocusedEmail(true);
@@ -97,12 +99,12 @@ export default function ExpertLogin({
             style={[
               styles.labelContainer,
               {
-                top: isFocusedPassword || (password && password.length > 0)
+                top: isFocusedPassword || (pass && pass.length > 0)
                   ? -8
                   : "50%",
                 transform: [
                   {
-                    translateY: isFocusedPassword || (password && password.length > 0)
+                    translateY: isFocusedPassword || (pass && pass.length > 0)
                       ? 0
                       : -10,
                   },
@@ -115,7 +117,7 @@ export default function ExpertLogin({
                 styles.label,
                 {
                   color: isFocusedPassword ? "#049A10" : "#049A1050",
-                  fontSize: isFocusedPassword || (password && password.length > 0)
+                  fontSize: isFocusedPassword || (pass && pass.length > 0)
                     ? 14
                     : 16,
                 },
@@ -129,8 +131,8 @@ export default function ExpertLogin({
             style={styles.input}
             onFocus={handlePasswordFocus}
             onBlur={handlePasswordBlur}
-            value={password}
-            onChangeText={(text) => setPassword(text)}
+            value={pass}
+            onChangeText={(text) => setPass(text)}
           />
         </View>
       </TouchableWithoutFeedback>
@@ -141,20 +143,6 @@ export default function ExpertLogin({
       </View>
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Log In</Text>
-      </TouchableOpacity>
-      <View style={styles.orContainer}>
-        <View style={styles.line}></View>
-        <Text style={styles.orText}>OR</Text>
-        <View style={styles.line}></View>
-      </View>
-      <TouchableOpacity onPress={() => navigation.navigate()}>
-        <View style={styles.googleContainer}>
-          <Image
-            style={styles.googleIcon}
-            source={require("../assets/images/googleIcon.png")}
-          />
-          <Text style={styles.googleText}>Log in with Google</Text>
-        </View>
       </TouchableOpacity>
     </View>
   );

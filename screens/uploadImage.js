@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, Image, View, StyleSheet, SafeAreaView } from "react-native";
+import { Text, Image, View, StyleSheet, SafeAreaView, ActivityIndicator } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as File from "expo-file-system";
@@ -9,8 +9,10 @@ import options from "../assets/data/models";
 export default function UploadImage({ navigation }) {
   const [image, setImage] = useState(null);
   const [crop, setCrop] = useState("Select your crop");
+  const [isloading,setloader] = useState(false)
 
   const handleUpload = async () => {
+    setloader(true)
     // DON'T TOUCH THIS
     const actual = await File.readAsStringAsync(image, {
       encoding: File.EncodingType.Base64,
@@ -27,8 +29,8 @@ export default function UploadImage({ navigation }) {
     var obj = JSON.parse(response.body);
     console.log(obj);
     obj["name"] = crop
-
     // DON'T TOUCH THIS
+    setloader(false)
 
     navigation.navigate("Solution", { obj });
   };
@@ -77,48 +79,54 @@ export default function UploadImage({ navigation }) {
     setCrop(selectedOption.value);
   };
 
-  return (
+return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Text style={styles.header}>UPLOAD</Text>
-        <Text style={styles.imgorvid}>IMAGE OR VIDEO</Text>
-      </View>
-      <View style={styles.dropdown} >
-        <DropdownMenu options={options} onSelect={handleSelect} crop={crop} />
-      </View>
-      <TouchableOpacity style={styles.uploadArea} onPress={pickImage}>
-        {image ? (
-          <Image source={{ uri: image }} style={{ width: 335, height: 335 }} />
-        ) : (
-          <View style={styles.selectArea}>
-            <Image
-              style={styles.upload}
-              source={require("../assets/images/upload.png")}
-            />
-            <Text style={styles.select}>Select File</Text>
+      {isloading ? (
+        <ActivityIndicator size="large" colors={COLORS.primary} />
+      ) : (
+        <>
+          <View>
+            <Text style={styles.header}>UPLOAD</Text>
+            <Text style={styles.imgorvid}>IMAGE OR VIDEO</Text>
           </View>
-        )}
-      </TouchableOpacity>
-      <View style={styles.orContainer}>
-        <View style={styles.line}></View>
-        <Text style={styles.orText}>OR</Text>
-        <View style={styles.line}></View>
-      </View>
-      <TouchableOpacity style={styles.camButton} onPress={takePhoto}>
-        <View style={styles.camView}>
-          <Image
-            style={styles.cam}
-            source={require("../assets/images/cam.png")}
-          />
-          <Text style={styles.camText}>Take a photo</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.continue} onPress={handleUpload}>
-        <Text style={styles.continueText}>Continue</Text>
-      </TouchableOpacity>
+          <View style={styles.dropdown}>
+            <DropdownMenu options={options} onSelect={handleSelect} crop={crop} />
+          </View>
+          <TouchableOpacity style={styles.uploadArea} onPress={pickImage}>
+            {image ? (
+              <Image source={{ uri: image }} style={{ width: 335, height: 335 }} />
+            ) : (
+              <View style={styles.selectArea}>
+                <Image
+                  style={styles.upload}
+                  source={require("../assets/images/upload.png")}
+                />
+                <Text style={styles.select}>Select File</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+          <View style={styles.orContainer}>
+            <View style={styles.line}></View>
+            <Text style={styles.orText}>OR</Text>
+            <View style={styles.line}></View>
+          </View>
+          <TouchableOpacity style={styles.camButton} onPress={takePhoto}>
+            <View style={styles.camView}>
+              <Image
+                style={styles.cam}
+                source={require("../assets/images/cam.png")}
+              />
+              <Text style={styles.camText}>Take a photo</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.continue} onPress={handleUpload}>
+            <Text style={styles.continueText}>Continue</Text>
+          </TouchableOpacity>
+        </>
+      )}
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
