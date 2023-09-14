@@ -13,7 +13,7 @@ export default function Solution({route, navigation}) {
   }
   console.log(route);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.card1}>
         <Text style={styles.title}>DISEASE</Text>
         <Text style={styles.name}>NAME</Text>
@@ -24,7 +24,7 @@ export default function Solution({route, navigation}) {
         <Text style={styles.name}>NAME</Text>
         <Text style={styles.info}>INFO</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

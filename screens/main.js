@@ -1,10 +1,9 @@
 import React from "react";
 import { Image, View, Text, StyleSheet, ScrollView } from "react-native";
 import History from "./history";
-
 export default function Main({ navigation }) {
   return (
-    <ScrollView styles={styles.con}>
+    <View>
       <View style={styles.header}>
         <Image
           style={styles.image}
@@ -25,8 +24,10 @@ export default function Main({ navigation }) {
           source={require("../assets/images/banner.png")}
         />
       </View>
-      <History />
-    </ScrollView>
+      <ScrollView>
+        <History />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -62,11 +63,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   capture: {
-    fontFamily: 'Poppins_500Medium',
+    fontFamily: "Poppins_500Medium",
     fontSize: 32,
-    marginTop: 80
+    marginTop: 80,
   },
   cam: {
-    marginTop: 20
+    marginTop: '100%'
   },
+  con: {
+    height: 2000
+  }
 });

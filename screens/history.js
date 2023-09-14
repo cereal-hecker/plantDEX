@@ -9,22 +9,23 @@ export default function History( {navigation} ){
     const error = false;
 
     return (
-    <SafeAreaView>
-        <View>      
-        {isLoading ?(
+        <View style={{paddingBottom: 420, paddingLeft: 10, paddingRight: 10, paddingTop: 30}}>
+          <Text style={{fontFamily: 'Poppins_600SemiBold', fontSize: 48, paddingLeft: 10}}>History</Text>
+          {isLoading ? (
             <ActivityIndicator size="large" colors='#312651' />
-            ): error ? (
+          ) : error ? (
             <Text>Something went wrong</Text>
-            ):(<FlatList
-            data={[1,2,3,4]}
-            renderItem={({item})=>(
-                <HistoryCard 
-                item={item}
+          ) : (
+            <FlatList
+              data={[1, 2, 3, 4]}
+              renderItem={({ item }) => (
+                <HistoryCard
+                  item={item}
                 />
-                )}
-            keyExtractor={item =>item?.job_id}
-            />)}
+              )}
+              keyExtractor={item => item?.job_id}
+            />
+          )}
         </View>
-    </SafeAreaView>
-    );
-};
+      );
+    }

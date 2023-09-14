@@ -79,7 +79,7 @@ export default function UploadImage({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.header}>UPLOAD</Text>
         <Text style={styles.imgorvid}>IMAGE OR VIDEO</Text>
@@ -117,7 +117,7 @@ export default function UploadImage({ navigation }) {
       <TouchableOpacity style={styles.continue} onPress={handleUpload}>
         <Text style={styles.continueText}>Continue</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Dimensions, View, Text, Image, TouchableOpacity, SafeAreaView } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 
 import splash1 from "../assets/images/splash1.png";
@@ -53,7 +53,7 @@ export default function SplashCarousel({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image
         style={styles.logo}
         source={require("../assets/images/logo.png")}
@@ -83,7 +83,7 @@ export default function SplashCarousel({ navigation }) {
           />
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

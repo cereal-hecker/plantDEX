@@ -74,7 +74,7 @@ export default function UserSignup({
     );*/
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <FirebaseRecaptchaVerifierModal 
           ref={recaptchaVerifier}
           firebaseConfig={firebaseConfig}
@@ -121,7 +121,7 @@ export default function UserSignup({
       }
         
       {attemptInvisibleVerification && <FirebaseRecaptchaBanner/>}
-    </View>
+    </SafeAreaView>
   );
 }
 
