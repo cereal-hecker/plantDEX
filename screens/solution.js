@@ -22,7 +22,7 @@ export default function Solution({route, navigation}) {
       <View style={styles.card2}>
         <Text style={styles.title}>SOLUTION</Text>
         <Text style={styles.name}>NAME</Text>
-        <Text style={styles.info}>INFO</Text>
+        <Text style={styles.info}>{data.solution}</Text>
       </View>
     </SafeAreaView>
   );

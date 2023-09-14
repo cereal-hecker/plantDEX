@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, Image, View, StyleSheet } from "react-native";
+import { Text, Image, View, StyleSheet, SafeAreaView } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as File from "expo-file-system";
