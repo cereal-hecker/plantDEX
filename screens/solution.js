@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet,SafeAreaView, ScrollView   } from "react-native";
 import names from "../assets/data/model_classes.json";
 
 export default function Solution({route, navigation}) {
@@ -19,11 +19,13 @@ export default function Solution({route, navigation}) {
         <Text style={styles.name}>NAME</Text>
         <Text style={styles.info}>{diseaseName}</Text>
       </View>
-      <View style={styles.card2}>
-        <Text style={styles.title}>SOLUTION</Text>
-        <Text style={styles.name}>NAME</Text>
-        <Text style={styles.info}>{data.solution}</Text>
-      </View>
+        <View style={styles.card2}>
+          <Text style={styles.title}>SOLUTION</Text>
+          <Text style={styles.name}>NAME</Text>
+          <ScrollView>
+            <Text style={styles.info}>{data.solution}</Text>
+          </ScrollView>
+        </View>
     </SafeAreaView>
   );
 }

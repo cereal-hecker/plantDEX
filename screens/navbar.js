@@ -1,8 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
-import { Image } from 'react-native'
-import History from './history'
+import { Image, View, Text, TouchableOpacity } from 'react-native'
 import Main from './main'
 import Forum from './forum'
 import UploadImage from './uploadImage'
@@ -30,32 +29,90 @@ const Camera = () => {
       <Tab.Navigator 
         screenOptions={{
           headerShown: false,
-        }}
-        tabBarOptions={{
-          showLabel:false,
-          style: {
-            position: 'absolute',
-            bottom: 25,
-            left:20,
-            right:20,
-            elevation:0,
-            backgroundColor: '#ffffff',
-            borderRadius: 15,
-            height:90,
-            ...styles.shadow
-          }
+          tabBarShowLabel: false,
+          tabBarStyle: [
+            {
+              backgroundColor: '#049810',  // Just to check if styling works
+              borderRadius: 15,
+              height: 70,
+            },
+            null
+          ],
         }}
       >
-        <Tab.Screen name="Home" component={Main} />
-        <Tab.Screen name="Camera" component={Camera} />
-        <Tab.Screen name="Forum" component={Forum} />
+      
+      <Tab.Screen 
+          name="Home" 
+          component={Main} 
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <View style={{alignItems:'center',
+              justifyContent:'center',
+              top:10,}}>
+              <Image
+                source={require('../assets/images/home.png')}
+                style={{ width: size, height: size, tintColor: 'white' }}
+              />
+              <Text style={{color:'white'}}>Home</Text>
+              </View>
+            )
+          }} 
+        />
+        <Tab.Screen 
+    name="Camera" 
+    component={Camera} 
+    options={{
+      tabBarButton: (props) => (
+        <TouchableOpacity
+          onPress={props.onPress}  // added this line
+          style={{
+            top:-30,
+            justifyContent:'center',
+            ...styles.shadow
+          }}
+        >
+          <View style={{
+            width:70,
+            height:70,
+            borderRadius:35,
+            backgroundColor:'#fff',
+            alignItems:'center',
+            justifyContent:'center',
+            top:10,
+          }}
+          >
+            <Image
+              source={require('../assets/images/cam.png')}
+              style={{ width: 30, height: 30, tintColor: '#049810' }}
+              resizeMode='contain'
+            />
+          </View>
+        </TouchableOpacity>
+      )
+    }} 
+/>
+
+        <Tab.Screen name="Forum" component={Forum} options={{
+            tabBarIcon: ({ color, size }) => (
+              <View style={{alignItems:'center',
+              justifyContent:'center',
+              top:10,}}>
+              <Image
+                source={require('../assets/images/forum.png')}
+                style={{ width: size, height: size, tintColor: 'white' }}
+              />
+              <Text style={{color:'white'}}>Forum</Text>
+              </View>
+            )
+          }} 
+        />
       </Tab.Navigator>
     )
   }
   
   const styles = StyleSheet.create({
     shadow:{
-      shadowColour:'#7F5DF0',
+      shadowColor:'#7F5DF0',
       shadowOffset: {
         width:0,
         height:10
@@ -63,8 +120,7 @@ const Camera = () => {
       shadowOpacity:0.25,
       shadowRadius:3.5,
       elevation:5
-
-    }
+    },  
   })
 
 export default TabNavigator

@@ -1,5 +1,10 @@
 # plantDEX
 
-To run this project follow the following steps:
+Pre-Requisites:
 
-1. Run `run.sh` and follow the instructions to run the frontend and backend.
+- Python 3.6+
+- Pipenv
+- Yarn
+
+To run the app, run the following in your terminal: `run.sh` <br/>
+Follow the instructions on the screen to run the frontend and/or backend.

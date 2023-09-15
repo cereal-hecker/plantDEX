@@ -172,7 +172,12 @@ export default function SignUp({ navigation }) {
         </View>
 
         <View style={styles.dontHaveAccountContainer}>
-          <Text style={styles.dontHaveAccountText}>Don't have an account?</Text>
+          <Text style={styles.dontHaveAccountText}>Already have an account?</Text>
+          <TouchableOpacity onPress={()=>{
+            navigation.navigate('UserSwitch');
+          }}>
+            <Text style={styles.loginText}> Log in</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -180,6 +185,10 @@ export default function SignUp({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  loginTextText: {
+    color: "#587DBD",
+    fontFamily: "Poppins_700Bold",
+  },
   container: {
     alignItems: "center",
   },
