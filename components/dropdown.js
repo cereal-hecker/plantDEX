@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#049810',
     borderRadius: 5,
   },
   menuContainer: {
@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
   },
   selectText: {
-    fontFamily: 'Poppins_500Medium'
+    fontFamily: 'Poppins_500Medium',
+    color : "white",
   }
 });
 
