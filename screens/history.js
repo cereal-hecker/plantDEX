@@ -10,7 +10,7 @@ export default function History( {navigation} ){
 
     return (
         <View style={{paddingBottom: 420, paddingLeft: 10, paddingRight: 10, paddingTop: 30}}>
-          <Text style={{fontFamily: 'Poppins_600SemiBold', fontSize: 48, paddingLeft: 10}}>History</Text>
+          <Text style={{fontFamily: 'Poppins_900Black', fontSize: 48, paddingLeft: 10, color: "#049A10"}}>History</Text>
           {isLoading ? (
             <ActivityIndicator size="large" colors='#312651' />
           ) : error ? (

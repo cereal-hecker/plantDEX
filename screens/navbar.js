@@ -48,7 +48,7 @@ const Camera = () => {
             tabBarIcon: ({ color, size }) => (
               <View style={{alignItems:'center',
               justifyContent:'center',
-              top:10,}}>
+              top:5,}}>
               <Image
                 source={require('../assets/images/home.png')}
                 style={{ width: size, height: size, tintColor: 'white' }}
@@ -96,7 +96,7 @@ const Camera = () => {
             tabBarIcon: ({ color, size }) => (
               <View style={{alignItems:'center',
               justifyContent:'center',
-              top:10,}}>
+              top:5,}}>
               <Image
                 source={require('../assets/images/forum.png')}
                 style={{ width: size, height: size, tintColor: 'white' }}
