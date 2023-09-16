@@ -85,8 +85,8 @@ return (
         <ActivityIndicator size="large" colors={""} />
       ) : (
         <>
-          <View>
-            <Text style={styles.header}>UPLOAD</Text>
+          <View style={styles.header}>
+            <Text style={styles.heading}>UPLOAD</Text>
             <Text style={styles.imgorvid}>IMAGE OR VIDEO</Text>
           </View>
           <View style={styles.dropdown}>
@@ -142,13 +142,15 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_500Medium",
   },
   header: {
+    paddingTop: "4%",
+  },
+  heading: {
     fontFamily: "Poppins_900Black",
     fontSize: 64,
     color: "#049A10",
-    marginTop: "10%",
   },
   imgorvid: {
-    marginTop: "-4%",
+    marginTop: "-10%",
     fontSize: 40,
     fontFamily: "Poppins_500Medium",
     marginBottom: "10%",
@@ -179,7 +181,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 40,
     width: 280,
-    marginTop: 10,
   },
   camText: {
     color: "#fff",
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   orContainer: {
-    paddingTop: "4%",
+    paddingVertical: "2%",
     flexDirection: "row",
     alignItems: "center",
   },
