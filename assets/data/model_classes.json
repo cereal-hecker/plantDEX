@@ -1,42 +1,42 @@
 {
     "Wheat": {
-      "0": "Wheat___Brown_Rust",
-      "1": "Wheat___Healthy",
-      "2": "Wheat___Yellow_Rust"
+      "0": "Brown Rust",
+      "1": "Healthy",
+      "2": "Yellow Rust"
     },
     "Rice": {
-      "0": "bacterial_leaf_blight",
-      "1": "brown_spot",
-      "2": "healthy",
-      "3": "leaf_blast",
-      "4": "leaf_scald",
-      "5": "narrow_brown_spot"
+      "0": "Bacterial Leaf Blight",
+      "1": "Brown Spot",
+      "2": "Healthy",
+      "3": "Leaf Blast",
+      "4": "Leaf Scald",
+      "5": "Narrow Brown Spot"
     },
     "Corn": {
-      "0": "Corn___Common_Rust",
-      "1": "Corn___Gray_Leaf_Spot",
-      "2": "Corn___Healthy",
-      "3": "Corn___Leaf_Blight"
+      "0": "Common Rust",
+      "1": "Gray Leaf Spot",
+      "2": "Healthy",
+      "3": "Leaf Blight"
     },
     "Potato": {
-      "0": "Potato___Early_Blight",
-      "1": "Potato___Healthy",
-      "2": "Potato___Late_Blight"
+      "0": "Early Blight",
+      "1": "Healthy",
+      "2": "Late Blight"
     },
     "Tomato":{
-      "0": "Tomato___Bacterial_spot",
-      "1": "Tomato___Early_blight",
-      "2": "Tomato___Late_blight",
-      "3": "Tomato___Leaf_Mold",
-      "4": "Tomato___Septoria_leaf_spot",
-      "5": "Tomato___Spider_mitesTwo-spotted_spider_mite",
-      "6": "Tomato___Target_Spot",
-      "7": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
-      "8": "Tomato___Tomato_mosaic_virus",
-      "9": "Tomato___healthy"
+      "0": "Bacterial spot",
+      "1": "Early blight",
+      "2": "Late blight",
+      "3": "Leaf Mold",
+      "4": "Septoria leaf spot",
+      "5": "Spider mites Two-spotted spider mite",
+      "6": "Target Spot",
+      "7": "Yellow Leaf Curl Virus",
+      "8": "mosaic virus",
+      "9": "healthy"
     } , 
     "Apple" : {
-      "0" : "Apple Scald" , 
+      "0" : "Scald" , 
       "1" : "Black Rot" , 
       "2" : "Cedar Apple Rust" , 
       "3" : "Healthy"
