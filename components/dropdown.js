@@ -6,7 +6,11 @@ import {
   StyleSheet,
   Modal,
   FlatList,
+  Dimensions,
 } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const DropdownMenu = ({ options, onSelect, crop }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -34,7 +38,13 @@ const DropdownMenu = ({ options, onSelect, crop }) => {
       </TouchableOpacity>
 
       {isVisible && (
-        <View style={styles.menuContainer} pointerEvents='auto'>
+        <View
+          style={[
+            styles.menuContainer,
+            { maxHeight: windowHeight * 0.5 },
+          ]}
+          pointerEvents='auto'
+        >
           <FlatList
             data={options}
             renderItem={renderItem}
@@ -48,31 +58,35 @@ const DropdownMenu = ({ options, onSelect, crop }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 150,
-    height: 100,
-    
+    width: windowWidth * 0.35,
   },
   button: {
-    padding: 10,
+    paddingVertical: windowHeight * 0.01,
     backgroundColor: '#049810',
-    borderRadius: 5,
+    borderRadius: windowHeight * 0.01,
+    justifyContent: 'center', 
+    alignItems: 'center',
+    height: windowHeight * 0.05,
+    width: windowWidth * 0.35,
   },
   menuContainer: {
-    marginTop: 5,
-    borderWidth: 1,
+    borderWidth: windowWidth * 0.0025,
     borderColor: '#ddd',
-    borderRadius: 5,
-    backgroundColor: "white",
+    borderRadius: windowHeight * 0.01,
+    backgroundColor: 'white',
+    zIndex: 1,
   },
   item: {
-    padding: 10,
-    borderBottomWidth: 1,
+    paddingHorizontal: windowWidth * 0.03,
+    paddingVertical: windowHeight * 0.01,
+    borderBottomWidth: windowWidth * 0.0025,
     borderBottomColor: '#ddd',
   },
   selectText: {
     fontFamily: 'Poppins_500Medium',
-    color : "white",
-  }
+    color: 'white',
+    textAlign: 'center',
+  },
 });
 
 export default DropdownMenu;

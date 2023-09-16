@@ -1,18 +1,29 @@
 import React, { useState } from "react";
-import { Text, Image, View, StyleSheet, SafeAreaView, ActivityIndicator } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ActivityIndicator,
+  Dimensions,
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import * as ImagePicker from "expo-image-picker";
 import * as File from "expo-file-system";
 import DropdownMenu from "../components/dropdown";
 import options from "../assets/data/models";
 
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
 export default function UploadImage({ navigation }) {
   const [image, setImage] = useState(null);
   const [crop, setCrop] = useState("Select your crop");
-  const [isloading,setloader] = useState(false)
+  const [isloading, setLoader] = useState(false);
 
   const handleUpload = async () => {
-    setloader(true)
+    setLoader(true);
     // DON'T TOUCH THIS
     const actual = await File.readAsStringAsync(image, {
       encoding: File.EncodingType.Base64,
@@ -28,9 +39,9 @@ export default function UploadImage({ navigation }) {
 
     var obj = JSON.parse(response.body);
     console.log(obj);
-    obj["name"] = crop
+    obj["name"] = crop;
     // DON'T TOUCH THIS
-    setloader(false)
+    setLoader(false);
 
     navigation.navigate("Solution", { obj });
   };
@@ -79,7 +90,7 @@ export default function UploadImage({ navigation }) {
     setCrop(selectedOption.value);
   };
 
-return (
+  return (
     <SafeAreaView style={styles.container}>
       {isloading ? (
         <ActivityIndicator size="large" colors={""} />
@@ -94,7 +105,10 @@ return (
           </View>
           <TouchableOpacity style={styles.uploadArea} onPress={pickImage}>
             {image ? (
-              <Image source={{ uri: image }} style={{ width: 335, height: 335 }} />
+              <Image
+                source={{ uri: image }}
+                style={{ width: windowWidth * 0.9, height: windowWidth * 0.9 }}
+              />
             ) : (
               <View style={styles.selectArea}>
                 <Image
@@ -126,108 +140,103 @@ return (
       )}
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: "center",
+    justifyContent: "center",
+  },
+  heading: {
+    fontFamily: "Poppins_900Black",
+    fontSize: windowWidth * 0.2,
+    color: "#049A10",
+  },
+  imgorvid: {
+    marginTop: windowHeight * -0.05,
+    fontSize: windowWidth * 0.1,
+    fontFamily: "Poppins_500Medium",
   },
   selectArea: {
     alignItems: "center",
   },
+  dropdown: {
+    height: windowHeight * 0.05,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1,
+    marginBottom: windowHeight * 0.02, 
+  },
+  uploadArea: {
+    borderWidth: windowHeight * 0.0025,
+    borderStyle: "dashed",
+    borderColor: "#049A10",
+    borderRadius: windowWidth * 0.08,
+    height: windowHeight * 0.4,
+    width: windowWidth * 0.9,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   select: {
-    paddingTop: 10,
-    fontSize: 30,
+    fontSize: windowWidth * 0.08,
     color: "#049A1050",
     fontFamily: "Poppins_500Medium",
   },
-  header: {
-    paddingTop: "4%",
-  },
-  heading: {
-    fontFamily: "Poppins_900Black",
-    fontSize: 64,
-    color: "#049A10",
-  },
-  imgorvid: {
-    marginTop: "-10%",
-    fontSize: 40,
-    fontFamily: "Poppins_500Medium",
-    marginBottom: "10%",
-  },
   upload: {
-    width: 40,
-    height: 40,
+    width: windowWidth * 0.08,
+    height: windowWidth * 0.08,
     opacity: 0.5,
   },
-  uploadArea: {
-    borderWidth: 1.5,
-    borderStyle: "dashed",
-    borderColor: "#049A10",
-    borderRadius: 25,
-    height: 300,
-    width: 300,
-    justifyContent: "center",
+  orContainer: {
+    paddingVertical: windowHeight * 0.01,
+    flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
   },
-  cam: {
-    width: 20,
-    height: 20,
+  line: {
+    width: windowWidth * 0.15,
+    height: windowHeight * 0.0025,
+    backgroundColor: "#3F3D56",
+  },
+  orText: {
+    marginHorizontal: windowHeight * 0.02,
+    fontSize: windowWidth * 0.05,
+    fontFamily: "Poppins_700Bold",
+    color: "#3F3D56",
   },
   camButton: {
     backgroundColor: "#4fb858",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 40,
-    width: 280,
+    borderRadius: windowWidth * 0.1,
+    width: windowWidth * 0.7,
+  },
+  cam: {
+    width: windowWidth * 0.05,
+    height: windowWidth * 0.05,
   },
   camText: {
     color: "#fff",
-    paddingLeft: 10,
+    paddingLeft: windowWidth * 0.05,
     fontFamily: "Poppins_400Regular",
-    fontSize: 20,
+    fontSize: windowWidth * 0.05,
   },
   camView: {
-    padding: 10,
+    padding: windowWidth * 0.025,
     flexDirection: "row",
     alignItems: "center",
   },
   continue: {
-    padding: 10,
+    paddingVertical: windowWidth * 0.025,
     backgroundColor: "#049A10",
-    borderRadius: 40,
+    borderRadius: windowWidth * 0.1,
     alignItems: "center",
-    width: 240,
-    marginTop: "8%",
+    width: windowWidth * 0.6,
+    marginTop: windowHeight * 0.02,
   },
   continueText: {
     color: "#fff",
     fontFamily: "Poppins_400Regular",
-    fontSize: 20,
-  },
-  orContainer: {
-    paddingVertical: "2%",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  line: {
-    width: 50,
-    height: 1,
-    backgroundColor: "#3F3D56",
-    marginHorizontal: "2%",
-  },
-  orText: {
-    marginHorizontal: 10,
-    fontSize: 16,
-    fontFamily: "Poppins_700Bold",
-    color: "#3F3D56",
-  },
-  dropdown: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1,
-    paddingVertical: "6%",
+    fontSize: windowWidth * 0.05,
   },
 });
