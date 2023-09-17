@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F2",
     marginTop: windowHeight*0.01,
     marginLeft: windowHeight*0.05,
+    marginBottom: windowHeight*0.28
   },
   title: {
     fontSize: windowWidth * 0.12,
