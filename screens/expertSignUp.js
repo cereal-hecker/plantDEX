@@ -1,5 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, SafeAreaView, Dimensions } from "react-native";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default function ExpertSignup({
   handleSignup,
@@ -52,36 +55,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inputField: {
-    width: "80%",
-    height: 75,
-    borderColor: "#049A10",
-    borderWidth: 1,
-    borderRadius: 30,
-    paddingHorizontal: 15,
-    marginBottom: 12,
-    fontSize: 16,
-    fontFamily: "Poppins_400Regular",
+    height: windowHeight * 0.1,
+    width: windowWidth * 0.8,
+    borderColor: '#049A10',
+    borderWidth: windowWidth * 0.003,
+    borderRadius: windowHeight * 0.04,
+    paddingHorizontal: windowWidth * 0.04,
+    paddingTop: windowHeight * 0.01,  
+    marginBottom: windowHeight * 0.02,
+    fontSize: windowHeight * 0.025,
+    fontFamily: 'Poppins_400Regular',
   },
   inputHeader: {
     color: "#049A10",
-    paddingTop: 10,
-  },
-  textInput: {
-    flex: 1,
-    height: "100%",
-    textAlignVertical: "center", // Vertically center the text
   },
   button: {
+    alignSelf: "center",
+    justifyContent: "center", 
     backgroundColor: "#049A10",
-    padding: 10,
-    borderRadius: 20,
-    width: "70%",
-    height: 50,
-    alignItems: "center",
+    borderRadius: windowHeight * 0.05,
+    width: windowWidth * 0.6,
+    height: windowHeight * 0.065,
   },
   buttonText: {
     textAlign: "center",
     color: "white",
-    fontSize: 20,
+    fontSize: windowHeight * 0.025,
   },
 });
