@@ -9,13 +9,19 @@ import {
   Easing,
   StyleSheet,
   Image,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import QuestionCard from "../components/questionCard";
 import ReplyScreen from "./reply"; // Import the ReplyScreen component
 import questions from "../assets/data/questions";
+import { auth, firebaseConfig } from "./firebase";
+import {
+  FirebaseRecaptchaVerifierModal,
+  FirebaseRecaptchaBanner,
+} from "expo-firebase-recaptcha";
+import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 
 const Stack = createStackNavigator();
 
@@ -76,10 +82,13 @@ export default function Forum() {
     }));
   };
 
+  const user = auth.currentUser;
+  console.log(user);
+
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName="QuestionList">
-        <Stack.Screen options={{headerShown:false}} name="QuestionList">
+        <Stack.Screen options={{ headerShown: false }} name="QuestionList">
           {(props) => (
             <QuestionListScreen
               {...props}
@@ -97,7 +106,7 @@ export default function Forum() {
             />
           )}
         </Stack.Screen>
-        <Stack.Screen options={{headerShown:false}} name="ReplyScreen">
+        <Stack.Screen options={{ headerShown: false }} name="ReplyScreen">
           {(props) => (
             <ReplyScreen
               {...props}
@@ -125,7 +134,6 @@ function QuestionListScreen({
   rotate,
 }) {
   return (
-    
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>FORUM</Text>
       <View style={styles.searchbarContainer}>
@@ -193,7 +201,6 @@ function QuestionListScreen({
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -222,7 +229,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: "-2%",
     paddingLeft: 20,
-    color: 'white'
+    color: "white",
   },
   inputContainer: {
     backgroundColor: "transparent",
