@@ -1,5 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+  import { StyleSheet, View, Image, Text, TouchableOpacity, Dimensions} from "react-native";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default function Login({navigation}) {
   return (
@@ -34,65 +37,66 @@ export default function Login({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: "center",
-  },
-  logo: {
-    width: 135,
-    height: 85,
-    marginTop: 50,
-  },
-  translate: {
-    width: 40,
-    height: 40,
-  },
-  welcome: {
-    fontSize: 36,
-    color: "#049A10",
-    fontFamily: "Poppins_600SemiBold",
-  },
-  or: {
-    fontSize: 16,
-    marginVertical: 10,
-    fontFamily: "Poppins_700Bold",
-  },
-  button: {
-    backgroundColor: "#049A10",
-    padding: 10,
-    borderRadius: 20,
-    width: "70%",
-    height: 50,
-    alignItems: "center",
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "white",
-    fontSize: 20,
-  },
-  loginImage: {
-    marginTop: 40,
-    marginBottom: 70,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
-    paddingHorizontal: 30,
+    width: windowWidth * 1,
+    paddingHorizontal: windowWidth * 0.05,
+  },
+  logo: {
+    width: windowWidth * 0.35,
+    height: windowHeight * 0.11,
+    marginTop: windowHeight * 0.05,
+  },
+  translate: {
+    width: windowWidth * 0.1,
+    height: windowHeight * 0.05,
+  },
+  welcome: {
+    fontSize: windowHeight * 0.05,
+    color: "#049A10",
+    fontFamily: "Poppins_700Bold",
+    textAlign: "center",
+    paddingBottom: windowHeight * 0.02,
+  },
+  loginImage: { 
+    marginVertical: windowHeight * 0.065,
+  },
+  button: {
+    backgroundColor: "#049A10",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: windowHeight * 0.05,
+    width: windowWidth * 0.65,
+    height: windowHeight * 0.065,
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: windowHeight * 0.025,
+  },
+  or: {
+    fontSize: windowHeight * 0.05,
+    marginVertical: windowHeight * 0.02,
+    fontFamily: "Poppins_700Bold",
   },
   orContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: "2%",
+    marginVertical: windowHeight * 0.01,
   },
   line: {
-    width: 50, 
-    height: 1,
+    width: windowWidth * 0.2, 
+    height: windowHeight * 0.002,
     backgroundColor: '#3F3D56',
-    marginHorizontal: "2%",
+    marginHorizontal: windowWidth * 0.04,
   },  
   orText: {
-    marginHorizontal: 10,
-    fontSize: 16,
+    fontSize: windowHeight * 0.02,
     fontFamily: "Poppins_700Bold",
     color: "#3F3D56",
   },
