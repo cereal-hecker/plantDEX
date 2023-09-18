@@ -29,7 +29,7 @@ export default function Solution({ route, navigation }) {
       </View>
       <View style={styles.card2}>
         <Text style={styles.title}>SOLUTION</Text>
-        <ScrollView>
+        <ScrollView style={styles.solution}>
           <Text style={styles.info}>{data.solution}</Text>
         </ScrollView>
       </View>
@@ -46,14 +46,13 @@ const styles = StyleSheet.create({
   card1: {
     backgroundColor: "#F2F2F2",
     marginBottom: "4%",
-    marginTop: windowHeight*0.05,
-    marginLeft: windowHeight*0.05,
+    marginTop: windowHeight * 0.05,
+    marginLeft: windowHeight * 0.05,
   },
   card2: {
     backgroundColor: "#F2F2F2",
-    marginTop: windowHeight*0.01,
-    marginLeft: windowHeight*0.05,
-    marginBottom: windowHeight*0.28
+    marginTop: windowHeight * 0.01,
+    marginLeft: windowHeight * 0.05,
   },
   title: {
     fontSize: windowWidth * 0.12,
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
     color: "#049A10",
   },
   name: {
-    marginTop: windowHeight*-0.03,
+    marginTop: windowHeight * -0.03,
     fontSize: windowWidth * 0.095,
     fontFamily: "Poppins_600SemiBold",
   },
@@ -69,5 +68,8 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_500Medium",
     fontSize: windowWidth * 0.04,
     marginRight: windowWidth * 0.05,
+  },
+  solution: {
+    height: windowHeight * 0.6,
   },
 });
