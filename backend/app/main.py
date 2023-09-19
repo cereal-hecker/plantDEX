@@ -63,6 +63,9 @@ const = {
     }
 }
 
+model = "./app/SIH-Models/"
+
+loadModels = {name: tf.lite.Interpreter(model + f"{name}/{name.lower()}_mobilenetv2.tflite") for name in const}
 
 class ChatBot:
     def __init__(self, openai_api_key, model):
@@ -89,13 +92,12 @@ def ChatbotSummary(summary="", diseaseName="Yellow Rust", cropName="Wheat"):
     chatbot = ChatBot(key, "gpt-3.5-turbo")
     return chatbot.start_chat(Prompt)
 
-
-def inference_tflite_np_array(model_path, image_np, target_size=(224, 224)):
+def inference_tflite_np_array(name, image_np, target_size=(224, 224)):
     """
     To perform tflite inference on numpy arrays 
     """
     # Load your TFLite model
-    interpreter = tf.lite.Interpreter(model_path)
+    interpreter = loadModels[name]
     interpreter.allocate_tensors()
 
     # Get input and output details
@@ -139,17 +141,13 @@ def start():
     def redirect_to_docs():
         return RedirectResponse('/redoc')
 
-    model = "./app/SIH-Models/"
-
     @app.post("/{name}/predict/")
     async def predict(file: UploadFile, name: str):
         image = Image.open(file.file)
         image = image.resize((224, 224))
         image = np.asarray(image)
         image = image / 255
-        var, confidence = inference_tflite_np_array(
-            model + f"{name}/{name.lower()}_mobilenetv2.tflite", image)
-
+        var, confidence = inference_tflite_np_array(name, image)
         dName = const[name][f"{var}"]
         print(dName)
         solution = "Nikhil"

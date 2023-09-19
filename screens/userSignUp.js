@@ -27,6 +27,7 @@ export default function UserSignup({
   handleVerifyVerificationCode,
 })
 {
+  const [dName, setDname] = useState("Anon");
   return (
     <SafeAreaView style={styles.container}>
       <FirebaseRecaptchaVerifierModal 
@@ -40,6 +41,10 @@ export default function UserSignup({
 
       {!verificationId && (
         <View>
+          <View style={styles.inputField}>
+            <Text style={styles.inputHeader}>Display Name</Text>
+            <TextInput value={dName} onChangeText={text => setDname(text)} autoCapitalize="none" />
+          </View>
           <View style={styles.inputField}>
             <Text style={styles.inputHeader}>Phone number</Text>
             <TextInput value={phone} onChangeText={text => setPhone(text)} autoCapitalize="none" />
