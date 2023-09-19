@@ -16,12 +16,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import QuestionCard from "../components/questionCard";
 import ReplyScreen from "./reply"; // Import the ReplyScreen component
 import questions from "../assets/data/questions";
-import { auth, firebaseConfig } from "./firebase";
+import { auth, firebaseConfig, db } from "./firebase";
 import {
-  FirebaseRecaptchaVerifierModal,
-  FirebaseRecaptchaBanner,
-} from "expo-firebase-recaptcha";
-import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
+  collection,
+  addDoc,
+  setDoc,
+  doc,
+  updateDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const Stack = createStackNavigator();
 
@@ -56,16 +59,20 @@ export default function Forum() {
     setSendButtonVisible(!isSendButtonVisible);
   };
 
-  const postQuestion = () => {
-    const currentDate = new Date().toLocaleDateString();
+  const postQuestion = async () => {
+
     const newQuestionData = {
       id: filteredQuestions.length + 1, // Use filteredQuestions.length instead of questions.length
-      username: "Your Username",
-      date: currentDate,
+      date: serverTimestamp(),
       question: newQuestion,
       answer: "",
     };
-
+    try {
+      const docRef = await setDoc(doc(db, "forum", user.uid), newQuestionData);
+      alert("Post sent successfully!");
+    } catch (e) {
+      alert("Error adding post!");
+    }
     setFilteredQuestions([...filteredQuestions, newQuestionData]);
     setNewQuestion("");
   };
@@ -83,8 +90,11 @@ export default function Forum() {
   };
 
   const user = auth.currentUser;
-  console.log(user);
 
+  // Place to fuk with starts
+  // makePost();
+
+  // Place to fuk with ends
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName="QuestionList">

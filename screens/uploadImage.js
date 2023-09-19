@@ -25,10 +25,6 @@ export default function UploadImage({ navigation }) {
   const handleUpload = async () => {
     setLoader(true);
     // DON'T TOUCH THIS
-    const actual = await File.readAsStringAsync(image, {
-      encoding: File.EncodingType.Base64,
-    });
-
     const url = `https://plant-dex-9e9e8.el.r.appspot.com/${crop}/predict`;
 
     const response = await File.uploadAsync(url, image, {

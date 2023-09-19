@@ -94,7 +94,7 @@ export default function UserLogin({
           handleSendVerificationCode()
           console.log("Called");
         }}>
-        <Text style={styles.buttonText}>Sign up</Text>
+        <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         </View>
         )
