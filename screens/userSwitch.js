@@ -170,15 +170,6 @@ export default function UserSwitch({ navigation }) {
             <UserLogin {...userLoginProps} />
           )}
         </View>
-
-        <View style={styles.dontHaveAccountContainer}>
-          <Text style={styles.dontHaveAccountText}>
-            Don't have an account?{" "}
-          </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-            <Text style={styles.signUpText}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </SafeAreaView>
   );

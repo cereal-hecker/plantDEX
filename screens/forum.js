@@ -25,6 +25,7 @@ import {
   updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
 
 const Stack = createStackNavigator();
 
@@ -60,7 +61,6 @@ export default function Forum() {
   };
 
   const postQuestion = async () => {
-
     const newQuestionData = {
       id: filteredQuestions.length + 1, // Use filteredQuestions.length instead of questions.length
       date: serverTimestamp(),
@@ -93,6 +93,8 @@ export default function Forum() {
 
   // Place to fuk with starts
   // makePost();
+  // console.log(user)
+  updateProfile(user, { displayName: "Admin" });
 
   // Place to fuk with ends
   return (
