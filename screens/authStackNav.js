@@ -22,7 +22,7 @@ export default function AuthStack() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="UserSwitch" component={UserSwitch} />
         <Stack.Screen name="UserLogin" component={UserLogin} />
-        <Stack.Screen name="SignUp" component={SignUp} />
+        {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
         <Stack.Screen name="OtpVerify" component={OtpVerify} />
       </Stack.Navigator>
   );

@@ -23,14 +23,6 @@ export default function Login({navigation}) {
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('UserSwitch')}>
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
-      <View style={styles.orContainer}>
-          <View style={styles.line}></View>
-            <Text style={styles.orText}>OR</Text>
-          <View style={styles.line}></View>
-        </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
     </View>
   );  
 }

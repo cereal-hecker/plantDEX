@@ -1,6 +1,8 @@
 import React from "react";
 import { Image, View, Text, StyleSheet, ScrollView } from "react-native";
 import History from "./history";
+import WeatherCard from "../components/weatherCard";
+
 export default function Main({ navigation }) {
   return (
     <View>
@@ -15,10 +17,7 @@ export default function Main({ navigation }) {
         />
       </View>
       <View style={styles.centerCon}>
-        <Image
-          style={styles.weather}
-          source={require("../assets/images/weather.png")}
-        />
+        <WeatherCard />
         <Image
           style={styles.banner}
           source={require("../assets/images/banner.png")}
