@@ -15,7 +15,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import QuestionCard from "../components/questionCard";
 import ReplyScreen from "./reply"; // Import the ReplyScreen component
-import questions from "../assets/data/questions";
+import gotQuestions from "../assets/data/questions";
 import { auth, firebaseConfig, db } from "./firebase";
 import {
   collection,
@@ -24,6 +24,11 @@ import {
   doc,
   updateDoc,
   serverTimestamp,
+  query,
+  orderBy,
+  startAfter,
+  limit,
+  getDocs,
 } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 
@@ -32,14 +37,16 @@ const Stack = createStackNavigator();
 export default function Forum() {
   const [questionReplies, setQuestionReplies] = useState({});
   const [search, setSearch] = useState("");
-  const [filteredQuestions, setFilteredQuestions] = useState(questions);
+  const [questions, setQuestions] = useState([]);
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [isSendButtonVisible, setSendButtonVisible] = useState(false);
   const rotateValue = new Animated.Value(0); // Initialize the animated value
 
   const onChangeSearch = (text) => {
     setSearch(text);
-    const filtered = questions.filter(
+    const ArrQuestions = [questions];
+    const filtered = ArrQuestions.filter(
       (item) =>
         item.question.toLowerCase().includes(text.toLowerCase()) ||
         item.answer.toLowerCase().includes(text.toLowerCase())
@@ -63,18 +70,25 @@ export default function Forum() {
   const postQuestion = async () => {
     const newQuestionData = {
       id: filteredQuestions.length + 1, // Use filteredQuestions.length instead of questions.length
-      date: serverTimestamp(),
+      date: Math.floor(Date.now() / 1000),
+      profile: user.photoURL,
+      authorUUID: user.uid,
+      username: user.displayName,
       question: newQuestion,
       answer: "",
     };
     try {
-      const docRef = await setDoc(doc(db, "forum", user.uid), newQuestionData);
+      const docRef = await setDoc(
+        doc(db, "forum", user.uid),
+        newQuestionData
+      );
       alert("Post sent successfully!");
     } catch (e) {
       alert("Error adding post!");
+      console.log(e.message);
     }
-    setFilteredQuestions([...filteredQuestions, newQuestionData]);
     setNewQuestion("");
+    getQuestions();
   };
 
   const rotate = rotateValue.interpolate({
@@ -89,13 +103,30 @@ export default function Forum() {
     }));
   };
 
+  const getQuestions = async () => {
+    const first = query(
+      collection(db, "forum"),
+      orderBy("date", "desc"),
+      limit(5)
+    );
+    const documentSnapshots = await getDocs(first);
+    var actual = [];
+    documentSnapshots.docs.filter(async (item) => {
+      var here = item.data();
+      actual.push(here);
+    });
+    setQuestions([...actual]);
+    setFilteredQuestions([...actual]);
+    return actual;
+  };
+
   const user = auth.currentUser;
 
   // Place to fuk with starts
-  // makePost();
-  // console.log(user)
-  updateProfile(user, { displayName: "Admin" });
 
+  useEffect(() => {
+    getQuestions();
+  }, []);
   // Place to fuk with ends
   return (
     <NavigationContainer independent={true}>

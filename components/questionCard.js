@@ -8,6 +8,7 @@ export default function QuestionCard({
   answer,
   onCardPress,
 }) {
+  const Ddate = new Date(date * 1000);
   return (
     <TouchableOpacity style={styles.card} onPress={onCardPress}>
       <View style={styles.profiles}>
@@ -17,7 +18,7 @@ export default function QuestionCard({
         />
         <View style={styles.userDetails}>
           <Text style={styles.username}>{username}</Text>
-          <Text style={styles.date}>{date}</Text>
+          <Text style={styles.date}>{Ddate.toString()}</Text>
         </View>
       </View>
       <Text style={styles.question}>{question}</Text>
