@@ -7,9 +7,12 @@ import numpy as np
 import tensorflow as tf
 from starlette.responses import RedirectResponse
 from fastapi import UploadFile
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from starlette.middleware.cors import CORSMiddleware
 import uvicorn
+from pydantic import BaseModel
+from typing import Union
+from typing_extensions import Annotated
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ChatMessageHistory
 from langchain.callbacks import get_openai_callback
@@ -17,6 +20,12 @@ from os import environ
 from dotenv import load_dotenv
 
 load_dotenv()
+
+
+class GPTinfo(BaseModel):
+    cropName: Union[str, None] = None
+    diseaseName: Union[str, None] = None
+
 
 const = {
     "Wheat": {
@@ -65,7 +74,9 @@ const = {
 
 model = "./app/SIH-Models/"
 
-loadModels = {name: tf.lite.Interpreter(model + f"{name}/{name.lower()}_mobilenetv2.tflite") for name in const}
+loadModels = {name: tf.lite.Interpreter(
+    model + f"{name}/{name.lower()}_mobilenetv2.tflite") for name in const}
+
 
 class ChatBot:
     def __init__(self, openai_api_key, model):
@@ -91,6 +102,7 @@ def ChatbotSummary(summary="", diseaseName="Yellow Rust", cropName="Wheat"):
     key = environ["API_KEY"]
     chatbot = ChatBot(key, "gpt-3.5-turbo")
     return chatbot.start_chat(Prompt)
+
 
 def inference_tflite_np_array(name, image_np, target_size=(224, 224)):
     """
@@ -149,10 +161,14 @@ def start():
         image = image / 255
         var, confidence = inference_tflite_np_array(name, image)
         dName = const[name][f"{var}"]
-        print(dName)
-        solution = "Nikhil"
-        solution = ChatbotSummary(cropName=name, diseaseName=dName)
-        return {"class_id": str(var), "confidence": str(confidence[np.argmax(confidence)]), "solution": solution}
+        return {"class_id": str(var), "confidence": str(confidence[np.argmax(confidence)])}
+
+    @app.post("/solution/")
+    async def solve(items: Annotated[GPTinfo, Body()]
+                    ):
+        solution = ChatbotSummary("", items.diseaseName, items.cropName)
+        # solution = "Nikhil"
+        return {"solution": solution}
     return app
 
 

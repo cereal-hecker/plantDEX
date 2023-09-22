@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import names from "../assets/data/model_classes.json";
 
@@ -13,13 +14,35 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function Solution({ route, navigation }) {
-  const data = route.params.obj;
+  var data = route.params.obj;
+  const [isloading, setLoader] = useState(false);
+  const [solution, setSolution] = useState("");
   var diseaseName = "";
   for (let c in names[data.name][data.class_id]) {
     if (names[data.name][data.class_id][c] !== "_")
       diseaseName += names[data.name][data.class_id][c];
     else diseaseName += " ";
   }
+  const handleGPT = async () => {
+    setLoader(true);
+    const header = { "Content-Type": "application/json" };
+    const obj = await fetch("http://localhost:8000/solution/", {
+      method: "POST",
+      body: JSON.stringify({
+        cropName: data.name,
+        diseaseName: diseaseName,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    const answer = await obj.json();
+    setSolution(answer["solution"]);
+    setLoader(false);
+  };
+  useEffect(() => {
+    handleGPT();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,9 +52,13 @@ export default function Solution({ route, navigation }) {
       </View>
       <View style={styles.card2}>
         <Text style={styles.title}>SOLUTION</Text>
-        <ScrollView style={styles.solution}>
-          <Text style={styles.info}>{data.solution}</Text>
-        </ScrollView>
+        {isloading ? (
+          <ActivityIndicator size="large" colors={""} />
+        ) : (
+          <ScrollView style={styles.solution}>
+            <Text style={styles.info}>{solution}</Text>
+          </ScrollView>
+        )}
       </View>
     </SafeAreaView>
   );
