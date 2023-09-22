@@ -25,7 +25,7 @@ export default function UploadImage({ navigation }) {
   const handleUpload = async () => {
     setLoader(true);
     // DON'T TOUCH THIS
-    const url = `http://localhost:8000/${crop}/predict`;
+    const url = `https://plant-dex-9e9e8.el.r.appspot.com/${crop}/predict`;
 
     const response = await File.uploadAsync(url, image, {
       fieldName: "file",

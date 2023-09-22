@@ -26,7 +26,7 @@ export default function Solution({ route, navigation }) {
   const handleGPT = async () => {
     setLoader(true);
     const header = { "Content-Type": "application/json" };
-    const obj = await fetch("http://localhost:8000/solution/", {
+    const obj = await fetch("https://plant-dex-9e9e8.el.r.appspot.com/solution/", {
       method: "POST",
       body: JSON.stringify({
         cropName: data.name,
