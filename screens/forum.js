@@ -19,18 +19,16 @@ import gotQuestions from "../assets/data/questions";
 import { auth, firebaseConfig, db } from "./firebase";
 import {
   collection,
-  addDoc,
   setDoc,
   doc,
   updateDoc,
-  serverTimestamp,
   query,
   orderBy,
   startAfter,
   limit,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
-import { updateProfile } from "firebase/auth";
 
 const Stack = createStackNavigator();
 
@@ -45,7 +43,8 @@ export default function Forum() {
 
   const onChangeSearch = (text) => {
     setSearch(text);
-    const ArrQuestions = [questions];
+    const ArrQuestions = [...questions];
+
     const filtered = ArrQuestions.filter(
       (item) =>
         item.question.toLowerCase().includes(text.toLowerCase()) ||
@@ -68,20 +67,30 @@ export default function Forum() {
   };
 
   const postQuestion = async () => {
+    var getPostCount = await getDoc(doc(db, "user", user.uid));
+    var postC = 0;
+    if (getPostCount.exists()) {
+      getPostCount = getPostCount.data();
+      postC = getPostCount["postCount"];
+    } else {
+      await setDoc(doc(db, "user", user.uid), { postCount: postC });
+    }
+    const postID = `${user.uid}${postC}`;
     const newQuestionData = {
-      id: filteredQuestions.length + 1, // Use filteredQuestions.length instead of questions.length
+      id: postID,
       date: Math.floor(Date.now() / 1000),
       profile: user.photoURL,
       authorUUID: user.uid,
       username: user.displayName,
       question: newQuestion,
       answer: "",
+      replies : 0
     };
     try {
-      const docRef = await setDoc(
-        doc(db, "forum", user.uid),
-        newQuestionData
-      );
+      await setDoc(doc(db, "forum", postID), newQuestionData);
+      await setDoc(doc(db, "user", user.uid), {
+        postCount: postC + 1,
+      });
       alert("Post sent successfully!");
     } catch (e) {
       alert("Error adding post!");
@@ -199,6 +208,7 @@ function QuestionListScreen({
                 onCardPress={() =>
                   navigation.navigate("ReplyScreen", {
                     question: question.question,
+                    postID: question.id,
                   })
                 }
               />

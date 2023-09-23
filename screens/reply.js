@@ -1,31 +1,79 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
-export default function ReplyScreen({ route, questionReplies, addReplyToQuestion }) {
-  const { question } = route.params; // Get the question from the route params
-
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { auth, firebaseConfig, db } from "./firebase";
+import {
+  collection,
+  setDoc,
+  doc,
+  updateDoc,
+  query,
+  orderBy,
+  startAfter,
+  limit,
+  where,
+  getDocs,
+  getDoc,
+  addDoc,
+} from "firebase/firestore";
+export default function ReplyScreen({
+  route,
+  questionReplies,
+  addReplyToQuestion,
+}) {
+  const { question, postID } = route.params; // Get the question from the route params
+  const user = auth.currentUser;
   // Initialize state for replies
   const [replies, setReplies] = useState([]);
   const [newReply, setNewReply] = useState(""); // Initialize newReply state
-
+  const handleLoadReplies = async () => {
+    const first = query(
+      collection(db, "replies"),
+      where("postID", "==", postID)
+    );
+    const documentSnapshots = await getDocs(first);
+    var actual = [];
+    documentSnapshots.docs.filter((item) => {
+      var here = item.data();
+      actual.push(here);
+    });
+    setReplies(actual);
+  };
   // Function to add a new reply
-  const addReply = () => {
+  const addReply = async () => {
     if (newReply.trim() !== "") {
-      const reply = { text: newReply, user: "Me" }; // You can replace "User XYZ" with the actual username
-      setReplies([...replies, reply]);
-
-      // Add the reply to the specific question in questionReplies state
-      addReplyToQuestion(question, reply);
-
-      setNewReply(""); // Clear the input field
+      const getRepliesCount = await getDoc(doc(db, "forum", postID));
+      const data = getRepliesCount.data();
+      console.log(data);
+      var repliesC = data["repliesCount"];
+      if (repliesC == null) repliesC = 0;
+      data["repliesCount"] = repliesC + 1;
+      const replyID = `${postID}${repliesC}`;
+      const reply = { text: newReply, user: user.displayName, postID: postID }; // You can replace "User XYZ" with the actual username
+      try {
+        await setDoc(doc(db, "replies", replyID), reply);
+        await setDoc(doc(db, "forum", postID), data);
+        setReplies([...replies, reply]);
+        // Add the reply to the specific question in questionReplies state
+        addReplyToQuestion(question, reply);
+        setNewReply(""); // Clear the input field
+      } catch (e) {
+        alert("Sorry, your reply didn't go through!");
+        console.log(e.message);
+      }
     }
   };
 
   // Load existing replies for the question
   useEffect(() => {
-    if (questionReplies[question]) {
-      setReplies(questionReplies[question]);
-    }
+    handleLoadReplies();
   }, [question, questionReplies]);
 
   return (
@@ -92,6 +140,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontFamily: 'Poppins_500Medium'
+    fontFamily: "Poppins_500Medium",
   },
 });
