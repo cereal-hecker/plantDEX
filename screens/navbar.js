@@ -101,14 +101,14 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   cameraTabButton: {
-    top: windowHeight * -0.05,
+    top: windowHeight * -0.025,
     justifyContent: 'center',
   },
   cameraIcon: {
     width: windowWidth * 0.18,
     height: windowWidth * 0.18,
     borderRadius: windowWidth * 0.2,
-    backgroundColor: '#fff',
+    backgroundColor: '#7EBC89',
     alignItems: 'center',
     justifyContent: 'center',
     top: windowHeight * 0.02,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   cameraImage: {
     width: windowWidth * 0.075,
     height: windowWidth * 0.075,
-    tintColor: '#049810',
+    tintColor: '#fff',
   },
 });
 

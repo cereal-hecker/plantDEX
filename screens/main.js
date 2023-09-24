@@ -2,6 +2,7 @@ import React from "react";
 import { Image, View, Text, StyleSheet, ScrollView } from "react-native";
 import History from "./history";
 import WeatherCard from "../components/weatherCard";
+import ProfileOverlay from "../components/profileOverlay";
 
 export default function Main({ navigation }) {
   return (
@@ -11,10 +12,7 @@ export default function Main({ navigation }) {
           style={styles.image}
           source={require("../assets/images/logo.png")}
         />
-        <Image
-          style={styles.acc}
-          source={require("../assets/images/account.png")}
-        />
+        <ProfileOverlay />
       </View>
       <View style={styles.centerCon}>
         <WeatherCard />
