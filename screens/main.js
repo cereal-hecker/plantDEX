@@ -1,12 +1,22 @@
 import React from "react";
-import { Image, View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  Image,
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import History from "./history";
 import WeatherCard from "../components/weatherCard";
 import ProfileOverlay from "../components/profileOverlay";
 
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
 export default function Main({ navigation }) {
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Image
           style={styles.image}
@@ -31,19 +41,14 @@ export default function Main({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
   header: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 50,
-    paddingRight: 15,
-    paddingLeft: 15,
-  },
-  acc: {
-    width: 50,
-    height: 50,
+    marginTop: windowHeight * 0.05,
+    paddingRight: windowWidth * 0.04,
+    paddingLeft: windowWidth * 0.04,
   },
   image: {
     width: 68,
@@ -53,21 +58,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  weather: {
-    marginTop: 40,
-  },
   banner: {
-    marginTop: 20,
+    marginTop: windowHeight * 0.02,
+    width: windowWidth * 0.8,
+    height: windowHeight * 0.2,
   },
-  capture: {
-    fontFamily: "Poppins_500Medium",
-    fontSize: 32,
-    marginTop: 80,
-  },
-  cam: {
-    marginTop: '100%'
-  },
-  con: {
-    height: 2000
-  }
 });

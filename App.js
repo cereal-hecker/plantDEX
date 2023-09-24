@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStack from "./screens/authStackNav";
 import TabNavigator from "./screens/navbar";
 import { createStackNavigator } from "@react-navigation/stack";
-import {auth} from "./screens/firebase";
+import { auth } from "./screens/firebase";
 import { onAuthStateChanged } from "@firebase/auth";
 
 import {
@@ -31,19 +31,21 @@ export default function App() {
   const Stack = createStackNavigator();
 
   onAuthStateChanged(auth, (user) => {
-    if(user){
+    if (user) {
       console.log(auth.currentUser.uid);
       //navigation.navigate('MainApp',{screen:'History'})
-    }else{
+    } else {
       //navigation.navigate('AuthStack')
     }
   });
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{
+      <Stack.Navigator
+        screenOptions={{
           headerShown: false,
-        }}>
+        }}
+      >
         <Stack.Screen name="AuthStack" component={AuthStack} />
         <Stack.Screen name="MainApp" component={TabNavigator} />
       </Stack.Navigator>

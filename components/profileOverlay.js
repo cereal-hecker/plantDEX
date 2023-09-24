@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   Image,
+  Dimensions,
 } from "react-native";
 import { updateProfile } from "firebase/auth";
 import { auth, firebaseConfig, db } from "./firebase";
@@ -22,8 +23,11 @@ import {
   getDocs,
   getDoc,
 } from "firebase/firestore";
-import * as ImagePicker from "expo-image-picker"; // Assuming you are using Expo
-import { Ionicons } from "@expo/vector-icons"; // Assuming you are using Expo
+import * as ImagePicker from "expo-image-picker";
+import { Ionicons } from "@expo/vector-icons";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const ProfileOverlay = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -46,23 +50,113 @@ const ProfileOverlay = () => {
   };
 
   const handleUpdate = async () => {
-    // If the username is actually being changed
     try {
-      if (userName != auth.currentUser.displayName) {
+      if (userName !== auth.currentUser.displayName) {
         updateProfile(auth.currentUser, { displayName: userName });
       }
 
       alert("Successfully Updated");
     } catch (e) {
-      alert("Error Occured!");
+      alert("Error Occurred!");
     }
   };
 
+  const styles = StyleSheet.create({
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: windowHeight * 0.05,
+    },
+    accimg: {
+      width: windowWidth * 0.11,
+      height: windowWidth * 0.11,
+    },
+    accmodal: {
+      alignSelf: "flex-end",
+      marginTop: windowHeight * -0.05,
+    },
+    modalView: {
+      margin: windowWidth * 0.05,
+      backgroundColor: "white",
+      borderRadius: windowWidth * 0.04,
+      padding: windowWidth * 0.07,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: windowWidth * 0.01,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: windowWidth * 0.02,
+      elevation: 5,
+    },
+    input: {
+      height: windowHeight * 0.065,
+      width: windowWidth * 0.75,
+      marginVertical: windowHeight * 0.015,
+      borderWidth: 1,
+      padding: windowWidth * 0.03,
+      borderRadius: windowWidth * 0.08,
+      borderColor: "#049A10",
+      fontFamily: "Poppins_400Regular",
+    },
+    profileImageContainer: {
+      width: windowWidth * 0.2,
+      height: windowWidth * 0.2,
+      borderRadius: windowWidth * 0.1,
+      marginBottom: windowHeight * 0.04,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#e0e0e0",
+    },
+    profileImage: {
+      width: windowWidth * 0.2,
+      height: windowWidth * 0.2,
+      borderRadius: windowWidth * 0.1,
+    },
+    updateButton: {
+      width: windowWidth * 0.3,
+      height: windowHeight * 0.06,
+      backgroundColor: "#2196F3",
+      padding: windowWidth * 0.03,
+      borderRadius: windowWidth * 0.08,
+      marginTop: windowHeight * 0.01,
+      justifyContent: "center",
+    },
+    updateButtonText: {
+      fontFamily: "Poppins_700Bold",
+      fontSize: windowHeight * 0.02,
+      color: "white",
+      textAlign: "center",
+    },
+    closeButton: {
+      width: windowWidth * 0.25,
+      height: windowHeight * 0.06,
+      backgroundColor: "red",
+      padding: windowWidth * 0.03,
+      borderRadius: windowWidth * 0.08,
+      marginTop: windowHeight * 0.015,
+      justifyContent: "center",
+    },
+    closeButtonText: {
+      fontFamily: "Poppins_700Bold",
+      fontSize: windowHeight * 0.02,
+      color: "white",
+      textAlign: "center",
+    },
+  });
+
   return (
     <View style={styles.centeredView}>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Image source={require("../assets/images/account.png")} />
-      </TouchableOpacity>
+      <View style={styles.accmodal}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <Image
+            style={styles.accimg}
+            source={require("../assets/images/account.png")}
+          />
+        </TouchableOpacity>
+      </View>
 
       <Modal
         animationType="slide"
@@ -125,68 +219,5 @@ const ProfileOverlay = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  input: {
-    height: 40,
-    width: 200,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-  profileImageContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginBottom: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#e0e0e0",
-  },
-  profileImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-  },
-  updateButton: {
-    backgroundColor: "#2196F3",
-    padding: 10,
-    borderRadius: 20,
-    marginTop: 10,
-  },
-  updateButtonText: {
-    color: "white",
-  },
-  closeButton: {
-    backgroundColor: "red",
-    padding: 10,
-    borderRadius: 20,
-    marginTop: 10,
-  },
-  closeButtonText: {
-    color: "white",
-  },
-});
 
 export default ProfileOverlay;
