@@ -151,7 +151,7 @@ export default function UserSwitch({ navigation }) {
               {
                 left: animation.interpolate({
                   inputRange: [0, 1],
-                  outputRange: ["0%", "50%"],
+                  outputRange: ["1%", "49%"],
                 }),
               },
             ]}
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   sliderIndicator: {
     position: "absolute",
     width: "50%", // The width of each button
-    height: "100%", // The height of the slider
+    height: "90%", // The height of the slider
     backgroundColor: "#049A10", // The color of the active button
     borderRadius: 100,
   },
