@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Animated,
-  Animated,
 } from "react-native";
 import {
   createUserWithEmailAndPassword,
