@@ -20,7 +20,7 @@ export default function ExpertLogin({
       <AnimatedTextInput
         value={email}
         onChangeText={setEmail}
-        placeholder="Email/Phone number"
+        placeholder="Email"
       />
       
       <AnimatedTextInput
