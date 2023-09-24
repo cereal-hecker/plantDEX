@@ -5,9 +5,8 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  Animated
+  Animated,
 } from "react-native";
-<<<<<<< HEAD
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -15,18 +14,12 @@ import {
   signInWithCredential,
   sendEmailVerification,
 } from "firebase/auth";
-import React, { useState, useRef } from "react";
 import { auth, firebaseConfig } from "./firebase";
 import {
   FirebaseRecaptchaVerifierModal,
   FirebaseRecaptchaBanner,
 } from "expo-firebase-recaptcha";
-=======
-import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState, useRef, useEffect } from "react";
-import { auth } from "./firebase"
-import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
->>>>>>> aa882ba7d95839750c8d3f9c300a7c5c037f2968
 import UserLogin from "./userLogin";
 import ExpertLogin from "./expertLogin";
 
@@ -40,12 +33,8 @@ export default function UserSwitch({ navigation }) {
   const [repass, setRepass] = useState("");
 
   const handleLogin = () => {
-<<<<<<< HEAD
-    //Change this to login
-=======
     if (email == "admin" && pass == "admin")
       navigation.navigate("MainApp", { screen: "History" });
->>>>>>> aa882ba7d95839750c8d3f9c300a7c5c037f2968
     signInWithEmailAndPassword(auth, email, pass)
       .then((userCreds) => {
         const user = userCreds.user;
@@ -126,7 +115,7 @@ export default function UserSwitch({ navigation }) {
   };
 
   const animation = useRef(new Animated.Value(0)).current;
-  
+
   const startAnimation = (toValue) => {
     Animated.timing(animation, {
       toValue,
@@ -134,7 +123,7 @@ export default function UserSwitch({ navigation }) {
       useNativeDriver: false, // We are animating a non-native property (left)
     }).start();
   };
-  
+
   useEffect(() => {
     // Move the slider to the appropriate position when the component mounts
     if (isExpertActive) {
@@ -156,13 +145,18 @@ export default function UserSwitch({ navigation }) {
       <View style={styles.login}>
         <View style={styles.slider}>
           {/* Slider Indicator */}
-          <Animated.View style={[styles.sliderIndicator, {
-            left: animation.interpolate({
-              inputRange: [0, 1],
-              outputRange: ['0%', '50%'],
-            }),
-          }]} />
-          
+          <Animated.View
+            style={[
+              styles.sliderIndicator,
+              {
+                left: animation.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ["0%", "50%"],
+                }),
+              },
+            ]}
+          />
+
           {/* User Button */}
           <TouchableOpacity
             style={styles.button}
@@ -175,7 +169,7 @@ export default function UserSwitch({ navigation }) {
           >
             <Text style={styles.butt}>User</Text>
           </TouchableOpacity>
-          
+
           {/* Expert Button */}
           <TouchableOpacity
             style={styles.button}
@@ -233,14 +227,14 @@ const styles = StyleSheet.create({
     marginBottom: "10%",
     width: "80%",
     alignSelf: "center",
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   sliderIndicator: {
-    position: 'absolute',
-    width: '50%', // The width of each button
-    height: '100%', // The height of the slider
-    backgroundColor: '#049A10', // The color of the active button
-    borderRadius: 100
+    position: "absolute",
+    width: "50%", // The width of each button
+    height: "100%", // The height of the slider
+    backgroundColor: "#049A10", // The color of the active button
+    borderRadius: 100,
   },
   or: {
     fontSize: 16,
