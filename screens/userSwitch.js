@@ -6,14 +6,19 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  PhoneAuthProvider,
+  signInWithCredential,
+  sendEmailVerification,
+} from "firebase/auth";
 import React, { useState, useRef } from "react";
 import { auth, firebaseConfig } from "./firebase";
 import {
   FirebaseRecaptchaVerifierModal,
   FirebaseRecaptchaBanner,
 } from "expo-firebase-recaptcha";
-import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 import UserLogin from "./userLogin";
 import ExpertLogin from "./expertLogin";
 
@@ -29,8 +34,6 @@ export default function UserSwitch({ navigation }) {
 
   const handleLogin = () => {
     //Change this to login
-    if (email == "admin" && pass == "admin")
-      navigation.navigate("MainApp", { screen: "History" });
     signInWithEmailAndPassword(auth, email, pass)
       .then((userCreds) => {
         const user = userCreds.user;
@@ -38,7 +41,19 @@ export default function UserSwitch({ navigation }) {
 
         navigation.navigate("MainApp", { screen: "History" });
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        createUserWithEmailAndPassword(auth, email, pass)
+          .then((userCreds) => {
+            const user = userCreds.user;
+            console.log(user.email);
+            sendEmailVerification(auth.currentUser);
+
+            navigation.navigate("MainApp", { screen: "History" });
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      });
   };
   // for user sign up
 
