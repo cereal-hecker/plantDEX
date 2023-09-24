@@ -4,7 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Animated, // Import Animated
-} from 'react-native';
+} from "react-native";
 import {
   TextInput,
   TouchableWithoutFeedback,
@@ -16,7 +16,7 @@ import {
   FirebaseRecaptchaBanner,
 } from "expo-firebase-recaptcha";
 import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
-import AnimatedTextInput from '../components/animatedTextInput';
+import AnimatedTextInput from "../components/animatedTextInput";
 
 export default function UserLogin({
   recaptchaVerifier,
@@ -46,12 +46,13 @@ export default function UserLogin({
       {info && <Text style={styles.text}>{info}</Text>}
 
       {!verificationId && (
-          <View>
-            <AnimatedTextInput
+        <View>
+          <AnimatedTextInput
             value={phone}
             onChangeText={(text) => setPhone(text)}
             placeholder="Phone number"
           />
+          <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
@@ -59,9 +60,10 @@ export default function UserLogin({
                 console.log("Called");
               }}
             >
-              <Text style={styles.buttonText}>Login</Text>
+              <Text style={styles.buttonText}>Log In</Text>
             </TouchableOpacity>
           </View>
+        </View>
       )}
 
       {verificationId && (
@@ -82,7 +84,9 @@ export default function UserLogin({
           </TouchableOpacity>
         </View>
       )}
-      {attemptInvisibleVerification && showRecaptchaBanner && <FirebaseRecaptchaBanner/>}
+      {attemptInvisibleVerification && showRecaptchaBanner && (
+        <FirebaseRecaptchaBanner />
+      )}
     </View>
   );
 }
@@ -97,11 +101,15 @@ const styles = StyleSheet.create({
     color: "#049A10",
     fontFamily: "Poppins_600SemiBold",
   },
+  buttonContainer: {
+    alignItems: "center",
+    marginTop: 20,
+  },
   button: {
     backgroundColor: "#049A10",
     padding: 10,
     borderRadius: 20,
-    width: 150,
+    width: 240,
     height: 50,
     alignItems: "center",
     textAlign: "center",

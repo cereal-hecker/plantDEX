@@ -5,11 +5,11 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  Animated
+  Animated,
 } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState, useRef, useEffect } from "react";
-import { auth } from "./firebase"
+import { auth } from "./firebase";
 import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 import UserLogin from "./userLogin";
 import ExpertLogin from "./expertLogin";
@@ -94,7 +94,7 @@ export default function UserSwitch({ navigation }) {
   };
 
   const animation = useRef(new Animated.Value(0)).current;
-  
+
   const startAnimation = (toValue) => {
     Animated.timing(animation, {
       toValue,
@@ -102,7 +102,7 @@ export default function UserSwitch({ navigation }) {
       useNativeDriver: false, // We are animating a non-native property (left)
     }).start();
   };
-  
+
   useEffect(() => {
     // Move the slider to the appropriate position when the component mounts
     if (isExpertActive) {
@@ -124,13 +124,18 @@ export default function UserSwitch({ navigation }) {
       <View style={styles.login}>
         <View style={styles.slider}>
           {/* Slider Indicator */}
-          <Animated.View style={[styles.sliderIndicator, {
-            left: animation.interpolate({
-              inputRange: [0, 1],
-              outputRange: ['0%', '50%'],
-            }),
-          }]} />
-          
+          <Animated.View
+            style={[
+              styles.sliderIndicator,
+              {
+                left: animation.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ["1%", "49%"],
+                }),
+              },
+            ]}
+          />
+
           {/* User Button */}
           <TouchableOpacity
             style={styles.button}
@@ -143,7 +148,7 @@ export default function UserSwitch({ navigation }) {
           >
             <Text style={styles.butt}>User</Text>
           </TouchableOpacity>
-          
+
           {/* Expert Button */}
           <TouchableOpacity
             style={styles.button}
@@ -178,6 +183,7 @@ export default function UserSwitch({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    height: "100%",
   },
   login: {
     top: "30%",
@@ -192,54 +198,37 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_900Black",
   },
   slider: {
-    backgroundColor: "#034A0A", // Dark green background for the entire slider
+    backgroundColor: "#75C07C", // Dark green background for the entire slider
     alignItems: "center", // Align buttons in the center horizontally
-    height: 50,
+    height: 70,
     flexDirection: "row",
     justifyContent: "center",
-    borderRadius: 25,
+    borderRadius: 50,
     marginBottom: "10%",
     width: "80%",
     alignSelf: "center",
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   sliderIndicator: {
-    position: 'absolute',
-    width: '50%', // The width of each button
-    height: '100%', // The height of the slider
-    backgroundColor: '#049A10', // The color of the active button
-    borderRadius: 100
-  },
-  or: {
-    fontSize: 16,
-    marginVertical: 10,
-    fontFamily: "Poppins_700Bold",
+    position: "absolute",
+    width: "50%",
+    height: "90%",
+    backgroundColor: "#049A10",
+    borderRadius: 50,
   },
   button: {
     borderRadius: 20,
     width: "50%",
     height: 50,
     alignItems: "center",
-    justifyContent: "center", // Center text vertically
+    justifyContent: "center",
   },
 
   butt: {
     textAlign: "center",
     fontSize: 20,
     alignSelf: "center",
-    color: "#FFFFFF", // Center text vertically
-  },
-  activeButton: {
-    backgroundColor: "#049A10", // Light green background for active button
-  },
-  activeButtonText: {
-    color: "#FFFFFF", // White text color for active button
-  },
-  inactiveButton: {
-    backgroundColor: "#034A0A", // Dark green background for inactive button
-  },
-  inactiveButtonText: {
-    color: "#FFFFFF", // White text color for inactive button
+    color: "#FFFFFF",
   },
   header: {
     flexDirection: "row",

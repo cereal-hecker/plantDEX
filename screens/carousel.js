@@ -21,21 +21,24 @@ const DATA = [
   {
     image: splash1,
     title: "Plant Care",
-    content: "Simplify disease diagnosis and crop protection with easy access to plant health records.",
+    content:
+      "Simplify disease diagnosis and crop protection with easy access to plant health records.",
     width: 0.8 * windowWidth,
     height: 0.8 * windowWidth,
   },
   {
     image: splash2,
     title: "Scan & Detect",
-    content: "Use AI for quick plant disease detection, ensuring healthier and more abundant harvests.",
+    content:
+      "Use AI for quick plant disease detection, ensuring healthier and more abundant harvests.",
     width: 0.8 * windowWidth,
     height: 0.8 * windowWidth,
   },
   {
     image: splash3,
     title: "Crop Precision",
-    content: "Customized solutions for plant diseases, optimizing crop yields with precision and personalized care.",
+    content:
+      "Customized solutions for plant diseases, optimizing crop yields with precision and personalized care.",
     width: 1 * windowWidth,
     height: 0.8 * windowWidth,
   },
@@ -47,7 +50,10 @@ export default function SplashCarousel({ navigation }) {
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Image style={[styles.image, { width: item.width, height: item.height }]} source={item.image} />
+      <Image
+        style={[styles.image, { width: item.width, height: item.height }]}
+        source={item.image}
+      />
       <View style={styles.textContainer}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.content}>{item.content}</Text>
@@ -65,7 +71,10 @@ export default function SplashCarousel({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.logo} source={require("../assets/images/logo.png")} />
+      <Image
+        style={styles.logo}
+        source={require("../assets/images/logo.png")}
+      />
       <Carousel
         ref={carouselRef}
         data={DATA}
@@ -84,10 +93,14 @@ export default function SplashCarousel({ navigation }) {
           inactiveDotScale={1}
           dotStyle={styles.dot}
         />
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.arrowContainer}
-          onPress={handleArrowPress}>
-          <Image style={styles.arrow} source={require("../assets/images/arrow.png")} />
+          onPress={handleArrowPress}
+        >
+          <Image
+            style={styles.arrow}
+            source={require("../assets/images/arrow.png")}
+          />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -124,8 +137,8 @@ const styles = StyleSheet.create({
     marginTop: "10%",
   },
   logo: {
-    height: windowHeight * 0.11,
-    width: windowWidth * 0.35,
+    height: 80,
+    width: 135,
   },
   dot: {
     backgroundColor: "#049A10",
@@ -142,9 +155,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     width: "100%",
-    position: "absolute", 
-    bottom: 0, 
-    paddingHorizontal: windowWidth * 0.05, 
+    position: "absolute",
+    bottom: 0,
+    paddingHorizontal: windowWidth * 0.05,
     paddingBottom: windowHeight * 0.03,
   },
   paginationContainer: {
