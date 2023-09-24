@@ -20,8 +20,6 @@ import {
   FirebaseRecaptchaBanner,
 } from "expo-firebase-recaptcha";
 import React, { useState, useRef, useEffect } from "react";
-import { auth } from "./firebase";
-import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 import UserLogin from "./userLogin";
 import ExpertLogin from "./expertLogin";
 
