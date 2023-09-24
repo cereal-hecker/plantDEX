@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Image,
+import React from "react";
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity 
 } from "react-native";
+import AnimatedTextInput from "../components/animatedTextInput";
 
 export default function ExpertLogin({
   handleLogin,
@@ -17,130 +15,27 @@ export default function ExpertLogin({
   setPass,
   navigation,
 }) {
-  const [isFocusedEmail, setIsFocusedEmail] = useState(false);
-  const [isFocusedPassword, setIsFocusedPassword] = useState(false);
-  //const [password, setPassword] = useState("");
-
-  const handleEmailFocus = () => {
-    setIsFocusedEmail(true);
-  };
-
-  const handleEmailBlur = () => {
-    setIsFocusedEmail(false);
-  };
-
-  const handlePasswordFocus = () => {
-    setIsFocusedPassword(true);
-  };
-
-  const handlePasswordBlur = () => {
-    setIsFocusedPassword(false);
-  };
-
-  const handleEmailInputPress = () => {
-    if (!isFocusedEmail) {
-      handleEmailFocus();
-    }
-  };
-
-  const handlePasswordInputPress = () => {
-    if (!isFocusedPassword) {
-      handlePasswordFocus();
-    }
-  };
-
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={handleEmailInputPress}>
-        <View style={styles.inputField}>
-          <View
-            style={[
-              styles.labelContainer,
-              {
-                top: isFocusedEmail || (email && email.length > 0) ? -8 : "50%",
-                transform: [
-                  {
-                    translateY: isFocusedEmail || (email && email.length > 0)
-                      ? 0
-                      : -10,
-                  },
-                ],
-              },
-            ]}
-          >
-            <Text
-              style={[
-                styles.label,
-                {
-                  color: isFocusedEmail ? "#049A10" : "#049A1050",
-                  fontSize: isFocusedEmail || (email && email.length > 0)
-                    ? 14
-                    : 16,
-                },
-              ]}
-            >
-              Email/Phone number
-            </Text>
-          </View>
-          <TextInput
-            style={styles.input}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            onFocus={handleEmailFocus}
-            onBlur={handleEmailBlur}
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-        </View>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={handlePasswordInputPress}>
-        <View style={styles.inputField}>
-          <View
-            style={[
-              styles.labelContainer,
-              {
-                top: isFocusedPassword || (pass && pass.length > 0)
-                  ? -8
-                  : "50%",
-                transform: [
-                  {
-                    translateY: isFocusedPassword || (pass && pass.length > 0)
-                      ? 0
-                      : -10,
-                  },
-                ],
-              },
-            ]}
-          >
-            <Text
-              style={[
-                styles.label,
-                {
-                  color: isFocusedPassword ? "#049A10" : "#049A1050",
-                  fontSize: isFocusedPassword || (pass && pass.length > 0)
-                    ? 14
-                    : 16,
-                },
-              ]}
-            >
-              Password
-            </Text>
-          </View>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.input}
-            onFocus={handlePasswordFocus}
-            onBlur={handlePasswordBlur}
-            value={pass}
-            onChangeText={(text) => setPass(text)}
-          />
-        </View>
-      </TouchableWithoutFeedback>
+      <AnimatedTextInput
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Email/Phone number"
+      />
+      
+      <AnimatedTextInput
+        value={pass}
+        onChangeText={setPass}
+        placeholder="Password"
+        secureTextEntry={true}
+      />
+      
       <View style={styles.forgotPasswordContainer}>
         <TouchableOpacity onPress={() => {}}>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
+
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
