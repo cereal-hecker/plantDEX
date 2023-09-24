@@ -2,7 +2,10 @@ import OTPInputView from "@twotalltotems/react-native-otp-input";
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
 
+
 export default function OtpVerify({ navigation }) {
+  const { setVerificationCode, handleVerifyVerificationCode } = useAppContext();
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -12,17 +15,18 @@ export default function OtpVerify({ navigation }) {
         <View style={styles.background}>
           <View style={styles.centeredContainer}>
             <Text style={styles.heading}>Confirm OTP code</Text>
-            <Text style={styles.subText}>Enter 4-digit code sent via SMS to your mobile number</Text>
+            <Text style={styles.subText}>Enter 6-digit code sent via SMS to your mobile number</Text>
             <View style={styles.inputContainer}>
               <OTPInputView
                 style={styles.otpInput}
-                pinCount={4}
+                pinCount={6}
                 autoFocusOnLoad
                 selectionColor={'transparent'}
                 codeInputFieldStyle={styles.otpInputField}
                 codeInputHighlightStyle={styles.otpInputHighlight}
                 onCodeFilled={(code) => {
-                  console.log(`code is ${code}`);
+                  setVerificationCode(code)
+                  handleVerifyVerificationCode()
                 }}
               />
               <View style={styles.resendContainer}>

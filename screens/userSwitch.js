@@ -75,7 +75,7 @@ export default function UserSwitch({ navigation }) {
         recaptchaVerifier.current
       ); // get the verification id
       setVerificationID(verificationId); // set the verification id
-      setInfo("Success : Verification code has been sent to your phone"); // If Ok, show message.
+      setInfo("Success : Verification code has been sent to your phone");
     } catch (error) {
       setInfo(`Error : ${error.message}`); // show the error
     }

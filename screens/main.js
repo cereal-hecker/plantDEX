@@ -7,7 +7,7 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import History from "./history";
+import History from "../components/history";
 import WeatherCard from "../components/weatherCard";
 import ProfileOverlay from "../components/profileOverlay";
 
