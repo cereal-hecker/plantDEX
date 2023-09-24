@@ -6,8 +6,20 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Animated,
+  Animated,
 } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  PhoneAuthProvider,
+  signInWithCredential,
+  sendEmailVerification,
+} from "firebase/auth";
+import { auth, firebaseConfig } from "./firebase";
+import {
+  FirebaseRecaptchaVerifierModal,
+  FirebaseRecaptchaBanner,
+} from "expo-firebase-recaptcha";
 import React, { useState, useRef, useEffect } from "react";
 import { auth } from "./firebase";
 import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
@@ -33,7 +45,19 @@ export default function UserSwitch({ navigation }) {
 
         navigation.navigate("MainApp", { screen: "History" });
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        createUserWithEmailAndPassword(auth, email, pass)
+          .then((userCreds) => {
+            const user = userCreds.user;
+            console.log(user.email);
+            sendEmailVerification(auth.currentUser);
+
+            navigation.navigate("MainApp", { screen: "History" });
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      });
   };
 
   const recaptchaVerifier = useRef(null);
@@ -130,6 +154,18 @@ export default function UserSwitch({ navigation }) {
               {
                 left: animation.interpolate({
                   inputRange: [0, 1],
+                  outputRange: ["0%", "50%"],
+                }),
+              },
+            ]}
+          />
+
+          <Animated.View
+            style={[
+              styles.sliderIndicator,
+              {
+                left: animation.interpolate({
+                  inputRange: [0, 1],
                   outputRange: ["1%", "49%"],
                 }),
               },
@@ -208,8 +244,19 @@ const styles = StyleSheet.create({
     width: "80%",
     alignSelf: "center",
     overflow: "hidden",
+    overflow: "hidden",
   },
   sliderIndicator: {
+    position: "absolute",
+    width: "50%", // The width of each button
+    height: "100%", // The height of the slider
+    backgroundColor: "#049A10", // The color of the active button
+    borderRadius: 100,
+  },
+  or: {
+    fontSize: 16,
+    marginVertical: 10,
+    fontFamily: "Poppins_700Bold",
     position: "absolute",
     width: "50%",
     height: "90%",

@@ -67,37 +67,43 @@ export default function Forum() {
   };
 
   const postQuestion = async () => {
-    var getPostCount = await getDoc(doc(db, "user", user.uid));
-    var postC = 0;
-    if (getPostCount.exists()) {
-      getPostCount = getPostCount.data();
-      postC = getPostCount["postCount"];
+    if (user.displayName == null) {
+      alert(
+        "You need a display name before you can make a post\n\nPlease head to the profile section update it!"
+      );
     } else {
-      await setDoc(doc(db, "user", user.uid), { postCount: postC });
+      var getPostCount = await getDoc(doc(db, "user", user.uid));
+      var postC = 0;
+      if (getPostCount.exists()) {
+        getPostCount = getPostCount.data();
+        postC = getPostCount["postCount"];
+      } else {
+        await setDoc(doc(db, "user", user.uid), { postCount: postC });
+      }
+      const postID = `${user.uid}${postC}`;
+      const newQuestionData = {
+        id: postID,
+        date: Math.floor(Date.now() / 1000),
+        profile: user.photoURL,
+        authorUUID: user.uid,
+        username: user.displayName,
+        question: newQuestion,
+        answer: "",
+        replies: 0,
+      };
+      try {
+        await setDoc(doc(db, "forum", postID), newQuestionData);
+        await setDoc(doc(db, "user", user.uid), {
+          postCount: postC + 1,
+        });
+        alert("Post sent successfully!");
+      } catch (e) {
+        alert("Error adding post!");
+        console.log(e.message);
+      }
+      setNewQuestion("");
+      getQuestions();
     }
-    const postID = `${user.uid}${postC}`;
-    const newQuestionData = {
-      id: postID,
-      date: Math.floor(Date.now() / 1000),
-      profile: user.photoURL,
-      authorUUID: user.uid,
-      username: user.displayName,
-      question: newQuestion,
-      answer: "",
-      replies : 0
-    };
-    try {
-      await setDoc(doc(db, "forum", postID), newQuestionData);
-      await setDoc(doc(db, "user", user.uid), {
-        postCount: postC + 1,
-      });
-      alert("Post sent successfully!");
-    } catch (e) {
-      alert("Error adding post!");
-      console.log(e.message);
-    }
-    setNewQuestion("");
-    getQuestions();
   };
 
   const rotate = rotateValue.interpolate({
