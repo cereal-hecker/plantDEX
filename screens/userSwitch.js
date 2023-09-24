@@ -5,14 +5,11 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  Animated
 } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState, useRef } from "react";
-import { auth, firebaseConfig } from "./firebase";
-import {
-  FirebaseRecaptchaVerifierModal,
-  FirebaseRecaptchaBanner,
-} from "expo-firebase-recaptcha";
+import React, { useState, useRef, useEffect } from "react";
+import { auth } from "./firebase"
 import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 import UserLogin from "./userLogin";
 import ExpertLogin from "./expertLogin";
@@ -22,13 +19,11 @@ export default function UserSwitch({ navigation }) {
   const [isExpertActive, setExpertActive] = useState(false);
   const [isExpert, setExpert] = useState(false);
 
-  // for exper sign up
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [repass, setRepass] = useState("");
 
   const handleLogin = () => {
-    //Change this to login
     if (email == "admin" && pass == "admin")
       navigation.navigate("MainApp", { screen: "History" });
     signInWithEmailAndPassword(auth, email, pass)
@@ -40,7 +35,6 @@ export default function UserSwitch({ navigation }) {
       })
       .catch((error) => alert(error.message));
   };
-  // for user sign up
 
   const recaptchaVerifier = useRef(null);
 
@@ -99,6 +93,25 @@ export default function UserSwitch({ navigation }) {
     handleVerifyVerificationCode,
   };
 
+  const animation = useRef(new Animated.Value(0)).current;
+  
+  const startAnimation = (toValue) => {
+    Animated.timing(animation, {
+      toValue,
+      duration: 250, // Duration of the animation, in milliseconds
+      useNativeDriver: false, // We are animating a non-native property (left)
+    }).start();
+  };
+  
+  useEffect(() => {
+    // Move the slider to the appropriate position when the component mounts
+    if (isExpertActive) {
+      startAnimation(1);
+    } else {
+      startAnimation(0);
+    }
+  }, [isExpertActive]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -110,49 +123,38 @@ export default function UserSwitch({ navigation }) {
       </View>
       <View style={styles.login}>
         <View style={styles.slider}>
+          {/* Slider Indicator */}
+          <Animated.View style={[styles.sliderIndicator, {
+            left: animation.interpolate({
+              inputRange: [0, 1],
+              outputRange: ['0%', '50%'],
+            }),
+          }]} />
+          
+          {/* User Button */}
           <TouchableOpacity
-            style={[
-              styles.button,
-              isUserActive ? styles.activeButton : null,
-              !isUserActive ? styles.inactiveButton : null, // Add this condition
-            ]}
+            style={styles.button}
             onPress={() => {
               setExpert(false);
-              setUserActive(true); // Set User as active
-              setExpertActive(false); // Set Expert as not active
+              setUserActive(true);
+              setExpertActive(false);
+              startAnimation(0); // Start the animation to slide to User
             }}
           >
-            <Text
-              style={[
-                styles.butt,
-                isUserActive ? styles.activeButtonText : null,
-                !isUserActive ? styles.inactiveButtonText : null, // Add this condition
-              ]}
-            >
-              User
-            </Text>
+            <Text style={styles.butt}>User</Text>
           </TouchableOpacity>
+          
+          {/* Expert Button */}
           <TouchableOpacity
-            style={[
-              styles.button,
-              isExpertActive ? styles.activeButton : null,
-              !isExpertActive ? styles.inactiveButton : null, // Add this condition
-            ]}
+            style={styles.button}
             onPress={() => {
               setExpert(true);
-              setUserActive(false); // Set User as not active
-              setExpertActive(true); // Set Expert as active
+              setUserActive(false);
+              setExpertActive(true);
+              startAnimation(1); // Start the animation to slide to Expert
             }}
           >
-            <Text
-              style={[
-                styles.butt,
-                isExpertActive ? styles.activeButtonText : null,
-                !isExpertActive ? styles.inactiveButtonText : null, // Add this condition
-              ]}
-            >
-              Expert
-            </Text>
+            <Text style={styles.butt}>Expert</Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -163,8 +165,6 @@ export default function UserSwitch({ navigation }) {
               setEmail={setEmail}
               pass={pass}
               setPass={setPass}
-              // repass={repass}
-              // setRepass={setRepass}
             />
           ) : (
             <UserLogin {...userLoginProps} />
@@ -201,6 +201,14 @@ const styles = StyleSheet.create({
     marginBottom: "10%",
     width: "80%",
     alignSelf: "center",
+    overflow: 'hidden',
+  },
+  sliderIndicator: {
+    position: 'absolute',
+    width: '50%', // The width of each button
+    height: '100%', // The height of the slider
+    backgroundColor: '#049A10', // The color of the active button
+    borderRadius: 100
   },
   or: {
     fontSize: 16,
@@ -218,7 +226,8 @@ const styles = StyleSheet.create({
   butt: {
     textAlign: "center",
     fontSize: 20,
-    alignSelf: "center", // Center text vertically
+    alignSelf: "center",
+    color: "#FFFFFF", // Center text vertically
   },
   activeButton: {
     backgroundColor: "#049A10", // Light green background for active button

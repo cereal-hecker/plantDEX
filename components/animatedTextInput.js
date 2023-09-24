@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, Animated, TextInput, StyleSheet } from 'react-native';
 
-const AnimatedTextInput = ({ value, onChangeText, placeholder }) => {
+const AnimatedTextInput = ({ value, onChangeText, placeholder, secureTextEntry }) => {
   const [isFocused, setIsFocused] = useState(false);
   const animatedIsFocused = useRef(new Animated.Value(value.length > 0 ? 1 : 0)).current;
 
@@ -56,6 +56,7 @@ const AnimatedTextInput = ({ value, onChangeText, placeholder }) => {
         onFocus={handleFocus}
         onBlur={handleBlur}
         style={styles.input}
+        secureTextEntry={secureTextEntry}
       />
     </View>
   );
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     height: '100%',
     fontSize: 20,
     color: '#3f4146',
-    paddingHorizontal: 15, // Added padding to align the text inside TextInput
+    paddingHorizontal: 15,
   },
 });
 
