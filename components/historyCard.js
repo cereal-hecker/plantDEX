@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 
 const HistoryCard = ({ item }) => {
-  console.log(item);
   return (
     <ScrollView>
       <View style={styles.card}>

@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { auth, db } from "./firebase";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import names from "../assets/data/model_classes.json";
 
 const windowWidth = Dimensions.get("window").width;
@@ -44,14 +44,26 @@ export default function Solution({ route, navigation }) {
     const answer = await obj.json();
     setSolution(answer["solution"]);
     setLoader(false);
+    var history = await getDoc(doc(db, "user", auth.currentUser.uid));
+    history = history.data();
+    var historyCount = history["historyCount"];
+    if (historyCount == null) {
+      historyCount = 0;
+    }
+
     const toSet = {
       diseaseName: diseaseName,
       cropName: data.name,
       date: Math.floor(Date.now() / 1000),
-      solution: solution,
+      solution: answer["solution"],
       userID: auth.currentUser.uid,
     };
-    await setDoc(doc(db, "history", auth.currentUser.uid), toSet);
+    await setDoc(
+      doc(db, "history", `${auth.currentUser.uid}${historyCount}`),
+      toSet
+    );
+    history["historyCount"] = historyCount + 1;
+    await setDoc(doc(db, "user", auth.currentUser.uid), history);
   };
   useEffect(() => {
     handleGPT();
