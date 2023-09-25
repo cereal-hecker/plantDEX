@@ -33,23 +33,19 @@ export default function UserSwitch({ navigation }) {
   const [repass, setRepass] = useState("");
 
   const handleLogin = () => {
-    if (email == "admin" && pass == "admin")
-      navigation.navigate("MainApp", { screen: "History" });
     signInWithEmailAndPassword(auth, email, pass)
       .then((userCreds) => {
         const user = userCreds.user;
-        console.log(user.email);
 
-        navigation.navigate("MainApp", { screen: "History" });
+        navigation.replace("MainApp", { screen: "History" });
       })
       .catch((error) => {
         createUserWithEmailAndPassword(auth, email, pass)
           .then((userCreds) => {
             const user = userCreds.user;
-            console.log(user.email);
             sendEmailVerification(auth.currentUser);
 
-            navigation.navigate("MainApp", { screen: "History" });
+            navigation.replace("MainApp", { screen: "History" });
           })
           .catch((error) => {
             alert(error.message);
@@ -91,7 +87,7 @@ export default function UserSwitch({ navigation }) {
       setInfo("Success: Phone authentication successful"); // if OK, set the message
 
       //Navigate to main window
-      navigation.navigate("MainApp", { screen: "Main" });
+      navigation.replace("MainApp", { screen: "Main" });
     } catch (error) {
       setInfo(`Error : ${error.message}`); // show the error.
     }

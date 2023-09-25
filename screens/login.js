@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: windowWidth * 0.05,
   },
   logo: {
-    width: windowWidth * 0.35,
-    height: windowHeight * 0.11,
+    width: 135,
+    height: 80,
     marginTop: windowHeight * 0.05,
   },
   translate: {

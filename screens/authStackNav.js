@@ -1,11 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashCarousel from "./carousel";
-import Main from "./main";
 import Login from "./login";
 import UserLogin from "./userLogin";
-import OtpVerify from "./otpVerify";
-import UploadImage from './uploadImage';  
-import Forum from './forum';
 import UserSwitch from './userSwitch';
 
 const Stack = createStackNavigator();
