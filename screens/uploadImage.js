@@ -35,9 +35,11 @@ export default function UploadImage({ navigation }) {
 
     var obj = JSON.parse(response.body);
     obj["name"] = crop;
+    obj["photo"] = image;
     // DON'T TOUCH THIS
     setLoader(false);
-
+    setCrop("Select your crop");
+    setImage(null);
     navigation.navigate("Solution", { obj });
   };
 
@@ -96,7 +98,11 @@ export default function UploadImage({ navigation }) {
             <Text style={styles.imgorvid}>IMAGE OR VIDEO</Text>
           </View>
           <View style={styles.dropdown}>
-            <DropdownMenu options={options} onSelect={handleSelect} crop={crop} />
+            <DropdownMenu
+              options={options}
+              onSelect={handleSelect}
+              crop={crop}
+            />
           </View>
           <TouchableOpacity style={styles.uploadArea} onPress={pickImage}>
             {image ? (
@@ -161,7 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     zIndex: 1,
-    marginBottom: windowHeight * 0.02, 
+    marginBottom: windowHeight * 0.02,
   },
   uploadArea: {
     borderWidth: windowHeight * 0.0025,

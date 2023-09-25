@@ -8,6 +8,8 @@ import {
   Dimensions,
   ActivityIndicator,
 } from "react-native";
+import { auth, db } from "./firebase";
+import { setDoc, doc } from "firebase/firestore";
 import names from "../assets/data/model_classes.json";
 
 const windowWidth = Dimensions.get("window").width;
@@ -26,19 +28,30 @@ export default function Solution({ route, navigation }) {
   const handleGPT = async () => {
     setLoader(true);
     const header = { "Content-Type": "application/json" };
-    const obj = await fetch("https://plant-dex-9e9e8.el.r.appspot.com/solution/", {
-      method: "POST",
-      body: JSON.stringify({
-        cropName: data.name,
-        diseaseName: diseaseName,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
+    const obj = await fetch(
+      "https://plant-dex-9e9e8.el.r.appspot.com/solution/",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          cropName: data.name,
+          diseaseName: diseaseName,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
     const answer = await obj.json();
     setSolution(answer["solution"]);
     setLoader(false);
+    const toSet = {
+      diseaseName: diseaseName,
+      cropName: data.name,
+      date: Math.floor(Date.now() / 1000),
+      solution: solution,
+      userID: auth.currentUser.uid,
+    };
+    await setDoc(doc(db, "history", auth.currentUser.uid), toSet);
   };
   useEffect(() => {
     handleGPT();

@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 
-const HistoryCard = () => {
+const HistoryCard = ({ item }) => {
+  console.log(item);
   return (
     <ScrollView>
       <View style={styles.card}>
@@ -10,9 +11,8 @@ const HistoryCard = () => {
           style={styles.image}
         />
         <View style={styles.textContainer}>
-          <Text style={styles.heading}>Disease</Text>
-          <Text style={styles.description}>
-            Lorem ipsum loda lasan eidbcwijbxijwdbcihwbdhbs
+          <Text style={styles.heading}>
+            {item.cropName} - {item.diseaseName}
           </Text>
         </View>
       </View>
