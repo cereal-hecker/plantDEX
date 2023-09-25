@@ -31,9 +31,7 @@ export default function Main({ navigation }) {
           source={require("../assets/images/banner.png")}
         />
       </View>
-      <ScrollView>
-        <History />
-      </ScrollView>
+      <History />
     </View>
   );
 }
