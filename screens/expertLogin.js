@@ -1,4 +1,4 @@
-import React from "react";
+import {React,useState} from "react";
 import { 
   View, 
   Text, 
@@ -15,6 +15,8 @@ export default function ExpertLogin({
   setPass,
   navigation,
 }) {
+  const [isPasswordVisible, setPasswordVisibility] = useState(false);
+
   return (
     <View style={styles.container}>
       <AnimatedTextInput
@@ -22,14 +24,24 @@ export default function ExpertLogin({
         onChangeText={setEmail}
         placeholder="Email"
       />
-      
-      <AnimatedTextInput
-        value={pass}
-        onChangeText={setPass}
-        placeholder="Password"
-        secureTextEntry={true}
-      />
-      
+      <View style={styles.passwordContainer}>
+        <AnimatedTextInput
+          value={pass}
+          onChangeText={setPass}
+          placeholder="Password"
+          secureTextEntry={!isPasswordVisible}
+          style={styles.passwordInput}
+        />
+        <TouchableOpacity
+          onPress={() => setPasswordVisibility(!isPasswordVisible)}
+          style={styles.visibilityToggle}
+        >
+          <Text style={styles.visibilityToggleText}>
+            {isPasswordVisible ? 'Hide' : 'Show'}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.forgotPasswordContainer}>
         <TouchableOpacity onPress={() => {}}>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
@@ -141,4 +153,24 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Poppins_500Medium",
   },
+  passwordContainer: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+    position: 'relative', 
+    
+  },
+  
+  passwordInput: {
+    flex: 1,
+  },
+  
+  visibilityToggle: {
+    padding: 10,
+  },
+  
+  visibilityToggleText: {
+    position: 'absolute',
+    fontSize: 16, 
+    color: '#049A10', 
+  }
 });
