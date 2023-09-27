@@ -15,6 +15,11 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function Main({ navigation }) {
+
+  const handleLogout = () => {
+    navigation.replace("AuthStack", { screen: "Login" });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -22,7 +27,7 @@ export default function Main({ navigation }) {
           style={styles.image}
           source={require("../assets/images/logo.png")}
         />
-        <ProfileOverlay />
+        <ProfileOverlay handleLogout = {handleLogout} />
       </View>
       <View style={styles.centerCon}>
         <WeatherCard />

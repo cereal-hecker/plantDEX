@@ -10,8 +10,10 @@ import {
   StyleSheet,
   Image,
   SafeAreaView,
+  RefreshControl,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { ActivityIndicator } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import QuestionCard from "../components/questionCard";
 import ReplyScreen from "./reply"; // Import the ReplyScreen component
@@ -29,6 +31,7 @@ import {
   getDocs,
   getDoc,
 } from "firebase/firestore";
+import UploadQuestion from "./uploadQuestion";
 
 const Stack = createStackNavigator();
 
@@ -39,7 +42,18 @@ export default function Forum() {
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [isSendButtonVisible, setSendButtonVisible] = useState(false);
-  const rotateValue = new Animated.Value(0); // Initialize the animated value
+  const [lastVisible, setLastVisible] = useState(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [firstVisible, setFirstVisible] = useState(null);
+  const rotateValue = new Animated.Value(0);
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await getQuestions();
+    setIsRefreshing(false);
+  };
 
   const onChangeSearch = (text) => {
     setSearch(text);
@@ -119,20 +133,46 @@ export default function Forum() {
   };
 
   const getQuestions = async () => {
-    const first = query(
+    
+    if (loadingMore) return; 
+    
+    setLoadingMore(true);
+    let questionQuery = query(
       collection(db, "forum"),
       orderBy("date", "desc"),
       limit(5)
     );
-    const documentSnapshots = await getDocs(first);
-    var actual = [];
-    documentSnapshots.docs.filter(async (item) => {
-      var here = item.data();
-      actual.push(here);
-    });
-    setQuestions([...actual]);
-    setFilteredQuestions([...actual]);
-    return actual;
+
+    if (lastVisible) {
+      questionQuery = query(
+        collection(db, "forum"),
+        orderBy("date", "desc"),
+        startAfter(lastVisible),
+        limit(5)
+      );
+    }
+
+    try {
+      const documentSnapshots = await getDocs(questionQuery);
+      
+      // If there are no more documents exit early
+      if (documentSnapshots.empty) {
+        setLoadingMore(false);
+        return;
+      }
+      
+      const newQuestions = documentSnapshots.docs.map(doc => doc.data());
+      
+      if (newQuestions.length > 0) {
+        setLastVisible(documentSnapshots.docs[documentSnapshots.docs.length - 1]);
+        setQuestions(prev => [...prev, ...newQuestions]);
+        setFilteredQuestions(prev => [...prev, ...newQuestions]);
+      }
+    } catch (error) {
+      console.error("Error getting documents: ", error);
+    }
+    
+    setLoadingMore(false);
   };
 
   const user = auth.currentUser;
@@ -161,6 +201,10 @@ export default function Forum() {
               isSendButtonVisible={isSendButtonVisible}
               postQuestion={postQuestion}
               rotate={rotate}
+              getQuestions={getQuestions}
+              loadingMore={loadingMore}
+              isRefreshing={isRefreshing}
+              onRefresh={onRefresh}
             />
           )}
         </Stack.Screen>
@@ -173,6 +217,18 @@ export default function Forum() {
             />
           )}
         </Stack.Screen>
+        <Stack.Screen 
+          name="UploadQuestion" 
+          options={{ headerShown: false }} 
+        >
+          {(props) => (
+            <UploadQuestion
+              {...props} 
+              user={user}
+              getQuestions={getQuestions} 
+            />
+          )}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -182,14 +238,11 @@ function QuestionListScreen({
   navigation,
   search,
   filteredQuestions,
-  setSearch,
   onChangeSearch,
-  toggleSendButton,
-  newQuestion,
-  setNewQuestion,
-  isSendButtonVisible,
-  postQuestion,
-  rotate,
+  getQuestions,
+  loadingMore,
+  isRefreshing,
+  onRefresh
 }) {
   return (
     <SafeAreaView style={styles.container}>
@@ -202,63 +255,57 @@ function QuestionListScreen({
           placeholderTextColor="#F2F2F2"
           style={styles.searchbar}
         />
-        <ScrollView contentContainerStyle={styles.content}>
-          {filteredQuestions &&
-            filteredQuestions.map((question) => (
-              <QuestionCard
-                key={question.id}
-                username={question.username}
-                date={question.date}
-                question={question.question}
-                answer={question.answer}
-                onCardPress={() =>
-                  navigation.navigate("ReplyScreen", {
-                    question: question.question,
-                    postID: question.id,
-                  })
-                }
-              />
-            ))}
-          <View style={styles.bottomSpacing} />
-        </ScrollView>
+        <ScrollView
+        contentContainerStyle={styles.content}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        } //to load new questions
+        onScroll={({ nativeEvent }) => {
+          if (isCloseToBottom(nativeEvent)) {
+            getQuestions(); // Load more questions when the user is close to the bottom
+          }
+        }}
+        scrollEventThrottle={400}
+      >
+        {filteredQuestions &&
+          filteredQuestions.map((question, index) => (
+            <QuestionCard
+              key={`${question.id}-${index}`} // Corrected key prop
+              username={question.username}
+              date={question.date}
+              question={question.question}
+              answer={question.answer}
+              onCardPress={() =>
+                navigation.navigate("ReplyScreen", {
+                  question: question.question,
+                  postID: question.id,
+                })
+              }
+            />
+          ))}
+        {loadingMore && <ActivityIndicator size="large" color="#049A10" />}
+        <View style={styles.bottomSpacing} />
+      </ScrollView>
       </View>
       <View style={styles.centeredContent}>
-        {isSendButtonVisible && (
-          <TextInput
-            style={styles.newQuestionInput}
-            placeholder="Ask a question"
-            placeholderTextColor="#F2F2F2"
-            value={newQuestion}
-            onChangeText={(text) => setNewQuestion(text)}
-          />
-        )}
         <View style={styles.buttonContainer}>
-          {isSendButtonVisible && (
-            <TouchableOpacity
-              style={styles.sendButton}
-              onPress={postQuestion}
-              disabled={newQuestion.trim() === ""}
-            >
-              <Image
-                style={styles.send}
-                source={require("../assets/images/send.png")}
-              />
-            </TouchableOpacity>
-          )}
           <TouchableOpacity
             style={styles.plusButton}
-            onPress={toggleSendButton}
+            onPress={() => navigation.navigate('UploadQuestion')}
           >
-            <Animated.Image
-              style={[styles.plus, { transform: [{ rotate: rotate }] }]}
-              source={require("../assets/images/plus.png")}
-            />
+            <Image style={styles.plus} source={require("../assets/images/plus.png")} />
           </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
   );
 }
+
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+  const paddingToBottom = 20;
+  return layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom;
+};
 
 const styles = StyleSheet.create({
   container: {

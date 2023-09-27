@@ -3,35 +3,24 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Animated, // Import Animated
 } from "react-native";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
-import {
-  TextInput,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
 import React, { useState, useRef } from "react";
 import { auth, firebaseConfig } from "./firebase";
 import {
   FirebaseRecaptchaVerifierModal,
   FirebaseRecaptchaBanner,
 } from "expo-firebase-recaptcha";
-import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 import AnimatedTextInput from "../components/animatedTextInput";
 
 export default function UserLogin({
   recaptchaVerifier,
   phone,
   setPhone,
-  rephone,
-  setRephone,
   verificationId,
-  setVerificationID,
-  verificationCode,
   setVerificationCode,
   attemptInvisibleVerification,
   info,
-  setInfo,
   handleSendVerificationCode,
   handleVerifyVerificationCode,
 }) {

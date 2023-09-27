@@ -71,6 +71,12 @@ export default function SplashCarousel({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity
+        style={styles.skipButton}
+        onPress={() => navigation.navigate('Login')}
+      >
+        <Text style={styles.skipText}>Skip</Text>
+      </TouchableOpacity>
       <Image
         style={styles.logo}
         source={require("../assets/images/logo.png")}
@@ -146,10 +152,6 @@ const styles = StyleSheet.create({
     height: windowWidth * 0.02,
     borderRadius: windowWidth * 0.02,
   },
-  arrow: {
-    width: windowWidth * 0.12,
-    height: windowWidth * 0.12,
-  },
   bottom: {
     flexDirection: "row",
     justifyContent: "flex-end",
@@ -165,5 +167,20 @@ const styles = StyleSheet.create({
   },
   arrowContainer: {
     marginRight: windowWidth * 0.05,
+  },
+  arrow: {
+    width: windowWidth * 0.12,
+    height: windowWidth * 0.12,
+  },
+  skipButton: {
+    position: 'absolute',
+    top: windowHeight * 0.05,  // Adjust as needed
+    right: windowWidth * 0.05, // Adjust as needed
+    padding: 10,  // Adjust as needed
+    zIndex: 1, // Ensure the skip button is above other elements
+  },
+  skipText: {
+    fontSize: 16, // Adjust as needed
+    color: '#049A10', // Adjust as needed
   },
 });
