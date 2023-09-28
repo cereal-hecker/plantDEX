@@ -133,20 +133,19 @@ export default function Forum() {
   };
 
   const getQuestions = async () => {
-    
-    if (loadingMore) return; 
-    
+    if (loadingMore) return;
+
     setLoadingMore(true);
     let questionQuery = query(
       collection(db, "forum"),
-      orderBy("date", "desc"),
+      orderBy("date", "asc"),
       limit(5)
     );
 
     if (lastVisible) {
       questionQuery = query(
         collection(db, "forum"),
-        orderBy("date", "desc"),
+        orderBy("date", "asc"),
         startAfter(lastVisible),
         limit(5)
       );
@@ -154,24 +153,26 @@ export default function Forum() {
 
     try {
       const documentSnapshots = await getDocs(questionQuery);
-      
+
       // If there are no more documents exit early
       if (documentSnapshots.empty) {
         setLoadingMore(false);
         return;
       }
-      
-      const newQuestions = documentSnapshots.docs.map(doc => doc.data());
-      
+
+      const newQuestions = documentSnapshots.docs.map((doc) => doc.data());
+
       if (newQuestions.length > 0) {
-        setLastVisible(documentSnapshots.docs[documentSnapshots.docs.length - 1]);
-        setQuestions(prev => [...prev, ...newQuestions]);
-        setFilteredQuestions(prev => [...prev, ...newQuestions]);
+        setLastVisible(
+          documentSnapshots.docs[documentSnapshots.docs.length - 1]
+        );
+        setQuestions((prev) => [...prev, ...newQuestions]);
+        setFilteredQuestions((prev) => [...prev, ...newQuestions]);
       }
     } catch (error) {
       console.error("Error getting documents: ", error);
     }
-    
+
     setLoadingMore(false);
   };
 
@@ -217,15 +218,12 @@ export default function Forum() {
             />
           )}
         </Stack.Screen>
-        <Stack.Screen 
-          name="UploadQuestion" 
-          options={{ headerShown: false }} 
-        >
+        <Stack.Screen name="UploadQuestion" options={{ headerShown: false }}>
           {(props) => (
             <UploadQuestion
-              {...props} 
+              {...props}
               user={user}
-              getQuestions={getQuestions} 
+              getQuestions={getQuestions}
             />
           )}
         </Stack.Screen>
@@ -242,7 +240,7 @@ function QuestionListScreen({
   getQuestions,
   loadingMore,
   isRefreshing,
-  onRefresh
+  onRefresh,
 }) {
   return (
     <SafeAreaView style={styles.container}>
@@ -256,44 +254,52 @@ function QuestionListScreen({
           style={styles.searchbar}
         />
         <ScrollView
-        contentContainerStyle={styles.content}
-        refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-        } //to load new questions
-        onScroll={({ nativeEvent }) => {
-          if (isCloseToBottom(nativeEvent)) {
-            getQuestions(); // Load more questions when the user is close to the bottom
-          }
-        }}
-        scrollEventThrottle={400}
-      >
-        {filteredQuestions &&
-          filteredQuestions.map((question, index) => (
-            <QuestionCard
-              key={`${question.id}-${index}`} // Corrected key prop
-              username={question.username}
-              date={question.date}
-              question={question.question}
-              answer={question.answer}
-              onCardPress={() =>
-                navigation.navigate("ReplyScreen", {
-                  question: question.question,
-                  postID: question.id,
-                })
-              }
-            />
-          ))}
-        {loadingMore && <ActivityIndicator size="large" color="#049A10" />}
-        <View style={styles.bottomSpacing} />
-      </ScrollView>
+          contentContainerStyle={styles.content}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          } //to load new questions
+          onScroll={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent)) {
+              getQuestions(); // Load more questions when the user is close to the bottom
+            }
+          }}
+          scrollEventThrottle={400}
+        >
+          {filteredQuestions &&
+            filteredQuestions.map((question, index) => (
+              <QuestionCard
+                key={`${question.id}-${index}`} // Corrected key prop
+                username={question.username}
+                date={question.date}
+                question={question.question}
+                answer={question.answer}
+                onCardPress={() =>
+                  navigation.navigate("ReplyScreen", {
+                    question: question.question,
+                    postID: question.id,
+                  })
+                }
+              />
+            ))}
+          {loadingMore && <ActivityIndicator size="large" color="#049A10" />}
+          <View style={styles.bottomSpacing} />
+        </ScrollView>
       </View>
       <View style={styles.centeredContent}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.plusButton}
-            onPress={() => navigation.navigate('UploadQuestion')}
+            onPress={() => {
+              setFilteredQuestions([]);
+              setQuestions([]);
+              navigation.navigate("UploadQuestion");
+              getQuestions();
+            }}
           >
-            <Image style={styles.plus} source={require("../assets/images/plus.png")} />
+            <Image
+              style={styles.plus}
+              source={require("../assets/images/plus.png")}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -303,8 +309,10 @@ function QuestionListScreen({
 
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;
-  return layoutMeasurement.height + contentOffset.y >=
-    contentSize.height - paddingToBottom;
+  return (
+    layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom
+  );
 };
 
 const styles = StyleSheet.create({
