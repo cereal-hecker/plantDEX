@@ -1,20 +1,23 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const HistoryCard = ({ item }) => {
   return (
     <ScrollView>
-      <View style={styles.card}>
-        <Image
-          source={require("../assets/images/logo.png")}
-          style={styles.image}
-        />
-        <View style={styles.textContainer}>
-          <Text style={styles.heading}>
-            {item.cropName} - {item.diseaseName}
-          </Text>
+      <TouchableOpacity>
+        <View style={styles.card}>
+          <Image
+            source={require("../assets/images/logo.png")}
+            style={styles.image}
+          />
+          <View style={styles.textContainer}>
+            <Text style={styles.heading}>
+              {item.cropName} - {item.diseaseName}
+            </Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 };

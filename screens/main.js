@@ -36,7 +36,9 @@ export default function Main({ navigation }) {
           source={require("../assets/images/banner.png")}
         />
       </View>
-      <History />
+      <View style={styles.historyContainer}>
+        <History />
+      </View>
     </View>
   );
 }
@@ -56,6 +58,9 @@ const styles = StyleSheet.create({
   image: {
     width: 68,
     height: 40.5,
+  },
+  historyContainer: {
+    flex: 1,
   },
   centerCon: {
     alignItems: "center",

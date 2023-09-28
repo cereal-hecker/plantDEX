@@ -41,28 +41,14 @@ export default function History({ navigation }) {
 
   if (isFocused) handleGetHistory();
   return (
-    <View
-      style={{
-        paddingBottom: 420,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 30,
-      }}
-    >
-      <Text
-        style={{
-          fontFamily: "Poppins_900Black",
-          fontSize: 48,
-          paddingLeft: 10,
-          color: "#049A10",
-        }}
-      >
-        History
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>History</Text>
       {isLoading ? (
-        <ActivityIndicator size="large" colors="#312651" />
+        <ActivityIndicator size="large" color="#312651" />
       ) : error ? (
         <Text>Something went wrong</Text>
+      ) : hydrate.length === 0 ? (
+        <Text>No History Available</Text>
       ) : (
         <FlatList
           data={hydrate}
@@ -73,3 +59,16 @@ export default function History({ navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  title: {
+    fontFamily: "Poppins_900Black",
+    fontSize: 48,
+    paddingLeft: 10,
+    color: "#049A10",
+  },
+});
