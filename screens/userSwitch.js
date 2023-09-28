@@ -13,8 +13,10 @@ import {
   PhoneAuthProvider,
   signInWithCredential,
   sendEmailVerification,
+  signOut,
 } from "firebase/auth";
-import { auth, firebaseConfig } from "./firebase";
+import { auth, db, firebaseConfig } from "./firebase";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import {
   FirebaseRecaptchaVerifierModal,
   FirebaseRecaptchaBanner,
@@ -34,17 +36,24 @@ export default function UserSwitch({ navigation }) {
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, pass)
-      .then((userCreds) => {
+      .then(async (userCreds) => {
         const user = userCreds.user;
-
+        var details = await getDoc(doc(db, "user", auth.currentUser.uid));
+        details = details.data();
+        if (details == null) details = {};
+        details["type"] = "expert";
+        await setDoc(doc(db, "user", auth.currentUser.uid), details);
         navigation.replace("MainApp", { screen: "History" });
       })
       .catch((error) => {
+        console.log(error);
         createUserWithEmailAndPassword(auth, email, pass)
-          .then((userCreds) => {
+          .then(async (userCreds) => {
             const user = userCreds.user;
             sendEmailVerification(auth.currentUser);
-
+            await setDoc(doc(db, "user", auth.currentUser.uid), {
+              type: "expert",
+            });
             navigation.replace("MainApp", { screen: "History" });
           })
           .catch((error) => {
@@ -86,7 +95,7 @@ export default function UserSwitch({ navigation }) {
       await signInWithCredential(auth, credential); // verify the credential
       setInfo("Success: Phone authentication successful"); // if OK, set the message
 
-      //Navigate to main window
+      await setDoc(doc(db, "user", auth.currentUser.uid), { type: "user" });
       navigation.replace("MainApp", { screen: "Main" });
     } catch (error) {
       setInfo(`Error : ${error.message}`); // show the error.

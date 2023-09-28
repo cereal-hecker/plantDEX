@@ -9,7 +9,7 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { updateProfile } from "firebase/auth";
+import { updateProfile, signOut } from "firebase/auth";
 import { auth, firebaseConfig, db } from "./firebase";
 import {
   collection,

@@ -7,6 +7,8 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
+import { auth, firebaseConfig, db } from "./firebase";
+import { signOut } from "firebase/auth";
 import History from "../components/history";
 import WeatherCard from "../components/weatherCard";
 import ProfileOverlay from "../components/profileOverlay";
@@ -15,10 +17,15 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function Main({ navigation }) {
-
-  const handleLogout = () => {
-    navigation.replace("AuthStack", { screen: "Login" });
-  }
+  const handleLogout = async () => {
+    signOut(auth)
+      .then(() => {
+        navigation.replace("AuthStack", { screen: "Login" });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -27,7 +34,7 @@ export default function Main({ navigation }) {
           style={styles.image}
           source={require("../assets/images/logo.png")}
         />
-        <ProfileOverlay handleLogout = {handleLogout} />
+        <ProfileOverlay handleLogout={handleLogout} />
       </View>
       <View style={styles.centerCon}>
         <WeatherCard />

@@ -32,7 +32,7 @@ export default function History({ navigation }) {
     const handleNavigationFocusChange = () => {
       setIsFocused(!isFocused);
     };
-    handleGetHistory()
+    handleGetHistory();
     nav.addListener("focus", handleNavigationFocusChange);
     return () => {
       nav.removeListener("focus", handleNavigationFocusChange);

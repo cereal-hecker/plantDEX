@@ -57,6 +57,7 @@ export default function Solution({ route, navigation }) {
       date: Math.floor(Date.now() / 1000),
       solution: answer["solution"],
       userID: auth.currentUser.uid,
+      photo: data.photo,
     };
     await setDoc(
       doc(db, "history", `${auth.currentUser.uid}${historyCount}`),

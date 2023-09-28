@@ -1,30 +1,43 @@
 import React from "react";
-  import { StyleSheet, View, Image, Text, TouchableOpacity, Dimensions} from "react-native";
-
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import { signOut } from "firebase/auth";
+import { auth } from "./firebase";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
+  console.log(auth.currentUser);
   return (
     <View style={styles.container}>
-    <View style={styles.header}>
-    <Image
-        style={styles.logo}
-        source={require("../assets/images/logo.png")}
-      />
-      <Image 
-      style={styles.translate}
-      source={require("../assets/images/translate.png")}/>
-    </View>
+      <View style={styles.header}>
+        <Image
+          style={styles.logo}
+          source={require("../assets/images/logo.png")}
+        />
+        <Image
+          style={styles.translate}
+          source={require("../assets/images/translate.png")}
+        />
+      </View>
       <View style={styles.loginImage}>
         <Text style={styles.welcome}>Welcome!</Text>
         <Image source={require("../assets/images/login.png")} />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('UserSwitch')}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("UserSwitch")}
+      >
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
     </View>
-  );  
+  );
 }
 
 const styles = StyleSheet.create({
@@ -55,7 +68,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingBottom: windowHeight * 0.02,
   },
-  loginImage: { 
+  loginImage: {
     marginVertical: windowHeight * 0.065,
   },
   button: {
@@ -77,16 +90,16 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
   },
   orContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: windowHeight * 0.01,
   },
   line: {
-    width: windowWidth * 0.2, 
+    width: windowWidth * 0.2,
     height: windowHeight * 0.002,
-    backgroundColor: '#3F3D56',
+    backgroundColor: "#3F3D56",
     marginHorizontal: windowWidth * 0.04,
-  },  
+  },
   orText: {
     fontSize: windowHeight * 0.02,
     fontFamily: "Poppins_700Bold",

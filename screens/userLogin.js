@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
 import React, { useState, useRef } from "react";
 import { auth, firebaseConfig } from "./firebase";
@@ -35,10 +30,9 @@ export default function UserLogin({
 
       {info && <Text style={styles.text}>{info}</Text>}
 
-      
-          {!verificationId &&(
-          <View>
-            <AnimatedTextInput
+      {!verificationId && (
+        <View>
+          <AnimatedTextInput
             value={phone}
             onChangeText={(text) => setPhone(text)}
             placeholder="Phone number"
@@ -54,40 +48,47 @@ export default function UserLogin({
               <Text style={styles.buttonText}>Log In</Text>
             </TouchableOpacity>
           </View>
-          </View>)}
+        </View>
+      )}
 
       {verificationId && (
         <View style={styles.centeredContainer}>
-        <View style={styles.inputContainer}>
-          <OTPInputView
-            style={styles.otpInput}
-            pinCount={6}
-            autoFocusOnLoad
-            selectionColor={'transparent'}
-            codeInputFieldStyle={styles.otpInputField}
-            codeInputHighlightStyle={styles.otpInputHighlight}
-            onCodeFilled = {(code => {
-              setVerificationCode(code)
-            })}
-          />
-          <View style={styles.resendContainer}>
-            <View style={styles.textContainer}>
-              <Text style={styles.blackText}>Haven't received the confirmation code yet? </Text>
-              <Text style={styles.greenText}>Resend</Text>
+          <View style={styles.inputContainer}>
+            <OTPInputView
+              style={styles.otpInput}
+              pinCount={6}
+              autoFocusOnLoad
+              selectionColor={"transparent"}
+              codeInputFieldStyle={styles.otpInputField}
+              codeInputHighlightStyle={styles.otpInputHighlight}
+              onCodeFilled={(code) => {
+                setVerificationCode(code);
+              }}
+            />
+            <View style={styles.resendContainer}>
+              <View style={styles.textContainer}>
+                <Text style={styles.blackText}>
+                  Haven't received the confirmation code yet?{" "}
+                </Text>
+                <Text style={styles.greenText}>Resend</Text>
+              </View>
             </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                handleVerifyVerificationCode();
+              }}
+            >
+              <Text style={styles.buttonText}>Confirm</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.button} onPress={() => { handleVerifyVerificationCode() }}>
-            <Text style={styles.buttonText}>Confirm</Text>
-          </TouchableOpacity>
         </View>
-      </View>
-        
       )}
       {attemptInvisibleVerification && showRecaptchaBanner && (
         <FirebaseRecaptchaBanner />
       )}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -149,21 +150,21 @@ const styles = StyleSheet.create({
     color: "#3f4146",
   },
   inputContainer: {
-    width: '100%',
-    paddingHorizontal: '3%', 
+    width: "100%",
+    paddingHorizontal: "3%",
     alignItems: "center",
   },
   otpInput: {
     width: "100%",
-    height: 100, 
-    paddingHorizontal: '5%', 
+    height: 100,
+    paddingHorizontal: "5%",
   },
   otpInputField: {
     color: "#049A10",
     backgroundColor: "#049A1050",
     borderRadius: 10,
-    fontSize: 24, 
-    height: '60%',
-    width: 60, 
+    fontSize: 24,
+    height: "60%",
+    width: 60,
   },
 });

@@ -16,6 +16,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { ActivityIndicator } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import QuestionCard from "../components/questionCard";
+import { useNavigation } from "@react-navigation/native";
 import ReplyScreen from "./reply"; // Import the ReplyScreen component
 import gotQuestions from "../assets/data/questions";
 import { auth, firebaseConfig, db } from "./firebase";
@@ -138,7 +139,7 @@ export default function Forum() {
     setLoadingMore(true);
     let questionQuery = query(
       collection(db, "forum"),
-      orderBy("date", "asc"),
+      orderBy("date", "desc"),
       limit(5)
     );
 
@@ -147,27 +148,25 @@ export default function Forum() {
         collection(db, "forum"),
         orderBy("date", "asc"),
         startAfter(lastVisible),
-        limit(5)
+        limit(2)
       );
     }
 
     try {
       const documentSnapshots = await getDocs(questionQuery);
-
+      
       // If there are no more documents exit early
       if (documentSnapshots.empty) {
         setLoadingMore(false);
         return;
       }
-
-      const newQuestions = documentSnapshots.docs.map((doc) => doc.data());
-
+      
+      const newQuestions = documentSnapshots.docs.map(doc => doc.data());
+      
       if (newQuestions.length > 0) {
-        setLastVisible(
-          documentSnapshots.docs[documentSnapshots.docs.length - 1]
-        );
-        setQuestions((prev) => [...prev, ...newQuestions]);
-        setFilteredQuestions((prev) => [...prev, ...newQuestions]);
+        setLastVisible(documentSnapshots.docs[documentSnapshots.docs.length - 1]);
+        setQuestions(prev => [...prev, ...newQuestions]);
+        setFilteredQuestions(prev => [...prev, ...newQuestions]);
       }
     } catch (error) {
       console.error("Error getting documents: ", error);
@@ -179,10 +178,10 @@ export default function Forum() {
   const user = auth.currentUser;
 
   // Place to fuk with starts
-
   useEffect(() => {
     getQuestions();
   }, []);
+
   // Place to fuk with ends
   return (
     <NavigationContainer independent={true}>
@@ -289,12 +288,7 @@ function QuestionListScreen({
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.plusButton}
-            onPress={() => {
-              setFilteredQuestions([]);
-              setQuestions([]);
-              navigation.navigate("UploadQuestion");
-              getQuestions();
-            }}
+            onPress={() => navigation.navigate('UploadQuestion')}
           >
             <Image
               style={styles.plus}
