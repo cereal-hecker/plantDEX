@@ -23,15 +23,16 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 import * as ImagePicker from "expo-image-picker";
-import './translations';
+import * as File from "expo-file-system";
+import "./translations";
 import { useTranslation } from "react-i18next";
-import i18n from 'i18next';
+import i18n from "i18next";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function UploadQuestion({ navigation, user }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [question, setQuestion] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
@@ -47,7 +48,7 @@ export default function UploadQuestion({ navigation, user }) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.5,
     });
 
     // Use the new "canceled" key and "assets" array instead of "cancelled" and "uri"
@@ -67,16 +68,17 @@ export default function UploadQuestion({ navigation, user }) {
 
       if (postC["postC"] == null) postC["postC"] = 0;
 
+      const b64 = await File.readAsStringAsync(image, {encoding : "base64"});
+
       const postID = `${user.uid}${postC["postC"]}`;
       const newQuestionData = {
         id: postID,
         date: Math.floor(Date.now() / 1000),
-        profile: user.photoURL,
         authorUID: user.uid,
         username: user.displayName,
         question: question, // Fixed here
         description: description, // Added here
-        image: image, // Added here
+        image: b64, // Added here
         answer: "",
         replies: 0,
       };
@@ -98,19 +100,18 @@ export default function UploadQuestion({ navigation, user }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      
-        <TouchableOpacity
-          style={styles.backArrowContainer}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Image
-            source={require("../assets/images/left-arrow.png")}
-            style={styles.backArrow}
-          />
-        </TouchableOpacity>
-        <View style={styles.questionContainer}>
+      <TouchableOpacity
+        style={styles.backArrowContainer}
+        onPress={() => {
+          navigation.goBack();
+        }}
+      >
+        <Image
+          source={require("../assets/images/left-arrow.png")}
+          style={styles.backArrow}
+        />
+      </TouchableOpacity>
+      <View style={styles.questionContainer}>
         <TextInput
           placeholder={t("Enter your question")}
           value={question}
@@ -125,21 +126,21 @@ export default function UploadQuestion({ navigation, user }) {
           multiline
         />
         <TouchableOpacity style={styles.uploadArea} onPress={selectPhoto}>
-            {image ? (
+          {image ? (
+            <Image
+              source={{ uri: image }}
+              style={{ width: windowWidth * 0.9, height: windowWidth * 0.9 }}
+            />
+          ) : (
+            <View style={styles.selectArea}>
               <Image
-                source={{ uri: image }}
-                style={{ width: windowWidth * 0.9, height: windowWidth * 0.9 }}
+                style={styles.upload}
+                source={require("../assets/images/upload.png")}
               />
-            ) : (
-              <View style={styles.selectArea}>
-                <Image
-                  style={styles.upload}
-                  source={require("../assets/images/upload.png")}
-                />
-                <Text style={styles.select}>{t("Select File")}</Text>
-              </View>
-            )}
-          </TouchableOpacity>
+              <Text style={styles.select}>{t("Select File")}</Text>
+            </View>
+          )}
+        </TouchableOpacity>
         <TouchableOpacity onPress={postQuestion} style={styles.postButton}>
           <Text style={styles.buttonText}>{t("Post Question")}</Text>
         </TouchableOpacity>
@@ -154,9 +155,9 @@ const styles = StyleSheet.create({
     padding: windowWidth * 0.05, // 4% of window width
     backgroundColor: "#fff",
   },
-  questionContainer:{
-    flex:1,
-    marginTop:windowHeight * -0.05,
+  questionContainer: {
+    flex: 1,
+    marginTop: windowHeight * -0.05,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: windowWidth * 0.02, // 2% of window width
     paddingVertical: windowHeight * 0.01, // 1% of window height
     marginHorizontal: windowWidth * 0.04, // 4% of window width
-    fontSize:18,
+    fontSize: 18,
   },
   descriptionInput: {
     borderWidth: 1,
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
     paddingVertical: windowHeight * 0.01, // 1% of window height
     height: windowHeight * 0.1, // 10% of window height
     marginHorizontal: windowWidth * 0.04, // 2% of window width
-    fontSize:18,
+    fontSize: 18,
   },
   photoButton: {
     backgroundColor: "#049A10",
@@ -213,8 +214,8 @@ const styles = StyleSheet.create({
     marginHorizontal: windowWidth * 0.04, // 4% of window width
   },
   backArrowContainer: {
-    position:'absolute',
-    marginTop:windowHeight * 0.054,
+    position: "absolute",
+    marginTop: windowHeight * 0.054,
     paddingLeft: windowWidth * 0.02,
     zIndex: 2,
   },

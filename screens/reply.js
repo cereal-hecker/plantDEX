@@ -5,6 +5,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Image,
   StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -28,7 +29,7 @@ export default function ReplyScreen({
   questionReplies,
   addReplyToQuestion,
 }) {
-  const { question, postID } = route.params; // Get the question from the route params
+  const { question, postID, image } = route.params; // Get the question from the route params
   const user = auth.currentUser;
   // Initialize state for replies
   const [replies, setReplies] = useState([]);
@@ -75,10 +76,13 @@ export default function ReplyScreen({
   useEffect(() => {
     handleLoadReplies();
   }, [question, questionReplies]);
-
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.question}>{question}</Text>
+{      <Image
+        source={{ uri: "data:image/png;base64," + image }}
+        style={styles.image}
+      />}
       <ScrollView style={styles.replyContainer}>
         {replies.map((reply, index) => (
           <View key={index} style={styles.reply}>
@@ -137,6 +141,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 8,
     borderRadius: 20,
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+    width: 300,
+    height: 81,
+    margin: 5,
   },
   buttonText: {
     color: "white",

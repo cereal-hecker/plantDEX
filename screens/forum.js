@@ -33,7 +33,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import UploadQuestion from "./uploadQuestion";
-import './translations';
+import "./translations";
 import { useTranslation } from "react-i18next";
 
 const Stack = createStackNavigator();
@@ -156,19 +156,21 @@ export default function Forum() {
 
     try {
       const documentSnapshots = await getDocs(questionQuery);
-      
+
       // If there are no more documents exit early
       if (documentSnapshots.empty) {
         setLoadingMore(false);
         return;
       }
-      
-      const newQuestions = documentSnapshots.docs.map(doc => doc.data());
-      
+
+      const newQuestions = documentSnapshots.docs.map((doc) => doc.data());
+
       if (newQuestions.length > 0) {
-        setLastVisible(documentSnapshots.docs[documentSnapshots.docs.length - 1]);
-        setQuestions(prev => [...prev, ...newQuestions]);
-        setFilteredQuestions(prev => [...prev, ...newQuestions]);
+        setLastVisible(
+          documentSnapshots.docs[documentSnapshots.docs.length - 1]
+        );
+        setQuestions((prev) => [...prev, ...newQuestions]);
+        setFilteredQuestions((prev) => [...prev, ...newQuestions]);
       }
     } catch (error) {
       console.error("Error getting documents: ", error);
@@ -242,9 +244,8 @@ function QuestionListScreen({
   loadingMore,
   isRefreshing,
   onRefresh,
-})   
-{
-  const {t} = useTranslation();
+}) {
+  const { t } = useTranslation();
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>{t("FORUM")}</Text>
@@ -280,6 +281,7 @@ function QuestionListScreen({
                   navigation.navigate("ReplyScreen", {
                     question: question.question,
                     postID: question.id,
+                    image: question.image,
                   })
                 }
               />
@@ -292,7 +294,7 @@ function QuestionListScreen({
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.plusButton}
-            onPress={() => navigation.navigate('UploadQuestion')}
+            onPress={() => navigation.navigate("UploadQuestion")}
           >
             <Image
               style={styles.plus}

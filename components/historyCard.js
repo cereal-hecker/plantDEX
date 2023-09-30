@@ -25,7 +25,7 @@ const HistoryCard = ({ item }) => {
           />
           <View style={styles.textContainer}>
             <Text style={styles.heading}>
-              {item.cropName} - {item.diseaseName}
+              {item.cropName} - {item.diseaseName} - {Date(item.date)}
             </Text>
           </View>
         </View>
