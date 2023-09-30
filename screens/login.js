@@ -9,11 +9,15 @@ import {
 } from "react-native";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase";
+  import './translations';
+  import { useTranslation } from "react-i18next";
+  import i18n from 'i18next';
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function Login({ navigation }) {
-  console.log(auth.currentUser);
+export default function Login({navigation}) {
+  const { t } = useTranslation();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -27,14 +31,14 @@ export default function Login({ navigation }) {
         />
       </View>
       <View style={styles.loginImage}>
-        <Text style={styles.welcome}>Welcome!</Text>
+        <Text style={styles.welcome}>{t("Welcome!")}</Text>
         <Image source={require("../assets/images/login.png")} />
       </View>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("UserSwitch")}
       >
-        <Text style={styles.buttonText}>Log In</Text>
+        <Text style={styles.buttonText}>{t("Log In")}</Text>
       </TouchableOpacity>
     </View>
   );

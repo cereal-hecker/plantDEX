@@ -6,6 +6,9 @@ import {
   TouchableOpacity 
 } from "react-native";
 import AnimatedTextInput from "../components/animatedTextInput";
+import './translations';
+import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
 
 export default function ExpertLogin({
   handleLogin,
@@ -15,6 +18,7 @@ export default function ExpertLogin({
   setPass,
   navigation,
 }) {
+  const { t } = useTranslation();
   const [isPasswordVisible, setPasswordVisibility] = useState(false);
 
   return (
@@ -22,13 +26,13 @@ export default function ExpertLogin({
       <AnimatedTextInput
         value={email}
         onChangeText={setEmail}
-        placeholder="Email"
+        placeholder={t("Email")}
       />
       <View style={styles.passwordContainer}>
         <AnimatedTextInput
           value={pass}
           onChangeText={setPass}
-          placeholder="Password"
+          placeholder={t("Password")}
           secureTextEntry={!isPasswordVisible}
           style={styles.passwordInput}
         />
@@ -37,19 +41,19 @@ export default function ExpertLogin({
           style={styles.visibilityToggle}
         >
           <Text style={styles.visibilityToggleText}>
-            {isPasswordVisible ? 'Hide' : 'Show'}
+            {isPasswordVisible ? t('Hide') : t('Show')}
           </Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.forgotPasswordContainer}>
         <TouchableOpacity onPress={() => {}}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+          <Text style={styles.forgotPasswordText}>{t("Forgot Password?")}</Text>
         </TouchableOpacity>
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Log In</Text>
+        <Text style={styles.buttonText}>{t("Log In")}</Text>
       </TouchableOpacity>
     </View>
   );

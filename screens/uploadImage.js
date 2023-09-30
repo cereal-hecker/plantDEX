@@ -13,13 +13,17 @@ import * as ImagePicker from "expo-image-picker";
 import * as File from "expo-file-system";
 import DropdownMenu from "../components/dropdown";
 import options from "../assets/data/models";
+import './translations';
+import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function UploadImage({ navigation }) {
+  const {t} = useTranslation();
   const [image, setImage] = useState(null);
-  const [crop, setCrop] = useState("Select your crop");
+  const [crop, setCrop] = useState(t("Select your crop"));
   const [isloading, setLoader] = useState(false);
 
   const handleUpload = async () => {
@@ -38,7 +42,7 @@ export default function UploadImage({ navigation }) {
     obj["photo"] = image;
     // DON'T TOUCH THIS
     setLoader(false);
-    setCrop("Select your crop");
+    setCrop(t("Select your crop"));
     setImage(null);
     navigation.navigate("Solution", { obj });
   };
@@ -47,7 +51,7 @@ export default function UploadImage({ navigation }) {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
-      alert("Permission to access media library is required!");
+      alert(t("Permission to access media library is required!"));
       return;
     }
 
@@ -67,7 +71,7 @@ export default function UploadImage({ navigation }) {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
 
     if (status !== "granted") {
-      alert("Permission to access the camera is required!");
+      alert(t("Permission to access the camera is required!"));
       return;
     }
 
@@ -94,8 +98,8 @@ export default function UploadImage({ navigation }) {
       ) : (
         <>
           <View style={styles.header}>
-            <Text style={styles.heading}>UPLOAD</Text>
-            <Text style={styles.imgorvid}>IMAGE OR VIDEO</Text>
+            <Text style={styles.heading}>{t("UPLOAD")}</Text>
+            <Text style={styles.imgorvid}>{t("IMAGE OR VIDEO")}</Text>
           </View>
           <View style={styles.dropdown}>
             <DropdownMenu
@@ -116,13 +120,13 @@ export default function UploadImage({ navigation }) {
                   style={styles.upload}
                   source={require("../assets/images/upload.png")}
                 />
-                <Text style={styles.select}>Select File</Text>
+                <Text style={styles.select}>{t("Select File")}</Text>
               </View>
             )}
           </TouchableOpacity>
           <View style={styles.orContainer}>
             <View style={styles.line}></View>
-            <Text style={styles.orText}>OR</Text>
+            <Text style={styles.orText}>{t("OR")}</Text>
             <View style={styles.line}></View>
           </View>
           <TouchableOpacity style={styles.camButton} onPress={takePhoto}>
@@ -131,11 +135,11 @@ export default function UploadImage({ navigation }) {
                 style={styles.cam}
                 source={require("../assets/images/cam.png")}
               />
-              <Text style={styles.camText}>Take a photo</Text>
+              <Text style={styles.camText}>{t("Take a photo")}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.continue} onPress={handleUpload}>
-            <Text style={styles.continueText}>Continue</Text>
+            <Text style={styles.continueText}>{t("Continue")}</Text>
           </TouchableOpacity>
         </>
       )}

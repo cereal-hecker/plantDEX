@@ -24,8 +24,13 @@ import {
 import React, { useState, useRef, useEffect } from "react";
 import UserLogin from "./userLogin";
 import ExpertLogin from "./expertLogin";
+import './translations';
+import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
 
 export default function UserSwitch({ navigation }) {
+  const {t} = useTranslation();
+
   const [isUserActive, setUserActive] = useState(true);
   const [isExpertActive, setExpertActive] = useState(false);
   const [isExpert, setExpert] = useState(false);
@@ -141,7 +146,7 @@ export default function UserSwitch({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.heading}>Log In</Text>
+        <Text style={styles.heading}>{t("Log In")}</Text>
         <Image
           style={styles.translate}
           source={require("../assets/images/translate.png")}
@@ -184,7 +189,7 @@ export default function UserSwitch({ navigation }) {
               startAnimation(0); // Start the animation to slide to User
             }}
           >
-            <Text style={styles.butt}>User</Text>
+            <Text style={styles.butt}>{t("User")}</Text>
           </TouchableOpacity>
 
           {/* Expert Button */}
@@ -197,7 +202,7 @@ export default function UserSwitch({ navigation }) {
               startAnimation(1); // Start the animation to slide to Expert
             }}
           >
-            <Text style={styles.butt}>Expert</Text>
+            <Text style={styles.butt}>{t("Expert")}</Text>
           </TouchableOpacity>
         </View>
         <View>
