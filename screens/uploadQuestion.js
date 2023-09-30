@@ -98,38 +98,52 @@ export default function UploadQuestion({ navigation, user }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        style={styles.backArrowContainer}
-        onPress={() => {
-          navigation.goBack();
-        }}
-      >
-        <Image
-          source={require("../assets/images/arrow.png")}
-          style={styles.backArrow}
+      
+        <TouchableOpacity
+          style={styles.backArrowContainer}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Image
+            source={require("../assets/images/left-arrow.png")}
+            style={styles.backArrow}
+          />
+        </TouchableOpacity>
+        <View style={styles.questionContainer}>
+        <TextInput
+          placeholder={t("Enter your question")}
+          value={question}
+          onChangeText={setQuestion}
+          style={styles.textInput}
         />
-      </TouchableOpacity>
-
-      <TextInput
-        placeholder={t("Enter your question")}
-        value={question}
-        onChangeText={setQuestion}
-        style={styles.textInput}
-      />
-      <TextInput
-        placeholder={t("Enter description")}
-        value={description}
-        onChangeText={setDescription}
-        style={styles.textInput}
-        multiline
-      />
-      {image && <Image source={{ uri: image }} style={styles.image} />}
-      <TouchableOpacity onPress={selectPhoto} style={styles.photoButton}>
-        <Text style={styles.buttonText}>{t("Upload Photo")}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={postQuestion} style={styles.postButton}>
-        <Text style={styles.buttonText}>{t("Post Question")}</Text>
-      </TouchableOpacity>
+        <TextInput
+          placeholder={t("Enter description")}
+          value={description}
+          onChangeText={setDescription}
+          style={styles.descriptionInput}
+          multiline
+        />
+        <TouchableOpacity style={styles.uploadArea} onPress={selectPhoto}>
+            {image ? (
+              <Image
+                source={{ uri: image }}
+                style={{ width: windowWidth * 0.9, height: windowWidth * 0.9 }}
+              />
+            ) : (
+              <View style={styles.selectArea}>
+                <Image
+                  style={styles.upload}
+                  source={require("../assets/images/upload.png")}
+                />
+                <Text style={styles.select}>{t("Select File")}</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+        <TouchableOpacity onPress={postQuestion} style={styles.postButton}>
+          <Text style={styles.buttonText}>{t("Post Question")}</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -137,43 +151,103 @@ export default function UploadQuestion({ navigation, user }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: windowWidth * 0.05, // 4% of window width
     backgroundColor: "#fff",
   },
+  questionContainer:{
+    flex:1,
+    marginTop:windowHeight * -0.05,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   textInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    marginVertical: 10,
-    paddingHorizontal: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    width: windowWidth * 0.9,
+    height: windowHeight * 0.05,
+    borderWidth: windowHeight * 0.0025,
+    borderColor: "#049A10",
+    borderRadius: windowWidth * 0.08, // 1.2% of window width
+    marginVertical: windowHeight * 0.01, // 1% of window height
+    paddingHorizontal: windowWidth * 0.02, // 2% of window width
+    paddingVertical: windowHeight * 0.01, // 1% of window height
+    marginHorizontal: windowWidth * 0.04, // 4% of window width
+    fontSize:'18px',
+  },
+  descriptionInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    width: windowWidth * 0.9,
+    borderWidth: windowHeight * 0.0025,
+    borderColor: "#049A10",
+    borderRadius: windowWidth * 0.08, // 1.2% of window width
+    marginVertical: windowHeight * 0.01, // 1% of window height
+    paddingHorizontal: windowWidth * 0.02, // 2% of window width
+    paddingVertical: windowHeight * 0.01, // 1% of window height
+    height: windowHeight * 0.1, // 10% of window height
+    marginHorizontal: windowWidth * 0.04, // 2% of window width
+    fontSize:'18px',
   },
   photoButton: {
     backgroundColor: "#049A10",
-    paddingVertical: 10,
-    marginTop: 20,
+    paddingVertical: windowHeight * 0.015, // 1.5% of window height
+    paddingHorizontal: windowWidth * 0.05, // 5% of window width
+    marginTop: windowHeight * 0.025, // 2.5% of window height
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: windowWidth * 0.03, // 3% of window width
+    marginHorizontal: windowWidth * 0.04, // 4% of window width
   },
   postButton: {
     backgroundColor: "#049A10",
-    paddingVertical: 10,
-    marginTop: 20,
+    paddingVertical: windowHeight * 0.015, // 1.5% of window height
+    paddingHorizontal: windowWidth * 0.05, // 5% of window width
+    marginTop: windowHeight * 0.025, // 2.5% of window height
     alignItems: "center",
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
+    borderRadius: windowWidth * 0.03, // 3% of window width
+    marginHorizontal: windowWidth * 0.04, // 4% of window width
   },
   image: {
-    width: 100,
-    height: 100,
-    marginVertical: 10,
+    width: windowWidth * 0.25, // 25% of window width
+    height: windowHeight * 0.125, // 12.5% of window height
+    marginVertical: windowHeight * 0.0125, // 1.25% of window height
+    marginHorizontal: windowWidth * 0.04, // 4% of window width
   },
   backArrowContainer: {
-    marginRight: windowWidth * 0.05,
+    position:'absolute',
+    marginTop:windowHeight * 0.054,
+    paddingLeft: windowWidth * 0.02,
+    zIndex: 2,
   },
   backArrow: {
     width: windowWidth * 0.12,
     height: windowWidth * 0.12,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: windowWidth * 0.045, // 4.5% of window width
+    fontFamily: "Poppins_500Medium",
+  },
+  uploadArea: {
+    borderWidth: windowHeight * 0.0025,
+    borderStyle: "dashed",
+    borderColor: "#049A10",
+    borderRadius: windowWidth * 0.08,
+    height: windowHeight * 0.3,
+    width: windowWidth * 0.7,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  select: {
+    fontSize: windowWidth * 0.08,
+    color: "#049A1050",
+    fontFamily: "Poppins_500Medium",
+  },
+  upload: {
+    width: windowWidth * 0.08,
+    height: windowWidth * 0.08,
+    opacity: 0.5,
+  },
+  selectArea: {
+    alignItems: "center",
   },
 });

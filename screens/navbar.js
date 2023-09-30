@@ -95,9 +95,12 @@ const styles = StyleSheet.create({
   tabBarStyle: {
     backgroundColor: '#049810',
     borderRadius: windowWidth * 0.1,
-    height: windowHeight * 0.085,
+    height: windowHeight * 0.075,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   tabItemContainer: {
+    paddingTop: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
