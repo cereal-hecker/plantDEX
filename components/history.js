@@ -6,11 +6,11 @@ import { ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { auth, firebaseConfig, db } from "./firebase";
 import { collection, where, query, getDocs } from "firebase/firestore";
-import '../screens/translations';
+import "../screens/translations";
 import { useTranslation } from "react-i18next";
 
 export default function History({ navigation }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const isLoading = false;
   const error = false;
   const nav = useNavigation();
@@ -42,7 +42,6 @@ export default function History({ navigation }) {
     };
   }, [nav]);
 
-  if (isFocused) handleGetHistory();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{t("History")}</Text>

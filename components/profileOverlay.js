@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   View,
@@ -32,8 +32,6 @@ import { readAsStringAsync } from "expo-file-system";
 import i18n from "i18next";
 import TranslateButton from "./translatebutton";
 
-
-
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -43,15 +41,17 @@ export default function ProfileOverlay({ handleLogout }) {
     ? auth.currentUser.displayName
     : "";
   const [userName, setUserName] = useState(displayName);
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(
+    auth.currentUser.phoneNumber != null ? auth.currentUser.phoneNumber : ""
+  );
   const [email, setEmail] = useState("");
   const [userType, setType] = useState("");
   const [image, setImage] = useState(null);
   const { t } = useTranslation();
   const [isPasswordVisible, setPasswordVisibility] = useState(false);
 
-  auth.currentUser.phoneNumber? setPhoneNumber(auth.currentUser.phoneNumber): setPhoneNumber("");
-  auth.currentUser.email? setEmail(auth.currentUser.email): setEmail("");
+  // auth.currentUser.phoneNumber? setPhoneNumber(auth.currentUser.phoneNumber): setPhoneNumber("");
+  // auth.currentUser.email? setEmail(auth.currentUser.email): setEmail("");
 
   useEffect(() => {
     async function fetchData() {
@@ -59,18 +59,18 @@ export default function ProfileOverlay({ handleLogout }) {
         try {
           var data = await getDoc(doc(db, "user", auth.currentUser.uid));
           data = data.data();
-          
-          setType(data.type)
+
+          setType(data.type);
           if (data.photo) {
-            const base64Icon = `data:image/png;base64,${data.photo}`;
-            setImage(base64Icon);
+            const base64Icon = `${data.photo}`;
+            setImage("data:image/png;base64," + base64Icon);
           }
         } catch (e) {
-          console.error('Error fetching user data:', e);
+          console.error("Error fetching user data:", e);
         }
       }
     }
-    
+
     fetchData();
   }, []);
 
@@ -94,7 +94,7 @@ export default function ProfileOverlay({ handleLogout }) {
       if (userName !== auth.currentUser.displayName) {
         updateProfile(auth.currentUser, { displayName: userName });
       }
-      if (image != getPhotoURL.photo) {
+      if (image != getPhotoURL.photo && image.slice(0, 4) == "file") {
         const b64 = await readAsStringAsync(image, {
           encoding: "base64",
         });
@@ -156,21 +156,21 @@ export default function ProfileOverlay({ handleLogout }) {
               placeholder={t("User name")}
             />
 
-            {userType==="expert"?(
-            <AnimatedTextInput
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              placeholder={t("Phone number")}
-            />
-            ):(
-            <AnimatedTextInput
-              style={styles.input}
-              value={email}
-              onChangeText={setEmail}
-              placeholder={t("Email")}
-            />
+            {userType === "expert" ? (
+              <AnimatedTextInput
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+                placeholder={t("Phone number")}
+              />
+            ) : (
+              <AnimatedTextInput
+                style={styles.input}
+                value={email}
+                onChangeText={setEmail}
+                placeholder={t("Email")}
+              />
             )}
-            
+
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.Button} onPress={handleUpdate}>
                 <Text style={styles.ButtonText}>{t("Update")}</Text>
