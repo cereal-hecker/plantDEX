@@ -26,63 +26,83 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import AnimatedTextInput from "./animatedTextInput";
-import '../screens/translations'
+import "../screens/translations";
 import { useTranslation } from "react-i18next";
-import i18n from 'i18next';
+import { readAsStringAsync } from "expo-file-system";
+import i18n from "i18next";
 import TranslateButton from "./translatebutton";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function ProfileOverlay({handleLogout}){
+export default function ProfileOverlay({ handleLogout }) {
   const [modalVisible, setModalVisible] = useState(false);
-  
-  const displayName = auth.currentUser.displayName ? auth.currentUser.displayName : "";
+  const displayName = auth.currentUser.displayName
+    ? auth.currentUser.displayName
+    : "";
   const [userName, setUserName] = useState(displayName);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
   const { t } = useTranslation();
   const [isPasswordVisible, setPasswordVisibility] = useState(false);
+  const getImg = async () => {
+    var data = await getDoc(doc(db, "user", auth.currentUser.uid));
+    data = data.data();
+    var base64Icon = null;
+    if (data.photo) base64Icon = `data:image/png;base64,${data.photo}`;
 
+    setImage(base64Icon);
+  };
+  getImg();
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      aspect: [16, 9],
+      quality: 0.5,
     });
 
     if (!result.canceled) {
-      setImage(result.uri);
+      setImage(result.assets[0].uri);
     }
   };
 
   const handleUpdate = async () => {
     try {
+      var getPhotoURL = await getDoc(doc(db, "user", auth.currentUser.uid));
+      getPhotoURL = getPhotoURL.data();
       if (userName !== auth.currentUser.displayName) {
         updateProfile(auth.currentUser, { displayName: userName });
       }
-
+      if (image != getPhotoURL.photo) {
+        const b64 = await readAsStringAsync(image, {
+          encoding: "base64",
+        });
+        getPhotoURL["photo"] = b64;
+        await setDoc(doc(db, "user", auth.currentUser.uid), getPhotoURL);
+      }
       alert("Successfully Updated");
     } catch (e) {
+      console.log(e.message);
       alert("Error Occurred!");
     }
   };
 
-
   return (
     <View style={styles.centeredView}>
-        
-        <View style={styles.accmodal}>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-              {image ? (
-                  <Image source={{ uri: image }} style={styles.accimg} />
-                ) : (
-                  <Image source={require("../assets/images/account.png")}  style={styles.accimg} />
-                )}
-          </TouchableOpacity>
-        </View>
+      <View style={styles.accmodal}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.accimg} />
+          ) : (
+            <Image
+              source={require("../assets/images/account.png")}
+              style={styles.accimg}
+            />
+          )}
+        </TouchableOpacity>
+      </View>
 
       <Modal
         animationType="slide"
@@ -94,17 +114,19 @@ export default function ProfileOverlay({handleLogout}){
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            
             <TouchableOpacity
-                onPress={pickImage}
-                style={styles.profileImageContainer}
-              >
-                {image ? (
-                  <Image source={{ uri: image }} style={styles.profileImage} />
-                ) : (
-                  <Image source={require("../assets/images/account.png")} style={styles.profileImage} />
-                )}
-              </TouchableOpacity>
+              onPress={pickImage}
+              style={styles.profileImageContainer}
+            >
+              {image ? (
+                <Image source={{ uri: image }} style={styles.profileImage} />
+              ) : (
+                <Image
+                  source={require("../assets/images/account.png")}
+                  style={styles.profileImage}
+                />
+              )}
+            </TouchableOpacity>
             <View style={styles.translateButtonContainer}>
               <TranslateButton />
             </View>
@@ -128,20 +150,17 @@ export default function ProfileOverlay({handleLogout}){
             />
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.Button}
-                onPress={handleUpdate}
-              >
+              <TouchableOpacity style={styles.Button} onPress={handleUpdate}>
                 <Text style={styles.ButtonText}>{t("Update")}</Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text style={styles.ButtonText}>{t("Close")}</Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity
                 style={styles.logoutButton}
                 onPress={() => {
@@ -157,7 +176,7 @@ export default function ProfileOverlay({handleLogout}){
       </Modal>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -166,10 +185,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: windowHeight * 0.05,
   },
-  translateButtonContainer:{position:'absolute', // position the container absolutely
-  top: windowHeight * 0.02, // Adjust the top and right values as needed
-  right: windowWidth * 0.05, // to position the button at the top right of the screen
-  zIndex: 2,
+  translateButtonContainer: {
+    position: "absolute", // position the container absolutely
+    top: windowHeight * 0.02, // Adjust the top and right values as needed
+    right: windowWidth * 0.05, // to position the button at the top right of the screen
+    zIndex: 2,
   },
   accimg: {
     width: windowWidth * 0.11,
@@ -179,7 +199,7 @@ const styles = StyleSheet.create({
   accmodal: {
     alignSelf: "flex-end",
     marginTop: windowHeight * -0.05,
-    overflow: 'hidden', // hide the overflowing part of the image
+    overflow: "hidden", // hide the overflowing part of the image
   },
   modalView: {
     margin: windowWidth * 0.05,
@@ -219,8 +239,8 @@ const styles = StyleSheet.create({
     borderRadius: windowWidth * 0.1,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    width: '100%',
+    flexDirection: "row",
+    width: "100%",
   },
   Button: {
     width: windowWidth * 0.001,

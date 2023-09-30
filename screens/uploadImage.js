@@ -13,21 +13,26 @@ import * as ImagePicker from "expo-image-picker";
 import * as File from "expo-file-system";
 import DropdownMenu from "../components/dropdown";
 import options from "../assets/data/models";
-import './translations';
+import "./translations";
 import { useTranslation } from "react-i18next";
-import i18n from 'i18next';
+import i18n from "i18next";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function UploadImage({ navigation }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [image, setImage] = useState(null);
   const [crop, setCrop] = useState(t("Select your crop"));
   const [isloading, setLoader] = useState(false);
 
   const handleUpload = async () => {
     setLoader(true);
+    if (crop == "Select your crop" || image == null) {
+      setLoader(false);
+      alert(t("Please select your crop type and image."));
+      return;
+    }
     // DON'T TOUCH THIS
     const url = `https://plant-dex-9e9e8.el.r.appspot.com/${crop}/predict`;
 
@@ -153,7 +158,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  header:{
+  header: {
     marginTop: windowWidth * -0.1,
     alignItems: "center",
   },

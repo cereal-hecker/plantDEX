@@ -11,6 +11,7 @@ import {
 import { auth, db } from "./firebase";
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import names from "../assets/data/model_classes.json";
+import { readAsStringAsync } from "expo-file-system";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -51,13 +52,17 @@ export default function Solution({ route, navigation }) {
       historyCount = 0;
     }
 
+    const b64 = await readAsStringAsync(data.photo, {
+      encoding: "base64",
+    });
+
     const toSet = {
       diseaseName: diseaseName,
       cropName: data.name,
       date: Math.floor(Date.now() / 1000),
       solution: answer["solution"],
       userID: auth.currentUser.uid,
-      photo: data.photo,
+      photo: b64,
     };
     await setDoc(
       doc(db, "history", `${auth.currentUser.uid}${historyCount}`),
