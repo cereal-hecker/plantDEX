@@ -44,14 +44,10 @@ export default function ProfileOverlay({ handleLogout }) {
   const [phoneNumber, setPhoneNumber] = useState(
     auth.currentUser.phoneNumber != null ? auth.currentUser.phoneNumber : ""
   );
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(auth.currentUser.email != null ? auth.currentUser.email : "");
   const [userType, setType] = useState("");
   const [image, setImage] = useState(null);
   const { t } = useTranslation();
-  const [isPasswordVisible, setPasswordVisibility] = useState(false);
-
-  // auth.currentUser.phoneNumber? setPhoneNumber(auth.currentUser.phoneNumber): setPhoneNumber("");
-  // auth.currentUser.email? setEmail(auth.currentUser.email): setEmail("");
 
   useEffect(() => {
     async function fetchData() {
@@ -156,7 +152,7 @@ export default function ProfileOverlay({ handleLogout }) {
               placeholder={t("User name")}
             />
 
-            {userType === "expert" ? (
+            {userType != "expert" ? (
               <AnimatedTextInput
                 value={phoneNumber}
                 onChangeText={setPhoneNumber}
