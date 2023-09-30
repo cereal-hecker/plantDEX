@@ -64,7 +64,7 @@ export default function UploadImage({ navigation }) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.75,
     });
 
     if (!result.canceled) {
@@ -84,7 +84,7 @@ export default function UploadImage({ navigation }) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.75,
     });
 
     if (!result.canceled) {

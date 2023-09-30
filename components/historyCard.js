@@ -15,13 +15,12 @@ const HistoryCard = ({ item }) => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
   return (
     <ScrollView>
       <TouchableOpacity onPress={toggleModal}>
         <View style={styles.card}>
           <Image
-            source={require("../assets/images/logo.png")}
+            source={{ uri: "data:image/png;base64," + item.photo }}
             style={styles.image}
           />
           <View style={styles.textContainer}>
@@ -40,12 +39,8 @@ const HistoryCard = ({ item }) => {
       >
         <ScrollView>
           <View style={styles.modalContainer}>
-            <Text style={styles.modalname}>
-              {item.cropName}
-            </Text>
-            <Text style={styles.modaldisease}>
-            {item.diseaseName}
-            </Text>
+            <Text style={styles.modalname}>{item.cropName}</Text>
+            <Text style={styles.modaldisease}>{item.diseaseName}</Text>
             <Text style={styles.modalsolution}>{item.solution}</Text>
             <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
               <Text style={styles.closetext}>Close</Text>
@@ -86,7 +81,7 @@ const styles = StyleSheet.create({
     marginTop: -10,
     fontFamily: "Poppins_700Bold",
     fontSize: 32,
-    color: "#049A10"
+    color: "#049A10",
   },
   modalsolution: {
     fontFamily: "Poppins_500Medium",
@@ -120,8 +115,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   closetext: {
-    color: "white"
-  }
+    color: "white",
+  },
 });
 
 export default HistoryCard;
