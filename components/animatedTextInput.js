@@ -1,5 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, Animated, TextInput, StyleSheet } from 'react-native';
+import '../screens/translations';
+import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
 
 const AnimatedTextInput = ({ value, onChangeText, placeholder, secureTextEntry }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -43,6 +46,8 @@ const AnimatedTextInput = ({ value, onChangeText, placeholder, secureTextEntry }
     backgroundColor: '#f2f2f2',
     paddingHorizontal: 2,
   };
+
+  const { t } = useTranslation();
 
   return (
     <View style={styles.inputField}>

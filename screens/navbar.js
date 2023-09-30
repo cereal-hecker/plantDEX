@@ -7,6 +7,9 @@ import Forum from './forum';
 import UploadImage from './uploadImage';
 import Solution from './solution';
 import { StyleSheet } from 'react-native';
+import './translations';
+import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -27,6 +30,7 @@ const Camera = () => {
 };
 
 const TabNavigator = () => {
+  const {t} = useTranslation();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -44,7 +48,7 @@ const TabNavigator = () => {
                 source={require('../assets/images/home.png')}
                 style={{ width: size, height: size, tintColor: 'white' }}
               />
-              <Text style={styles.tabItemText}>Home</Text>
+              <Text style={styles.tabItemText}>{t("Home")}</Text>
             </View>
           ),
         }}
@@ -78,7 +82,7 @@ const TabNavigator = () => {
                 source={require('../assets/images/forum.png')}
                 style={{ width: size, height: size, tintColor: 'white' }}
               />
-              <Text style={styles.tabItemText}>Forum</Text>
+              <Text style={styles.tabItemText}>{t("Forum")}</Text>
             </View>
           ),
         }}

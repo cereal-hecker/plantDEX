@@ -8,6 +8,11 @@ import {
 } from "expo-firebase-recaptcha";
 import AnimatedTextInput from "../components/animatedTextInput";
 
+import './translations';
+import {DynamicTranslator} from './translations';
+import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
+
 export default function UserLogin({
   recaptchaVerifier,
   phone,
@@ -19,6 +24,10 @@ export default function UserLogin({
   handleSendVerificationCode,
   handleVerifyVerificationCode,
 }) {
+
+  const { t } = useTranslation();
+  const [PhoneNum, setPhoneNum] = useState("Phone number");
+
   const showRecaptchaBanner = false;
   return (
     <View style={styles.container}>
@@ -35,7 +44,7 @@ export default function UserLogin({
           <AnimatedTextInput
             value={phone}
             onChangeText={(text) => setPhone(text)}
-            placeholder="Phone number"
+            placeholder={t("Phone number")}
           />
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -45,7 +54,7 @@ export default function UserLogin({
                 console.log("Called");
               }}
             >
-              <Text style={styles.buttonText}>Log In</Text>
+              <Text style={styles.buttonText}>{t("Log In")}</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -23,11 +23,15 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 import * as ImagePicker from "expo-image-picker";
+import './translations';
+import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function UploadQuestion({ navigation, user }) {
+  const {t} = useTranslation();
   const [question, setQuestion] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
@@ -107,13 +111,13 @@ export default function UploadQuestion({ navigation, user }) {
       </TouchableOpacity>
 
       <TextInput
-        placeholder="Enter your question"
+        placeholder={t("Enter your question")}
         value={question}
         onChangeText={setQuestion}
         style={styles.textInput}
       />
       <TextInput
-        placeholder="Enter description"
+        placeholder={t("Enter description")}
         value={description}
         onChangeText={setDescription}
         style={styles.textInput}
@@ -121,10 +125,10 @@ export default function UploadQuestion({ navigation, user }) {
       />
       {image && <Image source={{ uri: image }} style={styles.image} />}
       <TouchableOpacity onPress={selectPhoto} style={styles.photoButton}>
-        <Text style={styles.buttonText}>Upload Photo</Text>
+        <Text style={styles.buttonText}>{t("Upload Photo")}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={postQuestion} style={styles.postButton}>
-        <Text style={styles.buttonText}>Post Question</Text>
+        <Text style={styles.buttonText}>{t("Post Question")}</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

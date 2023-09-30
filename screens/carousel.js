@@ -9,6 +9,9 @@ import {
   SafeAreaView,
 } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
+import './translations';
+import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -17,34 +20,8 @@ const splash1 = require("../assets/images/splash1.png");
 const splash2 = require("../assets/images/splash2.png");
 const splash3 = require("../assets/images/splash3.png");
 
-const DATA = [
-  {
-    image: splash1,
-    title: "Plant Care",
-    content:
-      "Simplify disease diagnosis and crop protection with easy access to plant health records.",
-    width: 0.8 * windowWidth,
-    height: 0.8 * windowWidth,
-  },
-  {
-    image: splash2,
-    title: "Scan & Detect",
-    content:
-      "Use AI for quick plant disease detection, ensuring healthier and more abundant harvests.",
-    width: 0.8 * windowWidth,
-    height: 0.8 * windowWidth,
-  },
-  {
-    image: splash3,
-    title: "Crop Precision",
-    content:
-      "Customized solutions for plant diseases, optimizing crop yields with precision and personalized care.",
-    width: 1 * windowWidth,
-    height: 0.8 * windowWidth,
-  },
-];
-
 export default function SplashCarousel({ navigation }) {
+  const { t } = useTranslation();
   const [activeSlide, setActiveSlide] = useState(0);
   const carouselRef = useRef(null);
 
@@ -61,6 +38,33 @@ export default function SplashCarousel({ navigation }) {
     </View>
   );
 
+  const DATA = [
+    {
+      image: splash1,
+      title: t("Plant Care"),
+      content:
+        t("Simplify disease diagnosis and crop protection with easy access to plant health records."),
+      width: 0.8 * windowWidth,
+      height: 0.8 * windowWidth,
+    },
+    {
+      image: splash2,
+      title: t("Scan & Detect"),
+      content:
+        t("Use AI for quick plant disease detection, ensuring healthier and more abundant harvests."),
+      width: 0.8 * windowWidth,
+      height: 0.8 * windowWidth,
+    },
+    {
+      image: splash3,
+      title: t("Crop Precision"),
+      content:
+        t("Customized solutions for plant diseases, optimizing crop yields with precision and personalized care."),
+      width: 1 * windowWidth,
+      height: 0.8 * windowWidth,
+    },
+  ];
+
   const handleArrowPress = () => {
     if (activeSlide < DATA.length - 1) {
       carouselRef.current.snapToNext();
@@ -75,7 +79,7 @@ export default function SplashCarousel({ navigation }) {
         style={styles.skipButton}
         onPress={() => navigation.navigate('Login')}
       >
-        <Text style={styles.skipText}>Skip</Text>
+        <Text style={styles.skipText}>{t("Skip")}</Text>
       </TouchableOpacity>
       <Image
         style={styles.logo}
