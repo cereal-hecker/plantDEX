@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Modal,
   View,
@@ -32,6 +32,8 @@ import { readAsStringAsync } from "expo-file-system";
 import i18n from "i18next";
 import TranslateButton from "./translatebutton";
 
+
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -43,18 +45,35 @@ export default function ProfileOverlay({ handleLogout }) {
   const [userName, setUserName] = useState(displayName);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
+  const [userType, setType] = useState("");
   const [image, setImage] = useState(null);
   const { t } = useTranslation();
   const [isPasswordVisible, setPasswordVisibility] = useState(false);
-  const getImg = async () => {
-    var data = await getDoc(doc(db, "user", auth.currentUser.uid));
-    data = data.data();
-    var base64Icon = null;
-    if (data.photo) base64Icon = `data:image/png;base64,${data.photo}`;
 
-    setImage(base64Icon);
-  };
-  getImg();
+  auth.currentUser.phoneNumber? setPhoneNumber(auth.currentUser.phoneNumber): setPhoneNumber("");
+  auth.currentUser.email? setEmail(auth.currentUser.email): setEmail("");
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!image) {
+        try {
+          var data = await getDoc(doc(db, "user", auth.currentUser.uid));
+          data = data.data();
+          
+          setType(data.type)
+          if (data.photo) {
+            const base64Icon = `data:image/png;base64,${data.photo}`;
+            setImage(base64Icon);
+          }
+        } catch (e) {
+          console.error('Error fetching user data:', e);
+        }
+      }
+    }
+    
+    fetchData();
+  }, []);
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -137,18 +156,21 @@ export default function ProfileOverlay({ handleLogout }) {
               placeholder={t("User name")}
             />
 
+            {userType==="expert"?(
             <AnimatedTextInput
               value={phoneNumber}
               onChangeText={setPhoneNumber}
               placeholder={t("Phone number")}
             />
+            ):(
             <AnimatedTextInput
               style={styles.input}
               value={email}
               onChangeText={setEmail}
               placeholder={t("Email")}
             />
-
+            )}
+            
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.Button} onPress={handleUpdate}>
                 <Text style={styles.ButtonText}>{t("Update")}</Text>

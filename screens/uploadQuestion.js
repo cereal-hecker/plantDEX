@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: windowWidth * 0.02, // 2% of window width
     paddingVertical: windowHeight * 0.01, // 1% of window height
     marginHorizontal: windowWidth * 0.04, // 4% of window width
-    fontSize:'18px',
+    fontSize:18,
   },
   descriptionInput: {
     borderWidth: 1,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     paddingVertical: windowHeight * 0.01, // 1% of window height
     height: windowHeight * 0.1, // 10% of window height
     marginHorizontal: windowWidth * 0.04, // 2% of window width
-    fontSize:'18px',
+    fontSize:18,
   },
   photoButton: {
     backgroundColor: "#049A10",
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: windowWidth * 0.05, // 5% of window width
     marginTop: windowHeight * 0.025, // 2.5% of window height
     alignItems: "center",
-    borderRadius: windowWidth * 0.03, // 3% of window width
+    borderRadius: windowWidth * 0.08, // 3% of window width
     marginHorizontal: windowWidth * 0.04, // 4% of window width
   },
   image: {
