@@ -33,6 +33,8 @@ import {
   getDoc,
 } from "firebase/firestore";
 import UploadQuestion from "./uploadQuestion";
+import './translations';
+import { useTranslation } from "react-i18next";
 
 const Stack = createStackNavigator();
 
@@ -240,10 +242,12 @@ function QuestionListScreen({
   loadingMore,
   isRefreshing,
   onRefresh,
-}) {
+})   
+{
+  const {t} = useTranslation();
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>FORUM</Text>
+      <Text style={styles.header}>{t("FORUM")}</Text>
       <View style={styles.searchbarContainer}>
         <TextInput
           onChangeText={onChangeSearch}

@@ -38,10 +38,6 @@ export default function Main({ navigation }) {
       </View>
       <View style={styles.centerCon}>
         <WeatherCard />
-        <Image
-          style={styles.banner}
-          source={require("../assets/images/banner.png")}
-        />
       </View>
       <View style={styles.historyContainer}>
         <History />

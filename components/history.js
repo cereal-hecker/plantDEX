@@ -6,8 +6,11 @@ import { ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { auth, firebaseConfig, db } from "./firebase";
 import { collection, where, query, getDocs } from "firebase/firestore";
+import '../screens/translations';
+import { useTranslation } from "react-i18next";
 
 export default function History({ navigation }) {
+  const {t} = useTranslation();
   const isLoading = false;
   const error = false;
   const nav = useNavigation();
@@ -42,19 +45,19 @@ export default function History({ navigation }) {
   if (isFocused) handleGetHistory();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>History</Text>
+      <Text style={styles.title}>{t("History")}</Text>
       {isLoading ? (
         <ActivityIndicator size="large" color="#312651" />
       ) : error ? (
         <Text>Something went wrong</Text>
-      ) : hydrate.length === 0 ? (
-        <Text>No History Available</Text>
-      ) : (
+      ) : hydrate.length != 0 ? (
         <FlatList
           data={hydrate}
           renderItem={({ item }) => <HistoryCard item={item} />}
           keyExtractor={(item) => item?.job_id}
         />
+      ) : (
+        <Text>{t("No History Available")}</Text>
       )}
     </View>
   );

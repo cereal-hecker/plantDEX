@@ -12,6 +12,7 @@ import Carousel, { Pagination } from "react-native-snap-carousel";
 import './translations';
 import { useTranslation } from "react-i18next";
 import i18n from 'i18next';
+import TranslateButton from "../components/translatebutton";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -85,6 +86,9 @@ export default function SplashCarousel({ navigation }) {
         style={styles.logo}
         source={require("../assets/images/logo.png")}
       />
+      <View style={styles.translateButtonContainer}>
+        <TranslateButton />
+      </View>
       <Carousel
         ref={carouselRef}
         data={DATA}
@@ -179,12 +183,18 @@ const styles = StyleSheet.create({
   skipButton: {
     position: 'absolute',
     top: windowHeight * 0.05,  // Adjust as needed
-    right: windowWidth * 0.05, // Adjust as needed
+    left: windowWidth * 0.05, // Adjust as needed
     padding: 10,  // Adjust as needed
     zIndex: 1, // Ensure the skip button is above other elements
   },
   skipText: {
     fontSize: 16, // Adjust as needed
     color: '#049A10', // Adjust as needed
+  },
+  translateButtonContainer: {
+    position:'absolute', // position the container absolutely
+    top: windowHeight * 0.05, // Adjust the top and right values as needed
+    right: windowWidth * 0.05, // to position the button at the top right of the screen
+    zIndex: 2, // Ensure the translate button is above other elements
   },
 });

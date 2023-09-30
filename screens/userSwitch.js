@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Animated,
+  Dimensions
 } from "react-native";
 import {
   createUserWithEmailAndPassword,
@@ -27,6 +28,10 @@ import ExpertLogin from "./expertLogin";
 import './translations';
 import { useTranslation } from "react-i18next";
 import i18n from 'i18next';
+import TranslateButton from "../components/translatebutton";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default function UserSwitch({ navigation }) {
   const {t} = useTranslation();
@@ -147,10 +152,9 @@ export default function UserSwitch({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.heading}>{t("Log In")}</Text>
-        <Image
-          style={styles.translate}
-          source={require("../assets/images/translate.png")}
-        />
+        <View style={styles.translateButtonContainer}>
+          <TranslateButton />
+        </View>
       </View>
       <View style={styles.login}>
         <View style={styles.slider}>
@@ -205,7 +209,7 @@ export default function UserSwitch({ navigation }) {
             <Text style={styles.butt}>{t("Expert")}</Text>
           </TouchableOpacity>
         </View>
-        <View>
+        <View style={styles.content}>
           {isExpert ? (
             <ExpertLogin
               handleLogin={handleLogin}
@@ -229,7 +233,8 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   login: {
-    top: "30%",
+    marginTop: windowWidth * 0.4,
+    alignItems: "center",
   },
   translate: {
     width: 45,
@@ -260,15 +265,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#049A10", // The color of the active button
     borderRadius: 100,
   },
-  or: {
-    fontSize: 16,
-    marginVertical: 10,
-    fontFamily: "Poppins_700Bold",
-    position: "absolute",
-    width: "50%",
-    height: "90%",
-    backgroundColor: "#049A10",
-    borderRadius: 50,
+  content:{
+    
   },
   button: {
     borderRadius: 20,
@@ -288,9 +286,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
-    paddingHorizontal: 30,
-    paddingTop: "4%",
+    width: windowWidth * 1,
+    paddingHorizontal: windowWidth * 0.05,
   },
   loginText: {
     color: "#587DBD",
@@ -307,5 +304,11 @@ const styles = StyleSheet.create({
   signUpText: {
     color: "#587DBD",
     fontFamily: "Poppins_700Bold",
+  },
+  translateButtonContainer: {
+    position: 'absolute', // position the container absolutely
+    top: windowHeight * 0.01, // Adjust the top and right values as needed
+    right: windowWidth * 0.05, // to position the button at the top right of the screen
+    zIndex: 2, // Ensure the translate button is above other elements
   },
 });

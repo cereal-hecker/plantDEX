@@ -99,7 +99,7 @@ export default function UploadImage({ navigation }) {
         <>
           <View style={styles.header}>
             <Text style={styles.heading}>{t("UPLOAD")}</Text>
-            <Text style={styles.imgorvid}>{t("IMAGE OR VIDEO")}</Text>
+            <Text style={styles.imgorvid}>{t("IMAGE")}</Text>
           </View>
           <View style={styles.dropdown}>
             <DropdownMenu
@@ -153,13 +153,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  header:{
+    marginTop: windowWidth * -0.1,
+    alignItems: "center",
+  },
   heading: {
     fontFamily: "Poppins_900Black",
     fontSize: windowWidth * 0.2,
     color: "#049A10",
   },
   imgorvid: {
-    marginTop: windowHeight * -0.05,
+    marginTop: windowHeight * -0.03,
     fontSize: windowWidth * 0.1,
     fontFamily: "Poppins_500Medium",
   },

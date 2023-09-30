@@ -25,16 +25,25 @@ import {
 } from "firebase/firestore";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
+import AnimatedTextInput from "./animatedTextInput";
+import '../screens/translations'
+import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
+import TranslateButton from "./translatebutton";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function ProfileOverlay({handleLogout}){
   const [modalVisible, setModalVisible] = useState(false);
-  const [userName, setUserName] = useState(auth.currentUser.displayName);
-  const [phoneNumber, setPhoneNumber] = useState("123-456-7890");
-  const [email, setEmail] = useState("john.doe@example.com");
+  
+  const displayName = auth.currentUser.displayName ? auth.currentUser.displayName : "";
+  const [userName, setUserName] = useState(displayName);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
+  const { t } = useTranslation();
+  const [isPasswordVisible, setPasswordVisibility] = useState(false);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -44,7 +53,7 @@ export default function ProfileOverlay({handleLogout}){
       quality: 1,
     });
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setImage(result.uri);
     }
   };
@@ -64,14 +73,16 @@ export default function ProfileOverlay({handleLogout}){
 
   return (
     <View style={styles.centeredView}>
-      <View style={styles.accmodal}>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Image
-            style={styles.accimg}
-            source={require("../assets/images/account.png")}
-          />
-        </TouchableOpacity>
-      </View>
+        
+        <View style={styles.accmodal}>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+              {image ? (
+                  <Image source={{ uri: image }} style={styles.accimg} />
+                ) : (
+                  <Image source={require("../assets/images/account.png")}  style={styles.accimg} />
+                )}
+          </TouchableOpacity>
+        </View>
 
       <Modal
         animationType="slide"
@@ -83,61 +94,64 @@ export default function ProfileOverlay({handleLogout}){
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            
             <TouchableOpacity
-              onPress={pickImage}
-              style={styles.profileImageContainer}
-            >
-              {image ? (
-                <Image source={{ uri: image }} style={styles.profileImage} />
-              ) : (
-                <Image source={require("../assets/images/account.png")} />
-              )}
-            </TouchableOpacity>
+                onPress={pickImage}
+                style={styles.profileImageContainer}
+              >
+                {image ? (
+                  <Image source={{ uri: image }} style={styles.profileImage} />
+                ) : (
+                  <Image source={require("../assets/images/account.png")} style={styles.profileImage} />
+                )}
+              </TouchableOpacity>
+            <View style={styles.translateButtonContainer}>
+              <TranslateButton />
+            </View>
 
-            <TextInput
-              style={styles.input}
+            <AnimatedTextInput
               value={userName}
               onChangeText={setUserName}
-              placeholder="User Name"
+              placeholder={t("User name")}
             />
-            <TextInput
-              style={styles.input}
+
+            <AnimatedTextInput
               value={phoneNumber}
               onChangeText={setPhoneNumber}
-              placeholder="Phone Number"
-              keyboardType="phone-pad"
+              placeholder={t("Phone number")}
             />
-            <TextInput
+            <AnimatedTextInput
               style={styles.input}
               value={email}
               onChangeText={setEmail}
-              placeholder="Email"
-              keyboardType="email-address"
+              placeholder={t("Email")}
             />
 
-            <TouchableOpacity
-              style={styles.updateButton}
-              onPress={handleUpdate}
-            >
-              <Text style={styles.updateButtonText}>Update</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => {
-                setModalVisible(!modalVisible)
-                handleLogout()
-            }}
-            >
-              <Text style={styles.closeButtonText}>Logout</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.Button}
+                onPress={handleUpdate}
+              >
+                <Text style={styles.ButtonText}>{t("Update")}</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.ButtonText}>{t("Close")}</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                style={styles.logoutButton}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  handleLogout();
+                }}
+              >
+                <Text style={styles.ButtonText}>{t("Logout")}</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -152,20 +166,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: windowHeight * 0.05,
   },
+  translateButtonContainer:{position:'absolute', // position the container absolutely
+  top: windowHeight * 0.02, // Adjust the top and right values as needed
+  right: windowWidth * 0.05, // to position the button at the top right of the screen
+  zIndex: 2,
+  },
   accimg: {
     width: windowWidth * 0.11,
     height: windowWidth * 0.11,
+    borderRadius: (windowWidth * 0.11) / 2, // make it circle
   },
   accmodal: {
     alignSelf: "flex-end",
     marginTop: windowHeight * -0.05,
+    overflow: 'hidden', // hide the overflowing part of the image
   },
   modalView: {
     margin: windowWidth * 0.05,
-    backgroundColor: "white",
+    backgroundColor: "#f2f2f2",
     borderRadius: windowWidth * 0.04,
     padding: windowWidth * 0.07,
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -178,7 +198,7 @@ const styles = StyleSheet.create({
   input: {
     height: windowHeight * 0.065,
     width: windowWidth * 0.75,
-    marginVertical: windowHeight * 0.015,
+    marginVertical: windowHeight * 0.05,
     borderWidth: 1,
     padding: windowWidth * 0.03,
     borderRadius: windowWidth * 0.08,
@@ -190,43 +210,55 @@ const styles = StyleSheet.create({
     height: windowWidth * 0.2,
     borderRadius: windowWidth * 0.1,
     marginBottom: windowHeight * 0.04,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#e0e0e0",
+    left: windowWidth * 0.001,
   },
   profileImage: {
     width: windowWidth * 0.2,
     height: windowWidth * 0.2,
     borderRadius: windowWidth * 0.1,
   },
-  updateButton: {
-    width: windowWidth * 0.3,
-    height: windowHeight * 0.06,
-    backgroundColor: "#2196F3",
-    padding: windowWidth * 0.03,
-    borderRadius: windowWidth * 0.08,
-    marginTop: windowHeight * 0.01,
-    justifyContent: "center",
+  buttonContainer: {
+    flexDirection: 'row',
+    width: '100%',
   },
-  updateButtonText: {
-    fontFamily: "Poppins_700Bold",
-    fontSize: windowHeight * 0.02,
-    color: "white",
-    textAlign: "center",
-  },
-  closeButton: {
-    width: windowWidth * 0.25,
+  Button: {
+    width: windowWidth * 0.001,
     height: windowHeight * 0.06,
-    backgroundColor: "red",
+    backgroundColor: "#049810",
     padding: windowWidth * 0.03,
     borderRadius: windowWidth * 0.08,
     marginTop: windowHeight * 0.015,
     justifyContent: "center",
+    flex: 1,
+    marginRight: windowWidth * 0.02,
   },
-  closeButtonText: {
+  ButtonText: {
     fontFamily: "Poppins_700Bold",
-    fontSize: windowHeight * 0.02,
+    fontSize: windowHeight * 0.017,
     color: "white",
     textAlign: "center",
+  },
+  closeButton: {
+    width: windowWidth * 0.001,
+    height: windowHeight * 0.06,
+    backgroundColor: "#394648",
+    padding: windowWidth * 0.03,
+    borderRadius: windowWidth * 0.08,
+    marginTop: windowHeight * 0.015,
+    justifyContent: "center",
+    flex: 1,
+    marginRight: windowWidth * 0.02,
+  },
+  logoutButton: {
+    width: windowWidth * 0.001,
+    height: windowHeight * 0.06,
+    backgroundColor: "#394648",
+    padding: windowWidth * 0.03,
+    borderRadius: windowWidth * 0.08,
+    marginTop: windowHeight * 0.015,
+    justifyContent: "center",
+    flex: 1,
+    marginRight: windowWidth * 0.02,
   },
 });

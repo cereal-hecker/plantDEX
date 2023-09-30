@@ -1,12 +1,13 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, Animated, TextInput, StyleSheet } from 'react-native';
+import { View, Text, Animated, TextInput, StyleSheet,TouchableOpacity } from 'react-native';
 import '../screens/translations';
 import { useTranslation } from "react-i18next";
 import i18n from 'i18next';
 
-const AnimatedTextInput = ({ value, onChangeText, placeholder, secureTextEntry }) => {
+export default function AnimatedTextInput({ value, onChangeText, placeholder, isSecureTextEntry}){
   const [isFocused, setIsFocused] = useState(false);
   const animatedIsFocused = useRef(new Animated.Value(value.length > 0 ? 1 : 0)).current;
+  const [isPasswordVisible, setPasswordVisibility] = useState(false);
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -54,19 +55,30 @@ const AnimatedTextInput = ({ value, onChangeText, placeholder, secureTextEntry }
       <Animated.Text style={labelStyle}>
         {placeholder}
       </Animated.Text>
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        autoCapitalize="none"
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        style={styles.input}
-        secureTextEntry={secureTextEntry}
-      />
+      <View style={styles.inputBox}>
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          autoCapitalize="none"
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          style={styles.input}
+          secureTextEntry={isSecureTextEntry ? !isPasswordVisible : false}
+        />
+        {isSecureTextEntry && (
+          <TouchableOpacity
+            onPress={() => setPasswordVisibility(!isPasswordVisible)}
+            style={styles.visibilityToggle}
+          >
+            <Text style={styles.visibilityToggleText}>
+              {isPasswordVisible ? t('Hide') : t('Show')}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
-};
-
+}
 const styles = StyleSheet.create({
   inputField: {
     width: 300,
@@ -78,12 +90,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f2f2',
     justifyContent: 'center',
   },
+  inputBox: {
+    position: 'relative', // added this
+    flexDirection: 'row',
+    width: '100%',
+    height: '100%', // added this
+  },
   input: {
     height: '100%',
     fontSize: 20,
     color: '#3f4146',
     paddingHorizontal: 15,
+    width: '100%', // added this
+  },
+  visibilityToggle: {
+    position: 'absolute', // changed this
+    right: 10, // added this
+    height: '100%', // added this
+    justifyContent: 'center', // added this
+    paddingHorizontal: 10, // changed this
+  },
+  visibilityToggleText: {
+    fontSize: 16,
+    color: '#049A10',
   },
 });
-
-export default AnimatedTextInput;

@@ -68,6 +68,14 @@ const translationJSON = {
             "Enter description" : "Enter description",
             "Upload Photo" : "Upload Photo",
             "Post Question" : "Post Question",
+            "User name":"User name",
+            "Update" : "Update",
+            "Close":"Close",
+            "Logout":"Logout",
+            "history" : "history", 
+            "No History Available":"No History Available",
+            "Something went wrong":"Something went wrong",
+            "FORUM":"FORUM"
         }
     },
     hi:{
@@ -88,22 +96,30 @@ const translationJSON = {
             "Password" : "पासवर्ड",
             "Forgot Password?" : "पासवर्ड भूल गए?",
             "Show" : "दिखाओ",
-            "Hide" : "छिपानाs",
+            "Hide" : "छिपाना",
             "Home" : "घर",
             "Forum" : "मंच",
             "Select your crop" : "अपनी फसल चुनें",
             "Permission to access media library is required!" : "मीडिया लाइब्रेरी तक पहुँचने की अनुमति आवश्यक है!",
             "Permission to access the camera is required!" : "कैमरे तक पहुँचने की अनुमति आवश्यक है!",
-            "UPLOAD" : "डालना",
-            "IMAGE OR VIDEO" : "छवि या वीडियो", 
+            "UPLOAD" : "अपलोड",
+            "IMAGE" : "फोटो", 
             "Select File" : "फ़ाइल का चयन करें",
             "OR" : "या",
             "Take a photo" : "एक तस्वीर लें",
-            "Continue" : "जारी रखना",
+            "Continue" : "आगे बढ़ें",
             "Enter your question" : "अपना प्रश्न दर्ज करें",
             "Enter description" : "विवरण दर्ज करें",
             "Upload Photo" : "फोटो अपलोड करें",
             "Post Question" : "प्रश्न पोस्ट करें",
+            "User name":"उपयोगकर्ता नाम",
+            "Update" : "अद्यतन",
+            "Close":"बंद करना",
+            "Logout":"लॉग आउट",
+            "History" : "वृत्तांत", 
+            "No History Available":"कोई स्टोरी उपलब्ध नहीं है",
+            "Something went wrong":"कुछ गलत हो गया",
+            "FORUM":"मंच"
         }
     }
 }
@@ -112,8 +128,12 @@ const translationJSON = {
 i18n.use(initReactI18next).init({
     compatibilityJSON: 'v3',
     resources: translationJSON,
-    lng: 'hi'
+    lng: 'en'
 })
+
+const staticTranslate = () => {
+    
+}
 
 const translator = (text, setText, lang) => {
     translate(text,{

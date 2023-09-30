@@ -3,7 +3,7 @@ import {
   View, 
   Text, 
   StyleSheet, 
-  TouchableOpacity 
+  TouchableOpacity,
 } from "react-native";
 import AnimatedTextInput from "../components/animatedTextInput";
 import './translations';
@@ -22,40 +22,32 @@ export default function ExpertLogin({
   const [isPasswordVisible, setPasswordVisibility] = useState(false);
 
   return (
-    <View style={styles.container}>
-      <AnimatedTextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder={t("Email")}
-      />
-      <View style={styles.passwordContainer}>
-        <AnimatedTextInput
-          value={pass}
-          onChangeText={setPass}
-          placeholder={t("Password")}
-          secureTextEntry={!isPasswordVisible}
-          style={styles.passwordInput}
-        />
-        <TouchableOpacity
-          onPress={() => setPasswordVisibility(!isPasswordVisible)}
-          style={styles.visibilityToggle}
-        >
-          <Text style={styles.visibilityToggleText}>
-            {isPasswordVisible ? t('Hide') : t('Show')}
-          </Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.container}>
+          <AnimatedTextInput
+            value={email}
+            onChangeText={setEmail}
+            placeholder={t("Email")}
+          />
+          <View style={styles.passwordContainer}>
+            <AnimatedTextInput
+              value={pass}
+              onChangeText={setPass}
+              placeholder={t("Password")}
+              isSecureTextEntry={true}
+              style={styles.passwordInput}
+            />
+          </View>
 
-      <View style={styles.forgotPasswordContainer}>
-        <TouchableOpacity onPress={() => {}}>
-          <Text style={styles.forgotPasswordText}>{t("Forgot Password?")}</Text>
-        </TouchableOpacity>
-      </View>
+          <View style={styles.forgotPasswordContainer}>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={styles.forgotPasswordText}>{t("Forgot Password?")}</Text>
+            </TouchableOpacity>
+          </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>{t("Log In")}</Text>
-      </TouchableOpacity>
-    </View>
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>{t("Log In")}</Text>
+          </TouchableOpacity>
+        </View>
   );
 }
 
@@ -167,14 +159,4 @@ const styles = StyleSheet.create({
   passwordInput: {
     flex: 1,
   },
-  
-  visibilityToggle: {
-    padding: 10,
-  },
-  
-  visibilityToggleText: {
-    position: 'absolute',
-    fontSize: 16, 
-    color: '#049A10', 
-  }
 });
