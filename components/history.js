@@ -32,16 +32,14 @@ export default function History({ navigation }) {
   };
 
   useEffect(() => {
-    const handleNavigationFocusChange = () => {
-      setIsFocused(!isFocused);
+    const fetchData = async () => {
+        await handleGetHistory();
     };
-    handleGetHistory();
-    nav.addListener("focus", handleNavigationFocusChange);
-    return () => {
-      nav.removeListener("focus", handleNavigationFocusChange);
-    };
-  }, [nav]);
-  if (isFocused) handleGetHistory();
+
+    const unsubscribe = nav.addListener("focus", fetchData);
+
+    return unsubscribe;
+}, [nav]);
 
   return (
     <View style={styles.container}>

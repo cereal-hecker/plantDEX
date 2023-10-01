@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
@@ -7,23 +7,35 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Dimensions
 } from "react-native";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const HistoryCard = ({ item }) => {
   const [isModalVisible, setModalVisible] = useState(false);
-
+  const [image,setImage] = useState("")
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
   const itemDate = new Date(item.date * 1000);
+
+  useEffect(() => {
+    if (item.photo) {
+      const base64Icon = `${item.photo}`;
+      setImage("data:image/png;base64," + base64Icon);
+    }
+  }, [item.photo]);
+
   return (
     <ScrollView>
       <TouchableOpacity onPress={toggleModal}>
         <View style={styles.card}>
-          <Image
+          {image&&(<Image
             source={{ uri: "data:image/png;base64," + item.photo }}
             style={styles.image}
-          />
+          />)}
           <View style={styles.textContainer}>
             <Text style={styles.heading}>
               {item.cropName} - {item.diseaseName} - {itemDate.toString()}
@@ -42,6 +54,10 @@ const HistoryCard = ({ item }) => {
           <View style={styles.modalContainer}>
             <Text style={styles.modalname}>{item.cropName}</Text>
             <Text style={styles.modaldisease}>{item.diseaseName}</Text>
+            <Image
+            source={{ uri: image }}
+            style={styles.modalImage}
+          />
             <Text style={styles.modalsolution}>{item.solution}</Text>
             <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
               <Text style={styles.closetext}>Close</Text>
@@ -68,10 +84,17 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     resizeMode: "cover",
-    borderTopLeftRadius: 8,
-    borderBottomLeftRadius: 8,
+    borderRadius: 8,
     width: 136,
     height: 81,
+    margin: 5,
+  },
+  modalImage: {
+    flex: 1,
+    resizeMode:'stretch',
+    borderRadius: 8,
+    width: windowWidth*0.7,
+    height: windowHeight*0.2,
     margin: 5,
   },
   modalname: {
