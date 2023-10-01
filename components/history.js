@@ -41,6 +41,7 @@ export default function History({ navigation }) {
       nav.removeListener("focus", handleNavigationFocusChange);
     };
   }, [nav]);
+  if (isFocused) handleGetHistory();
 
   return (
     <View style={styles.container}>

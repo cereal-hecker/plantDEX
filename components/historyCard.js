@@ -15,6 +15,7 @@ const HistoryCard = ({ item }) => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+  const itemDate = new Date(item.date * 1000);
   return (
     <ScrollView>
       <TouchableOpacity onPress={toggleModal}>
@@ -25,7 +26,7 @@ const HistoryCard = ({ item }) => {
           />
           <View style={styles.textContainer}>
             <Text style={styles.heading}>
-              {item.cropName} - {item.diseaseName} - {Date(item.date)}
+              {item.cropName} - {item.diseaseName} - {itemDate.toString()}
             </Text>
           </View>
         </View>
