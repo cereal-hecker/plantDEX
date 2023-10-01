@@ -61,27 +61,23 @@ export default function ProfileOverlay({ navigation }) {
       });
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      if (!image) {
-        try {
-          var data = await getDoc(doc(db, "user", auth.currentUser.uid));
-          data = data.data();
+  const fetchData = async () => {
+    if (!image) {
+      try {
+        var data = await getDoc(doc(db, "user", auth.currentUser.uid));
+        data = data.data();
 
-          setType(data.type);
-          if (data.photo) {
-            const base64Icon = `${data.photo}`;
-            setImage("data:image/png;base64," + base64Icon);
-          }
-        } catch (e) {
-          console.error("Error fetching user data:", e);
+        setType(data.type);
+        if (data.photo) {
+          const base64Icon = `${data.photo}`;
+          setImage("data:image/png;base64," + base64Icon);
         }
+      } catch (e) {
+        console.error("Error fetching user data:", e);
       }
     }
-
-    fetchData();
-  }, []);
-
+  };
+  fetchData();
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
