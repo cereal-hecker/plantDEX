@@ -35,7 +35,7 @@ import TranslateButton from "./translatebutton";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function ProfileOverlay({ handleLogout }) {
+export default function ProfileOverlay({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const displayName = auth.currentUser.displayName
     ? auth.currentUser.displayName
@@ -44,10 +44,22 @@ export default function ProfileOverlay({ handleLogout }) {
   const [phoneNumber, setPhoneNumber] = useState(
     auth.currentUser.phoneNumber != null ? auth.currentUser.phoneNumber : ""
   );
-  const [email, setEmail] = useState(auth.currentUser.email != null ? auth.currentUser.email : "");
+  const [email, setEmail] = useState(
+    auth.currentUser.email != null ? auth.currentUser.email : ""
+  );
   const [userType, setType] = useState("");
   const [image, setImage] = useState(null);
   const { t } = useTranslation();
+
+  const handleLogout = async () => {
+    signOut(auth)
+      .then(() => {
+        navigation.replace("AuthStack", { screen: "Login" });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     async function fetchData() {

@@ -9,15 +9,15 @@ import {
 } from "react-native";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase";
-  import './translations';
-  import { useTranslation } from "react-i18next";
-  import i18n from 'i18next';
+import "./translations";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 import TranslateButton from "../components/translatebutton";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
   const { t } = useTranslation();
   return (
     <View style={styles.container}>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     marginVertical: windowHeight * 0.065,
   },
   translateButtonContainer: {
-    position: 'absolute', // position the container absolutely
+    position: "absolute", // position the container absolutely
     top: windowHeight * 0.06, // Adjust the top and right values as needed
     right: windowWidth * 0.05, // to position the button at the top right of the screen
     zIndex: 2, // Ensure the translate button is above other elements
